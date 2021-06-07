@@ -1,8 +1,9 @@
 <template>
   <header>
-    <MDBNavbarItem href="#">
-      <span class="badge badge-pill bg-danger">1</span>
-      <span><MDBIcon icon="shopping-cart" size="2x"></MDBIcon></span>
+    <MDBNavbarItem>
+      <router-link to="/cart"><span class="badge badge-pill bg-danger">1</span>
+      <span><MDBIcon icon="shopping-cart" size="2x"></MDBIcon></span></router-link>
+
     </MDBNavbarItem>
     <nav>
       <h1><router-link to="/">Web Shop</router-link></h1>
@@ -18,8 +19,8 @@
             <MDBIcon icon="user" size="3x" />
           </MDBDropdownToggle>
           <MDBDropdownMenu>
-            <MDBDropdownItem href="#">Login</MDBDropdownItem>
-            <MDBDropdownItem href="#">Register</MDBDropdownItem>
+            <MDBDropdownItem><router-link to="/auth">Login</router-link></MDBDropdownItem>
+            <MDBDropdownItem ><router-link to="/registration">Register</router-link></MDBDropdownItem>
           </MDBDropdownMenu>
         </MDBDropdown>
       </MDBNavbarItem>
@@ -147,11 +148,11 @@ window.addEventListener('keyup', (e) => {
 <style>
 
 .form-outline{
-  width: 40%;
+  width: 35%;
 }
 
 .vue-select.direction-bottom {
-  width: 40%;
+  width: 35%;
 }
 
 .input-group {

@@ -5,7 +5,7 @@
     <MDBCardImg top src="https://mdbootstrap.com/img/new/standard/nature/182.jpg" alt="..."/>
     <MDBCardBody>
       <MDBCardText>
-        Kucanski aparati
+        <router-link to="/articles/kucanskiAparati">Kucanski aparati</router-link>
       </MDBCardText>
     </MDBCardBody>
   </MDBCard>

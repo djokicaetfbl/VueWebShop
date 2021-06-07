@@ -11,34 +11,55 @@
       <base-spinner></base-spinner>
     </base-dialog>
     <base-card>
-      <form @submit.prevent="submitForm">
-        <div class="form-control">
-          <label for="email">E-Mail</label>
-          <input type="email" id="email" v-model.trim="email" />
-        </div>
-        <div class="form-control">
-          <label for="password">Password</label>
-          <input type="password" id="password" v-model.trim="password" />
-        </div>
-        <p v-if="!formIsValid">
-          Please enter a valid email and password (must be at least 6 characters
-          long)
-        </p>
-        <base-button>{{ submitButtonCaption }}</base-button>
-        <base-button type="button" mode="flat" @click="switchAuthMode">{{
-          switchModeButtonCaption
-        }}</base-button>
-      </form>
+    <form @submit.prevent="submitForm">
+  <!-- Email input -->
+  <div class="form-outline mb-4" >
+    <span class="badge bg-primary" for="email">Email adresa</span>
+    <input type="email" name="email" id="email" class="form-control" placeholder="Email" />
+    <!-- <label class="form-label" for="email">Email address</label>  -->
+  </div>
+
+  <!-- Password input -->
+  <div class="form-outline mb-4">
+    <span class="badge bg-primary" for="password">Lozinka</span>
+    <input type="password" id="password" class="form-control" placeholder="Lozinka"/>
+    <!-- <label class="form-label" for="password">Password</label>  -->
+  </div>
+
+  <!-- 2 column grid layout for inline styling -->
+  <div class="row mb-4">
+    <div class="col d-flex justify-content-center">
+      <!-- Checkbox -->
+     <!-- <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value=""
+          id="form1Example3"
+          checked
+        />
+         <label class="form-check-label" for="form1Example3"> Remember me </label>  
+      </div> -->
+    </div>
+
+    <!-- <div class="col">
+      <a href="#!">Forgot password?</a>
+    </div>  -->
+  </div>
+
+  <!-- Submit button -->
+  <button type="submit" class="btn btn-primary btn-block" id="signIn">Sign in</button>
+</form>
     </base-card>
   </div>
 </template>
 
 <script>
-import BaseButton from "../../components/ui/BaseButton.vue";
+/*import BaseButton from "../../components/ui/BaseButton.vue";*/
 import TheHeader from "../../components/layout/TheHeader.vue";
 
 export default {
-  components: { BaseButton, TheHeader },
+  components: { /*BaseButton,*/ TheHeader },
   data() {
     return {
       email: "",
@@ -99,6 +120,27 @@ export default {
 </script>
 
 <style scoped>
+
+#email {
+  border: 2px solid #1266f1;
+}
+
+#password {
+    border: 2px solid #1266f1;
+}
+
+.badge.bg-primary {
+  font-size: medium;
+}
+
+.form-outline.mb-4 {
+  width: 80%;
+}
+
+#signIn {
+  width: 35%;
+}
+
 form {
   margin: 1rem;
   /*border: 1px solid #ccc;*/

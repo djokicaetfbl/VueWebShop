@@ -3,13 +3,28 @@ import { createRouter, createWebHistory } from 'vue-router';
 import UserAuth from './pages/authentication/UserAuth.vue';
 import NotFound from './pages/NotFound.vue';
 import WebShop from './pages/webshop/WebShop.vue';
+import UserRegistration from './pages/authentication/UserRegistration.vue';
+import ArticleList from './pages/webshop/ArticleList.vue';
+import ArticleDetail from './pages/webshop/ArticleDetail.vue';
+import Cart from './pages/webshop/Cart.vue';
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '/',  redirect: '/webshop' }, // ne treba redirect to auth posto je web shop pa ako zeli neka se loguje kako bih mogoa da kupuje
-        { path: '/webshop', component: WebShop},
+        { path: '/',  redirect: '/articles' }, // ne treba redirect to auth posto je web shop pa ako zeli neka se loguje kako bih mogoa da kupuje
+        { path: '/articles', component: WebShop},
+        { path: '/articles/:category', component: ArticleList, 
+        /*{ path: '/articles/kucanskiAparati', component: ArticleList,*/
+           /* props: true, // da mogu da uzmem rutu i da njen dio iskoristim kao prop (npr. id rute)
+            children: [
+                { path: 'id', component:  ArticleDetail, props: true }
+        ]*/},
+        //{ path: '/articles/:category/:id', component: ArticleDetail },
+        { path: '/articles/kucanskiAparati/1', component: ArticleDetail },
+        //{ path: '/articles/:category/:' }
+        { path: '/cart', component: Cart },
         { path: '/auth', component: UserAuth, /*meta: {requiresUnauth: true}*/ }, // hvali koda
+        { path: '/registration', component: UserRegistration, /*meta: {requiresUnauth: true}*/ },
         { path: '/:notFound(.*)', component: NotFound },
     ],
  });
