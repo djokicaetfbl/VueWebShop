@@ -22,10 +22,10 @@ export default { // definisemo akcije za login i signup
 
     async auth(context, payload) {
         const mode = payload.mode;
-        let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCBtbrgnO2dQzNMleLxUqRbyHiYmDFQV9I';
+        let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBP1VgUmVta2PYUrHFrXdRorgIPB0t0v6o';
 
         if(mode === 'signup') {
-            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCBtbrgnO2dQzNMleLxUqRbyHiYmDFQV9I'
+            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBP1VgUmVta2PYUrHFrXdRorgIPB0t0v6o';
         }
         const response = await fetch(url, { // Project Overview -> Project settings -> WebAPI Key -- AIzaSyCBtbrgnO2dQzNMleLxUqRbyHiYmDFQV9I
         method: 'POST',
@@ -43,7 +43,7 @@ export default { // definisemo akcije za login i signup
             throw error;
         }
 
-        //console.log(responseData);
+        console.log("ODGOVOR: "+JSON.stringify(responseData));
 
         const expiresIn = +responseData.expiresIn * 1000; // + ispred konvertuje u broj type: number
         //const expiresIn = 5000; // samo za potrebe testiranja 5 sekundi
@@ -107,7 +107,7 @@ export default { // definisemo akcije za login i signup
     },
 
     autoLogout(context) {
-        context.dispatch('logout');
+        context.dispatch('logout'); //commit triggers mutation, and a dispatch triggers an action.
         context.commit('setAutoLogout');
     }
 };

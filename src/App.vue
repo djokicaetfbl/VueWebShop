@@ -15,7 +15,7 @@ export default {
   components: {
     //HelloWorld
   },
-  /* 
+  
     computed: {
     didAutoLogout() {
       return this.$store.getters.didAutoLogout;
@@ -33,7 +33,7 @@ export default {
       }
     }
   }
-   */
+   
 }
 </script>
 

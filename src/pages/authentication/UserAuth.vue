@@ -1,6 +1,12 @@
 <template>
   <div>
-    <!-- hvali koda -->
+     <base-dialog :show="!!error" title="An error occured" @close="handleError"> <!-- !! true or false convert to Boolean -->
+    <p> {{ error }}</p>
+    </base-dialog> 
+    <base-dialog :show="isLoading" title="Authenticating..." fixed>
+      <p>Authenticating...</p>
+      <base-spinner></base-spinner>
+    </base-dialog>
     <the-header></the-header>
     <base-dialog :show="!!error" title="An error occured" @close="handleError">
       <!-- !! true or false convert to Boolean -->
@@ -15,14 +21,14 @@
   <!-- Email input -->
   <div class="form-outline mb-4" >
     <span class="badge bg-primary" for="email">Email adresa</span>
-    <input type="email" name="email" id="email" class="form-control" placeholder="Email" />
+    <input type="email" name="email" id="email" class="form-control" v-model.trim="email" placeholder="Email" />
     <!-- <label class="form-label" for="email">Email address</label>  -->
   </div>
 
   <!-- Password input -->
   <div class="form-outline mb-4">
     <span class="badge bg-primary" for="password">Lozinka</span>
-    <input type="password" id="password" class="form-control" placeholder="Lozinka"/>
+    <input type="password" id="password" class="form-control" v-model.trim="password" placeholder="Lozinka"/>
     <!-- <label class="form-label" for="password">Password</label>  -->
   </div>
 
@@ -70,25 +76,11 @@ export default {
       error: null,
     };
   },
-  computed: {
-    submitButtonCaption() {
-      if (this.mode == "login") {
-        return "Login";
-      } else {
-        return "Signup";
-      }
-    },
-    switchModeButtonCaption() {
-      if (this.mode == "login") {
-        return "Signup instead";
-      } else {
-        return "Login instead";
-      }
-    },
-  },
+  computed: {  },
   methods: {
-    submitForm() {
-      // hvali async
+   async submitForm() {
+
+     console.log("LALALA");
 
       if (
         this.email === "" ||
@@ -100,17 +92,21 @@ export default {
       }
       this.isLoading = true;
 
-      /*const actionPayload = {
+      const actionPayload = {
         email: this.email,
         password: this.password,
-      };*/
-    },
-    switchAuthMode() {
-      if (this.mode === "login") {
-        this.mode = "signup";
-      } else {
-        this.mode = "login";
+      };
+
+      try {
+        await this.$store.dispatch('login', actionPayload); // posto modul gdje je login (actions.js) nije namespaceovan to nam namespace ne treba
+        const redirectUrl = '/'+ (this.$route.query.redirect || 'articles');
+        this.$router.replace(redirectUrl);
+
+      } catch (error) {
+        this.error = error.message || 'Failed to authenticate, Check your login data.';
       }
+      this.isLoading = false;
+
     },
     handleError() {
       this.error = null;

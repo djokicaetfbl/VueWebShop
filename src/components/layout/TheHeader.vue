@@ -19,22 +19,12 @@
             <MDBIcon icon="user" size="3x" />
           </MDBDropdownToggle>
           <MDBDropdownMenu>
-            <MDBDropdownItem><router-link to="/auth">Login</router-link></MDBDropdownItem>
-            <MDBDropdownItem ><router-link to="/registration">Register</router-link></MDBDropdownItem>
+            <MDBDropdownItem v-if="!isLoggedIn" ><router-link to="/auth">Login</router-link></MDBDropdownItem>
+            <MDBDropdownItem v-if="!isLoggedIn" ><router-link to="/registration">Register</router-link></MDBDropdownItem>
+            <MDBDropdownItem v-if="isLoggedIn" @click="logout"><router-link to="">Logout</router-link></MDBDropdownItem>
           </MDBDropdownMenu>
         </MDBDropdown>
       </MDBNavbarItem>
-
-      <!--  <ul>
-                <li><router-link to="/coaches">All Coaches</router-link></li>
-                <li v-if="isLoggedIn"><router-link to="/requests">Requests</router-link></li>
-                <li v-else>
-                  <outer-link to="/auth">Login</router-link>
-                </li>
-                <li v-if="isLoggedIn">
-                  <base-button @click="logout">Logout</base-button>
-                </li>
-            </ul>   -->
     </nav>
   </header>
 
@@ -98,7 +88,7 @@ export default {
       options,
     };
   },
-  /*  computed: {
+   computed: {
     isLoggedIn() {
       return this.$store.getters.isAuthenticated;
     }
@@ -106,9 +96,9 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch('logout');
-      this.$router.replace('/coaches');
+      this.$router.replace('/articles');
     }
-  }*/
+  }
 };
 
 

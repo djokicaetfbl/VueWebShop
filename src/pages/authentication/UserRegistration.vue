@@ -1,4 +1,11 @@
 <template>
+     <base-dialog :show="!!error" title="An error occured" @close="handleError"> <!-- !! true or false convert to Boolean -->
+    <p> {{ error }}</p>
+    </base-dialog> 
+    <base-dialog :show="isLoading" title="Authenticating..." fixed>
+      <p>Authenticating...</p>
+      <base-spinner></base-spinner>
+    </base-dialog>
   <the-header></the-header>
   <base-card>
     <form @submit.prevent="submitForm">
@@ -13,6 +20,7 @@
               name="firstName"
               id="firstName"
               class="form-control"
+              v-model.trim="firstname"
               placeholder="Ime"
             />
           </div>
@@ -27,6 +35,7 @@
               name="lastName"
               id="lastName"
               class="form-control"
+              v-model.trim="lastname"
               placeholder="Prezime"
             />
             <!-- <label class="form-label" for="email">Email address</label>  -->
@@ -43,6 +52,7 @@
               name="email"
               id="email"
               class="form-control"
+              v-model.trim="email"
               placeholder="Email"
             />
             <!-- <label class="form-label" for="email">Email address</label>  -->
@@ -57,6 +67,7 @@
               type="password"
               id="password"
               class="form-control"
+              v-model.trim="password"
               placeholder="Lozinka"
             />
             <!-- <label class="form-label" for="password">Password</label>  -->
@@ -80,10 +91,54 @@ export default {
     TheHeader,
   },
 
+  data() {
+    return {
+      firstname: "",
+      lastname: "",
+      email: "",
+      password: "",
+      formIsValid: true,
+      mode: "signup",
+      isLoading: false,
+      error: null,
+    };
+  },
+
   methods: {
-    submitForm(){
-        console.log("BLA");
-    }
+    async submitForm() {
+
+      if (
+        this.email === "" ||
+        !this.email.includes("@") ||
+        this.password.length < 6 || this.firstname === "" || this.lastname === ""
+      ) {
+        console.log("EMAIL: "+this.email);
+        console.log("PASSWORD: "+this.password);
+        console.log("FIRSTNAME: "+this.firstname);
+        console.log("LASTNAME: "+this.lastname);
+        this.formIsValid = false;
+        return;
+      }
+      this.isLoading = true;
+
+      const actionPayload = {
+        email: this.email,
+        password: this.password,
+      };
+
+      try {
+        await this.$store.dispatch("signup", actionPayload); // posto modul gdje je login (actions.js) nije namespaceovan to nam namespace ne treba
+        const redirectUrl = "/" + (this.$route.query.redirect || "articles");
+        this.$router.replace(redirectUrl);
+      } catch (error) {
+        this.error =
+          error.message || "Failed to authenticate, Check your login data.";
+      }
+      this.isLoading = false;
+    },
+    handleError() {
+      this.error = null;
+    },
   },
 };
 </script>
@@ -109,5 +164,4 @@ export default {
 .form-outline.mb-4 {
   width: 100%;
 }
-
 </style>

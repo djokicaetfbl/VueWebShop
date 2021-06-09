@@ -11,14 +11,16 @@ import BaseBadge from './components/ui/BaseBadge.vue';
 import BaseSpinner from './components/ui/BaseSpinner.vue';
 import BaseDialog from './components/ui/BaseDialog.vue';
 
-import VueSelect from 'vue-next-select'
-import 'vue-next-select/dist/index.min.css'
+import VueSelect from 'vue-next-select';
+import 'vue-next-select/dist/index.min.css';
+import store from './store/index.js';
 
 
 
 const app = createApp(App);
 
 app.use(router); // kazemo nasoj aplikaciji da koristi rutiranje // hvali koda za stoe itd
+app.use(store);
 
 app.component('base-card', BaseCard);
 app.component('base-button', BaseButton);

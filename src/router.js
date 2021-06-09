@@ -7,6 +7,7 @@ import UserRegistration from './pages/authentication/UserRegistration.vue';
 import ArticleList from './pages/webshop/ArticleList.vue';
 import ArticleDetail from './pages/webshop/ArticleDetail.vue';
 import Cart from './pages/webshop/Cart.vue';
+import store from './store/index.js';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -23,11 +24,22 @@ const router = createRouter({
         { path: '/articles/kucanskiAparati/1', component: ArticleDetail },
         //{ path: '/articles/:category/:' }
         { path: '/cart', component: Cart },
-        { path: '/auth', component: UserAuth, /*meta: {requiresUnauth: true}*/ }, // hvali koda
-        { path: '/registration', component: UserRegistration, /*meta: {requiresUnauth: true}*/ },
+        { path: '/auth', component: UserAuth, meta: {requiresUnauth: true} }, // hvali koda
+        { path: '/registration', component: UserRegistration, meta: {requiresUnauth: true} },
         { path: '/:notFound(.*)', component: NotFound },
     ],
  });
+
+ // globalni navigation guard:
+router.beforeEach(function(to, _, next) {
+    if(to.meta.requiresAuth && !store.getters.isAuthenticated) {
+        next('/auth');
+    } else if (to.meta.requiresUnauth && store.getters.isAuthenticated) {
+        next('/articles');
+    } else {
+        next();
+    }
+});
 
  export default router; // kako bismo mogli konstantu router da koristimo u drugim fajlovima :D
 
