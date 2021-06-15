@@ -7,6 +7,7 @@ import UserRegistration from './pages/authentication/UserRegistration.vue';
 import ArticleList from './pages/webshop/ArticleList.vue';
 import ArticleDetail from './pages/webshop/ArticleDetail.vue';
 import Cart from './pages/webshop/Cart.vue';
+import NewCategory from './pages/webshop/NewCategory.vue';
 import store from './store/index.js';
 
 const router = createRouter({
@@ -24,6 +25,7 @@ const router = createRouter({
         { path: '/articles/kucanskiAparati/1', component: ArticleDetail },
         //{ path: '/articles/:category/:' }
         { path: '/cart', component: Cart },
+        { path: '/newCategory', component: NewCategory },
         { path: '/auth', component: UserAuth, meta: {requiresUnauth: true} }, // hvali koda
         { path: '/registration', component: UserRegistration, meta: {requiresUnauth: true} },
         { path: '/:notFound(.*)', component: NotFound },

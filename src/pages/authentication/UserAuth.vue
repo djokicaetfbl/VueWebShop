@@ -80,8 +80,6 @@ export default {
   methods: {
    async submitForm() {
 
-     console.log("LALALA");
-
       if (
         this.email === "" ||
         !this.email.includes("@") ||

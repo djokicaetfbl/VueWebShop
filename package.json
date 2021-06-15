@@ -17,6 +17,7 @@
     "vue-next-select": "^2.5.0",
     "vue-router": "^4.0.8",
     "vue-select": "^3.11.2",
+    "vue-simple-alert": "^1.1.1",
     "vuex": "^4.0.1"
   },
   "devDependencies": {

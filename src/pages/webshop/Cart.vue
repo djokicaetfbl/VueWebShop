@@ -27,9 +27,9 @@
                   />
                 </div>
               </div>
-                <div class="card-body">
-                  <p>Naziv artikla</p>
-                </div>
+              <div class="card-body">
+                <p>Naziv artikla</p>
+              </div>
             </div>
           </th>
           <th scope="row">
@@ -39,7 +39,7 @@
           <th>Cijena</th>
         </tr>
         <!-- kraj reda -->
-                <tr>
+        <tr>
           <th scope="row">
             <div class="row">
               <div class="column">
@@ -52,10 +52,9 @@
                   />
                 </div>
               </div>
-                <div class="card-body">
-                  <p>Naziv artikla</p>
-                </div>
-
+              <div class="card-body">
+                <p>Naziv artikla</p>
+              </div>
             </div>
           </th>
           <th scope="row">
@@ -66,6 +65,8 @@
         </tr>
       </tbody>
     </MDBTable>
+
+    <MDBBtn color="success" @click="buy">Kupi</MDBBtn>
   </base-card>
 </template>
 
@@ -75,6 +76,35 @@ import BaseCard from "../../components/ui/BaseCard.vue";
 import { MDBTable, MDBBtn } from "mdb-vue-ui-kit";
 export default {
   components: { TheHeader, BaseCard, MDBTable, MDBBtn },
+  data() {
+    return {
+      isLoading: false,
+      error: null,
+    };
+  },
+  methods: {
+    buy() {
+      console.log("KUPI!");
+
+      if (this.isLoggedIn) {
+
+          console.log("Iznos, Uspjesna kupovina :D");
+
+      } else {
+        console.log("KUPI!");
+      }
+    },
+    handleError() {
+      this.error = null;
+    },
+  },
+  computed: {
+    isLoggedIn() {
+      //this.isLoading = this.$store.getters.isAuthenticated;
+      return this.$store.getters.isAuthenticated;
+      // return this.isLoading;
+    },
+  },
 };
 </script>
 
@@ -98,9 +128,12 @@ export default {
   clear: both;
 }
 
-.th, td {
+.th,
+td {
   text-align: center;
 }
 
-tr { line-height: 1px; }
+tr {
+  line-height: 1px;
+}
 </style>
