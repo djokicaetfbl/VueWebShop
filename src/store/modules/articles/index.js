@@ -7,6 +7,7 @@ export default {
     state() {
         return {
             lastFetch: null, // za kesiranje Http response data
+            categories: [],
             articles: [
                 /* {
                    id: 'c1',

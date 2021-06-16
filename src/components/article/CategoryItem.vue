@@ -98,7 +98,7 @@ import {
 } from "mdb-vue-ui-kit";
 
 export default {
-  props: ["id", "name", "picture"],
+  props: ["id", "name",  "picture"],
   components: {
     MDBListGroup,
     MDBListGroupItem,

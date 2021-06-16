@@ -1,10 +1,10 @@
 export default {
-    registerCoach(state, payload) {
+    newCategory(state, payload) {
         //console.log("BLA: ", payload);
-        state.coaches.push(payload);
+        state.categories.push(payload);
     },
-    setCoaches(state, payload) {
-        state.coaches = payload;
+    setCategory(state, payload) {
+        state.categories = payload;
     },
     setFetchTimestamp(state) {
         state.lastFetch = new Date().getTime();

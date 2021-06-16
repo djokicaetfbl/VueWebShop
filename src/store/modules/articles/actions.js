@@ -1,15 +1,40 @@
 export default {
-    async registerCoach(context, data) {
-        const userId = context.rootGetters.userId;
-        const coachData = {
-            id: context.rootGetters.userId,
-            firstName: data.first,
-            lastName: data.last,
-            description: data.desc,
-            hourlyRate: data.rate,
-            areas: data.areas
+
+    /*uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      },*/
+
+    async addCategory(context, data) {
+            console.log("USAO U ADD CATEGORY");
+            console.log("CONTEXT: "+context);
+            console.log("DATA: "+data);
+            //console.log("RANDOM ID: "+this.uuidv4());
+        
+        //const userId = context.rootGetters.categoryId;
+        const categoryData = {
+           // id: context.rootGetters.userId,
+            categoryName: data.categoryName,
+            image: data.image
         };
 
+        const response = await fetch('https://webshopvuediplomski-default-rtdb.europe-west1.firebasedatabase.app/categories/.json', {
+            method: 'PUT',
+            body: JSON.stringify(categoryData)
+        });
+
+        if(!response.ok) {
+            console.log("ERROR!");
+        }
+
+        context.commit('newCategory', { // newCategory u mutations.js
+            ...categoryData, // ... (tri tacke ) radimo sa kopijom categoryData
+            //id: userId
+        });
+
+        /*
         const token = context.rootGetters.token;
 
         //console.log("COACH DATA: ",coachData );
@@ -33,7 +58,7 @@ export default {
         context.commit('registerCoach', { // registerCoach u mutations.js
             ...coachData, // ... (tri tacke ) radimo sa kopijom coachData
             id: userId
-        });  
+        });  */
     },
 
     async loadCoaches(context, payload) {    //https://vue-http-demo-d9003-default-rtdb.europe-west1.firebasedatabase.app/
