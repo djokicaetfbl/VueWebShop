@@ -21,5 +21,8 @@ export default {
 
         const currentTimeStampe = new Date().getTime();
         return (currentTimeStampe - lastFetch) / 1000 > 60; // da li je proslo vise od minute, ako jeste update-uj // refresuj sadrzaj, mozda i uklonim
+    },
+    categoriesListSize(state){
+        return state.categories.length;
     }
 };

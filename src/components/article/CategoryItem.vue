@@ -1,9 +1,9 @@
 <template id="bla">
-  <MDBListGroup horizontal>
+  <!-- <MDBListGroup horizontal>  -->
     <MDBListGroupItem>
       <MDBCard style="max-width: 100%">
-        <MDBCardImg top :src="picture" class="img-fluid" alt="..." />
-        <!-- <img :src="imageUrl" height="150" /> -->
+         <!-- <MDBCardImg top :src="picture" class="img-fluid" alt="..." /> -->
+        <img :src="picture" height="150" width="150" />
         <MDBCardBody>
           <MDBCardText>
             <router-link to="/articles/kucanskiAparati"
@@ -20,72 +20,30 @@
         </MDBCardBody>
       </MDBCard>
     </MDBListGroupItem>
-  </MDBListGroup>
+  <!-- </MDBListGroup>  -->
 
-
-  <MDBListGroup horizontal>
-    <MDBListGroupItem>
-      <MDBCard style="width: 100%">
-        <MDBCardImg
-          top
-          
-          class="img-fluid"
-          alt="..."
-        />
-        <MDBCardBody>
-          <MDBCardText> Parfimerija i drogerija </MDBCardText>
-        </MDBCardBody>
-      </MDBCard>
-    </MDBListGroupItem>
-    <MDBListGroupItem>
-      <MDBCard style="width: 100%">
-        <MDBCardImg
-          top
-          
-          class="img-fluid"
-          alt="..."
-        />
-        <MDBCardBody>
-          <MDBCardText> Knjige </MDBCardText>
-        </MDBCardBody>
-      </MDBCard>
-    </MDBListGroupItem>
-    <MDBListGroupItem>
-      <MDBCard style="width: 100%">
-        <MDBCardImg
-          top
-          
-          class="img-fluid"
-          alt="..."
-        />
-        <MDBCardBody>
-          <MDBCardText> Vrt i alati </MDBCardText>
-        </MDBCardBody>
-      </MDBCard>
-    </MDBListGroupItem>
-  </MDBListGroup>
 </template>
 
 <script>
 import {
-  MDBListGroup,
+  //MDBListGroup,
   MDBListGroupItem,
   MDBCard,
   MDBCardBody,
   MDBCardText,
-  MDBCardImg,
+  //MDBCardImg,
   mdbRipple,
 } from "mdb-vue-ui-kit";
 
 export default {
   props: ["id", "name", "picture"],
   components: {
-    MDBListGroup,
+   // MDBListGroup,
     MDBListGroupItem,
     MDBCard,
     MDBCardBody,
     MDBCardText,
-    MDBCardImg,
+   //MDBCardImg,
   },
   directives: {
     mdbRipple,
