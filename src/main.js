@@ -15,13 +15,11 @@ import VueSelect from 'vue-next-select';
 import 'vue-next-select/dist/index.min.css';
 import store from './store/index.js';
 
-//Vue.use(VueSimpleAlert);
 
 const app = createApp(App);
 
 app.use(router); // kazemo nasoj aplikaciji da koristi rutiranje // hvali koda za stoe itd
 app.use(store);
-
 
 
 app.component('base-card', BaseCard);

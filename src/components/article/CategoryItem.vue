@@ -2,53 +2,33 @@
   <MDBListGroup horizontal>
     <MDBListGroupItem>
       <MDBCard style="max-width: 100%">
-        <MDBCardImg
-          top
-          src="https://mdbootstrap.com/img/new/standard/nature/182.jpg"
-          class="img-fluid"
-          alt="..."
-        />
+        <MDBCardImg top :src="picture" class="img-fluid" alt="..." />
+        <!-- <img :src="imageUrl" height="150" /> -->
         <MDBCardBody>
           <MDBCardText>
-            <router-link to="/articles/kucanskiAparati">Kucanski aparati</router-link>
-            <button class="btn btn-primary" v-if="isLoggedIn" @click="ukloniKategoriju" >Ukloni</button>
+            <router-link to="/articles/kucanskiAparati"
+              >{{ name }}</router-link
+            >
+            <button
+              class="btn btn-primary"
+              v-if="isLoggedIn"
+              @click="ukloniKategoriju"
+            >
+              Ukloni
+            </button>
           </MDBCardText>
         </MDBCardBody>
       </MDBCard>
     </MDBListGroupItem>
-    <MDBListGroupItem>
-      <MDBCard style="width: 100%">
-        <MDBCardImg
-          top
-          src="https://mdbootstrap.com/img/new/standard/nature/182.jpg"
-          class="img-fluid"
-          alt="..."
-        />
-        <MDBCardBody>
-          <MDBCardText> Racunari i racunarska oprema </MDBCardText>
-        </MDBCardBody>
-      </MDBCard>
-    </MDBListGroupItem>
-    <MDBListGroupItem>
-      <MDBCard style="width: 100%">
-        <MDBCardImg
-          top
-          src="https://mdbootstrap.com/img/new/standard/nature/182.jpg"
-          class="img-fluid"
-          alt="..."
-        />
-        <MDBCardBody>
-          <MDBCardText> TV, elektornika i mobiteli </MDBCardText>
-        </MDBCardBody>
-      </MDBCard>
-    </MDBListGroupItem>
   </MDBListGroup>
+
+
   <MDBListGroup horizontal>
     <MDBListGroupItem>
       <MDBCard style="width: 100%">
         <MDBCardImg
           top
-          src="https://mdbootstrap.com/img/new/standard/nature/182.jpg"
+          
           class="img-fluid"
           alt="..."
         />
@@ -61,7 +41,7 @@
       <MDBCard style="width: 100%">
         <MDBCardImg
           top
-          src="https://mdbootstrap.com/img/new/standard/nature/182.jpg"
+          
           class="img-fluid"
           alt="..."
         />
@@ -74,7 +54,7 @@
       <MDBCard style="width: 100%">
         <MDBCardImg
           top
-          src="https://mdbootstrap.com/img/new/standard/nature/182.jpg"
+          
           class="img-fluid"
           alt="..."
         />
@@ -98,7 +78,7 @@ import {
 } from "mdb-vue-ui-kit";
 
 export default {
-  props: ["id", "name",  "picture"],
+  props: ["id", "name", "picture"],
   components: {
     MDBListGroup,
     MDBListGroupItem,
@@ -110,10 +90,15 @@ export default {
   directives: {
     mdbRipple,
   },
+  data() {
+    return {
+      //imageUrl: "https://mdbootstrap.com/img/new/standard/nature/182.jpg",
+    };
+  },
   methods: {
     ukloniKategoriju() {
       console.log("Ukloni kategoriju!");
-    }
+    },
   },
   computed: {
     isLoggedIn() {
@@ -128,11 +113,11 @@ export default {
   height: auto;
 }
 
-.btn.btn-primary{
+.btn.btn-primary {
   float: right;
 }
 
-#bla{
+#bla {
   width: 100%;
 }
 </style>

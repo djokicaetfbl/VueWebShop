@@ -40,12 +40,36 @@
           </div>
         </div> -->
 
+        <!-- <div class="row mb-4" :class="{ invalid: !image.isValid }">  -->
         <div class="row mb-4" :class="{ invalid: !image.isValid }">
           <div class="col">
             <button class="btn btn-info" @click="onPickFile">
+              Upload image
+            </button>
+            <!-- ako coemo samo .png image/png -->
+            <input
+              type="file"
+              style="display: none"
+              ref="fileInput"
+              accept="image/*"
+              @change="onFilePicked"
+            />
+
+            <!-- <MDBCard style="max-width: 100%">  -->
+            <img
+              v-if="imageUrl.val !== ''"
+              top
+              :src="imageUrl.val"
+              class="img-fluid"
+              alt="..."
+            />
+            <!--  </MDBCard>  -->
+
+            <!-- 
+            <button class="btn btn-info" @click="onPickFile">
               Dodaj sliku za kateoriju
             </button>
-            <input
+              <input
               type="file"
               style="display: none"
               name="image"
@@ -53,21 +77,12 @@
               ref="fileInput"
               accept="image/*"        
               @change="onFilePicked"
-            /> <!-- stavi sliku kao jpeg , https://www.google.com/search?q=image%2F*+MIME+type&rlz=1C1GCEU_enBA945BA945&oq=image%2F*+MIME+type&aqs=chrome..69i57j0i19i22i30l6j69i58.263j0j7&sourceid=chrome&ie=UTF-8-->
-              <!-- MIME TIPOVI NE PODRZAVAJU .PNG -->
-            <p v-if="image.val === null" style="color: red">
-              Niste izabrali sliku za kategoriju.
-            </p>
+            /> -->
+            <!-- <p v-if="image.val === null" style="color: red">
+              Niste izabrali sliku za kategoriju. 
+            </p>  -->
           </div>
         </div>
-
-        <button
-          type="submit"
-          id="addCategory"
-          class="btn btn-primary btn-block mb-4"
-        >
-          Dodaj
-        </button>
 
         <!-- <div class="row mb-4">
           <div class="col">
@@ -77,6 +92,13 @@
             </div>
           </div>
         </div>  -->
+        <button
+          type="submit"
+          id="addCategory"
+          class="btn btn-primary btn-block mb-4"
+        >
+          Dodaj
+        </button>
       </form>
     </base-card>
   </div>
@@ -84,9 +106,12 @@
 
 <script>
 import BaseCard from "../../components/ui/BaseCard.vue";
+import // MDBCard,
+//MDBCardImg,
+"mdb-vue-ui-kit";
 
 export default {
-  components: { BaseCard },
+  components: { BaseCard /*MDBCard*/ /*MDBCardImg*/ },
   emits: ["save-data"], // BITNO
   data() {
     return {
@@ -103,10 +128,11 @@ export default {
         isValid: true,
       },
       imageUrl: {
-        val: '',
+        val: "",
         isValid: true,
       },
       formIsValid: true,
+      id: '',
     };
   },
   methods: {
@@ -118,15 +144,38 @@ export default {
       if (this.categoryName.val === "") {
         this.categoryName.isValid = false;
         this.formIsValid = false;
-        //console.log("DJOLE: "+this.categoryName.val);
+        //console.log("DJOLE: " + this.categoryName.val);
       }
-      if (!this.image.val) {
+      /*if (!this.image.val) {
         this.image.isValid = false;
         this.formIsValid = false;
-        //console.log("DJOLE1: "+this.image.val);
-      }
+        console.log("DJOLE1: "+this.image.val);
+      }*/
     },
 
+    onPickFile() {
+      this.$refs.fileInput.click(); // trigerujem na klik
+    },
+    onFilePicked(event) {
+      const files = event.target.files;
+      let filename = files[0].name;
+      if (filename.lastIndexOf(".") <= 0) {
+        return alert("Molimo Vas iazberite validan fajl!");
+      }
+      // stavimo ga u base64 string -> binary file to string value
+      const fileReader = new FileReader();
+      fileReader.addEventListener("load", () => {
+        this.imageUrl.val = fileReader.result;
+        //console.log("IMAGE URL: " + this.imageUrl.val);
+      });
+      fileReader.readAsDataURL(files[0]);
+      console.log("FILE OD 0: " + files[0]);
+      this.image.val = files[0];
+      //console.log("this.image.val: " + this.image.val);
+      //console.log("FILENAME: " + filename);
+    },
+
+    /*
     onPickFile() {
       this.$refs.fileInput.click();
     },
@@ -142,21 +191,37 @@ export default {
       fileReader.readAsDataURL(files[0]);
       this.image.val = files[0];
     },
+    */
+
+    randomString() {
+      var length = 32;
+      var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var result = "";
+      for (var i = length; i > 0; --i)
+        result += chars[Math.floor(Math.random() * chars.length)];
+      return result;
+    },
+
     submitForm() {
-      //console.log("USAO");
+      console.log("USAO");
       this.validateForm();
       //console.log("USAO1");
       if (!this.formIsValid) {
         return;
       }
+      if (!this.image) {
+        console.log("SLIKA JE NULL");
+        return;
+      }
       //console.log("USAO2");
 
       const formData = {
+        id: this.randomString(),
         categoryName: this.categoryName.val,
-        image: this.image.val,
+        imageUrl: this.imageUrl.val,
       };
       //console.log("USAO3");
-      console.log(formData);
+      console.log("FORM DATA: "+formData);
       this.$emit("save-data", formData);
     },
   },
@@ -164,6 +229,11 @@ export default {
 </script>
 
 <style scoped>
+img {
+  padding: 20px;
+  max-height: 150px;
+  max-width: 150px;
+}
 #categoryName {
   border: 2px solid #1266f1;
 }

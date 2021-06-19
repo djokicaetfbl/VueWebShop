@@ -3,7 +3,7 @@ export default {
         //console.log("BLA: ", payload);
         state.categories.push(payload);
     },
-    setCategory(state, payload) {
+    setCategories(state, payload) {
         state.categories = payload;
     },
     setFetchTimestamp(state) {
