@@ -3,8 +3,8 @@
      <base-dialog :show="!!error" title="An error occured" @close="handleError"> <!-- !! true or false convert to Boolean -->
     <p> {{ error }}</p>
     </base-dialog> 
-    <base-dialog :show="isLoading" title="Authenticating..." fixed>
-      <p>Authenticating...</p>
+    <base-dialog :show="isLoading" title="Autentikacija..." fixed>
+      <p>Autentikacija...</p>
       <base-spinner></base-spinner>
     </base-dialog>
     <the-header></the-header>

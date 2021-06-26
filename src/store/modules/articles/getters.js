@@ -1,11 +1,15 @@
 export default {
     categories(state) {
+        console.log("STATE CATEGORIES: "+JSON.stringify(state.categories[0].active));
         return state.categories;
         // rootGetters.userId; // pristupam getteru u index.js (store folderu) :D BITNO
     },
+    updateCategories(state, data){
+        state.categories = data;
+    },
     hasCategories(state){
-        console.log("BLA1: "+state.categories);
-        console.log("BLA2: "+state.categories.length);
+        //console.log("BLA1: "+state.categories);
+        //console.log("BLA2: "+state.categories.length);
         return state.categories && state.categories.length > 0;
     },
     isCoach(_, getters, _2, rootGetters) { // da obezbjedim da kada se registrujem kao coach, da mi nestane dugme za ponovnu registraciju, jel, jer sam vec registrovan

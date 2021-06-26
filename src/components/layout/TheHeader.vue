@@ -1,5 +1,5 @@
 <template id="bla">
-  <header>
+  <header style="height: 100%">
     <MDBNavbarItem>
       <router-link to="/cart"><span class="badge badge-pill bg-danger">1</span>
       <span><MDBIcon icon="shopping-cart" size="2x"></MDBIcon></span></router-link>
@@ -138,7 +138,7 @@ window.addEventListener('keyup', (e) => {
 <style>
 
 #bla {
-  width: 100%;
+  height: 100%;
 }
 
 .form-outline{

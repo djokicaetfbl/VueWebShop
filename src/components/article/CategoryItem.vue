@@ -1,27 +1,29 @@
 <template id="bla">
   <!-- <MDBListGroup horizontal>  -->
-    <MDBListGroupItem>
-      <MDBCard style="max-width: 100%">
-         <!-- <MDBCardImg top :src="picture" class="img-fluid" alt="..." /> -->
-        <img :src="picture" height="150" width="150" />
-        <MDBCardBody>
-          <MDBCardText>
-            <router-link to="/articles/kucanskiAparati"
-              >{{ name }}</router-link
-            >
-            <button
-              class="btn btn-primary"
-              v-if="isLoggedIn"
-              @click="ukloniKategoriju"
-            >
-              Ukloni
-            </button>
-          </MDBCardText>
-        </MDBCardBody>
-      </MDBCard>
-    </MDBListGroupItem>
+  <MDBListGroupItem style="max-width: 100%">
+    <MDBCard style="max-width: 100%">
+      <!-- <MDBCardImg top :src="picture" class="img-fluid" alt="..." /> -->
+      <img :src="imageUrl" class="responsive" />
+      <MDBCardBody style="max-width: 100%">
+        <MDBCardText style="max-width: 100%">
+          <router-link to="/articles/kucanskiAparati">{{
+            categoryName
+          }}</router-link>
+          <br />
+          <br />
+          <button
+            id="deleteCategory"
+            class="btn btn-primary"
+            v-if="isLoggedIn"
+            @click="deleteCategory"
+          >
+            Ukloni
+          </button>
+        </MDBCardText>
+      </MDBCardBody>
+    </MDBCard>
+  </MDBListGroupItem>
   <!-- </MDBListGroup>  -->
-
 </template>
 
 <script>
@@ -35,32 +37,51 @@ import {
   mdbRipple,
 } from "mdb-vue-ui-kit";
 
+//import storeArticle from '../../store/modules/articles/mutations.js';
+
 export default {
-  props: ["id", "name", "picture"],
+  props: ["childrenKey", "id", "categoryName", "imageUrl", "active"],
   components: {
-   // MDBListGroup,
+    // MDBListGroup,
     MDBListGroupItem,
     MDBCard,
     MDBCardBody,
     MDBCardText,
-   //MDBCardImg,
+    //MDBCardImg,
   },
   directives: {
     mdbRipple,
   },
-  data() {
-    return {
-      //imageUrl: "https://mdbootstrap.com/img/new/standard/nature/182.jpg",
-    };
-  },
+
   methods: {
-    ukloniKategoriju() {
-      console.log("Ukloni kategoriju!");
+    deleteCategory() {
+      const categoryData = {
+        childrenKey: this.childrenKey,
+        id: this.id,
+        categoryName: this.categoryName,
+        imageUrl: this.imageUrl,
+        active: false,
+      };
+      this.$store.dispatch("article/deleteCategory", categoryData); //article/addCategory --> article je namespace, addCategory je action u action.js
+      var tmppp = this.getCategories;
+
+      var tmp2 = JSON.stringify(categoryData.childrenKey.toString().trim());
+      for (let i = 0; i < tmppp.length; i++) {
+        var tmp1 = JSON.stringify(tmppp[i].childrenKey).toString().trim();
+
+        if (tmp1.localeCompare(tmp2) == 0) {            // 0 vraca ako su jednaki
+          tmppp.splice(i, 1);
+          this.isDeleting = true;
+        }
+      }
     },
   },
   computed: {
     isLoggedIn() {
       return this.$store.getters.getAdmin;
+    },
+    getCategories() {
+      return this.$store.getters["article/categories"];
     },
   },
 };
@@ -77,5 +98,10 @@ export default {
 
 #bla {
   width: 100%;
+}
+
+.responsive {
+  width: 300px;
+  height: 200px;
 }
 </style>

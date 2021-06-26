@@ -57,6 +57,7 @@
 
             <!-- <MDBCard style="max-width: 100%">  -->
             <img
+            id="image"
               v-if="imageUrl.val !== ''"
               top
               :src="imageUrl.val"
@@ -146,11 +147,11 @@ export default {
         this.formIsValid = false;
         //console.log("DJOLE: " + this.categoryName.val);
       }
-      /*if (!this.image.val) {
+      if (!this.image.val) {
         this.image.isValid = false;
         this.formIsValid = false;
         console.log("DJOLE1: "+this.image.val);
-      }*/
+      }
     },
 
     onPickFile() {
@@ -169,7 +170,7 @@ export default {
         //console.log("IMAGE URL: " + this.imageUrl.val);
       });
       fileReader.readAsDataURL(files[0]);
-      console.log("FILE OD 0: " + files[0]);
+      //console.log("FILE OD 0: " + files[0]);
       this.image.val = files[0];
       //console.log("this.image.val: " + this.image.val);
       //console.log("FILENAME: " + filename);
@@ -219,6 +220,7 @@ export default {
         id: this.randomString(),
         categoryName: this.categoryName.val,
         imageUrl: this.imageUrl.val,
+        active: true
       };
       //console.log("USAO3");
       console.log("FORM DATA: "+formData);

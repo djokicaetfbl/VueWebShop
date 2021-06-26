@@ -4,6 +4,8 @@ export default {
         state.categories.push(payload);
     },
     setCategories(state, payload) {
+        //console.log("PAYLOAD: "+JSON.stringify(payload));
+        console.log("DJOLENCE"+payload);
         state.categories = payload;
     },
     setFetchTimestamp(state) {
