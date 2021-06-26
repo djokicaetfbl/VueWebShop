@@ -1,6 +1,6 @@
 <template id="bla">
   <!-- <MDBListGroup horizontal>  -->
-  <MDBListGroupItem style="max-width: 100%">
+  <MDBListGroupItem  style="max-width: 100%">
     <MDBCard style="max-width: 100%">
       <!-- <MDBCardImg top :src="picture" class="img-fluid" alt="..." /> -->
       <img :src="imageUrl" class="responsive" />
@@ -53,6 +53,12 @@ export default {
     mdbRipple,
   },
 
+  data() {
+    return {
+      screenWidth: window.innerWidth,
+    };
+  },
+
   methods: {
     deleteCategory() {
       const categoryData = {
@@ -69,7 +75,8 @@ export default {
       for (let i = 0; i < tmppp.length; i++) {
         var tmp1 = JSON.stringify(tmppp[i].childrenKey).toString().trim();
 
-        if (tmp1.localeCompare(tmp2) == 0) {            // 0 vraca ako su jednaki
+        if (tmp1.localeCompare(tmp2) == 0) {
+          // 0 vraca ako su jednaki
           tmppp.splice(i, 1);
           this.isDeleting = true;
         }
@@ -82,6 +89,9 @@ export default {
     },
     getCategories() {
       return this.$store.getters["article/categories"];
+    },
+    currentScreenWidth() {
+      return this.screenWidth;
     },
   },
 };
@@ -103,5 +113,10 @@ export default {
 .responsive {
   width: 300px;
   height: 200px;
+}
+
+.responsiveForMobile {
+  width: 60px;
+  height: 50px;
 }
 </style>

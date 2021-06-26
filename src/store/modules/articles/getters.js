@@ -27,6 +27,11 @@ export default {
         return (currentTimeStampe - lastFetch) / 1000 > 60; // da li je proslo vise od minute, ako jeste update-uj // refresuj sadrzaj, mozda i uklonim
     },
     categoriesListSize(state){
-        return state.categories.length;
+        var tmpCouterOfActiveCategory = 0;
+        for (let i = 0; i < state.categories.length; i++) {
+            if(state.categories[i].active)
+            tmpCouterOfActiveCategory++;
+        }
+        return tmpCouterOfActiveCategory;
     }
 };
