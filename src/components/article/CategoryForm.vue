@@ -19,34 +19,14 @@
                 Naziv kategorije ne može da bude prazan.
               </p>
             </div>
-            <!-- <label class="form-label" for="email">Email address</label>  -->
           </div>
         </div>
-        <!--
-        <div class="row mb-4" :class="{ invalid: !describe.isValid }">
-          <div class="col">
-            <div class="form-outline mb-4">
-              <span class="badge bg-primary" for="describe">Opis</span>
-              <input
-                type="text"
-                name="describe"
-                id="describe"
-                class="form-control"
-                v-model.trim="name"
-                placeholder="Opis"
-                @blur="clearValidity('describe')"
-              />
-            </div>
-          </div>
-        </div> -->
 
-        <!-- <div class="row mb-4" :class="{ invalid: !image.isValid }">  -->
         <div class="row mb-4" :class="{ invalid: !image.isValid }">
           <div class="col">
             <button class="btn btn-info" @click="onPickFile">
               Upload image
             </button>
-            <!-- ako coemo samo .png image/png -->
             <input
               type="file"
               style="display: none"
@@ -55,44 +35,16 @@
               @change="onFilePicked"
             />
 
-            <!-- <MDBCard style="max-width: 100%">  -->
             <img
-            id="image"
+              id="image"
               v-if="imageUrl.val !== ''"
               top
               :src="imageUrl.val"
               class="img-fluid"
               alt="..."
             />
-            <!--  </MDBCard>  -->
-
-            <!-- 
-            <button class="btn btn-info" @click="onPickFile">
-              Dodaj sliku za kateoriju
-            </button>
-              <input
-              type="file"
-              style="display: none"
-              name="image"
-              id="image"
-              ref="fileInput"
-              accept="image/*"        
-              @change="onFilePicked"
-            /> -->
-            <!-- <p v-if="image.val === null" style="color: red">
-              Niste izabrali sliku za kategoriju. 
-            </p>  -->
           </div>
         </div>
-
-        <!-- <div class="row mb-4">
-          <div class="col">
-            <div class="form-outline mb-4">
-              <span class="badge bg-primary" for="describe">Opis</span>
-                <MDBFile v-model="files1" v-model.trim="picture" label="Default file input example" />
-            </div>
-          </div>
-        </div>  -->
         <button
           type="submit"
           id="addCategory"
@@ -107,12 +59,10 @@
 
 <script>
 import BaseCard from "../../components/ui/BaseCard.vue";
-import // MDBCard,
-//MDBCardImg,
-"mdb-vue-ui-kit";
+("mdb-vue-ui-kit");
 
 export default {
-  components: { BaseCard /*MDBCard*/ /*MDBCardImg*/ },
+  components: { BaseCard },
   emits: ["save-data"], // BITNO
   data() {
     return {
@@ -120,10 +70,6 @@ export default {
         val: "",
         isValid: true,
       },
-      /* describe:  {
-          val: '',
-          isValid: true,
-      },*/
       image: {
         val: null,
         isValid: true,
@@ -133,8 +79,30 @@ export default {
         isValid: true,
       },
       formIsValid: true,
-      id: '',
+      id: "",
+      active: true,
+      childrenKey: {
+        val: "",
+      },
     };
+  },
+  created() {
+    // ovo je za update
+
+    if (
+      this.$route.params.childrenKey &&
+      this.$route.params.id &&
+      this.$route.params.categoryName &&
+      this.$route.params.imageUrl &&
+      this.$route.params.active
+    ) {
+      this.categoryName.val = this.$route.params.categoryName;
+      this.imageUrl.val = this.$route.params.imageUrl;
+      this.id = this.$route.params.id;
+      this.active = this.$route.params.active;
+      this.childrenKey.val = this.$route.params.childrenKey;
+      //this.image.val = "123";
+    }
   },
   methods: {
     clearValidity(input) {
@@ -150,7 +118,8 @@ export default {
       if (!this.image.val) {
         this.image.isValid = false;
         this.formIsValid = false;
-        console.log("DJOLE1: "+this.image.val);
+
+        console.log("Image dont have value: " + this.image.val);
       }
     },
 
@@ -176,27 +145,10 @@ export default {
       //console.log("FILENAME: " + filename);
     },
 
-    /*
-    onPickFile() {
-      this.$refs.fileInput.click();
-    },
-    onFilePicked(event) {
-      const files = event.target.files;
-      //let filename = files[0].name;
-      const fileReader = new FileReader();
-      fileReader.addEventListener("load", () => {
-        this.imageUrl = fileReader.result;
-        //console.log("IMAGE URL: "+this.imageUrl);
-      });
-      //console.log("FILES OD 0: "+files[0] );
-      fileReader.readAsDataURL(files[0]);
-      this.image.val = files[0];
-    },
-    */
-
     randomString() {
       var length = 32;
-      var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var chars =
+        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
       var result = "";
       for (var i = length; i > 0; --i)
         result += chars[Math.floor(Math.random() * chars.length)];
@@ -204,27 +156,72 @@ export default {
     },
 
     submitForm() {
-      console.log("USAO");
+      // console.log("USAO");
       this.validateForm();
       //console.log("USAO1");
       if (!this.formIsValid) {
         return;
       }
       if (!this.image) {
-        console.log("SLIKA JE NULL");
+        console.log("Image is NULL");
         return;
       }
       //console.log("USAO2");
+      var formDataCreate = {};
+      var formDataUpdate = {};
 
-      const formData = {
-        id: this.randomString(),
-        categoryName: this.categoryName.val,
-        imageUrl: this.imageUrl.val,
-        active: true
-      };
-      //console.log("USAO3");
-      console.log("FORM DATA: "+formData);
-      this.$emit("save-data", formData);
+      //console.log("CHILDREN KEY VALUE: " + this.childrenKey.val);
+
+      if (this.childrenKey.val != "") {
+        // ako ima childrenKey onda je u pitanje update
+
+        formDataUpdate = {
+          childrenKey: this.childrenKey.val,
+          id: this.randomString(),
+          categoryName: this.categoryName.val,
+          imageUrl: this.imageUrl.val,
+          active: true,
+        };
+
+        var tmpCategories = this.getCategories;
+        var tmp2 = JSON.stringify(this.childrenKey.val.toString().trim());
+        //console.log("TMP2: "+tmp2);
+        for (let i = 0; i < tmpCategories.length; i++) {
+          var tmp1 = JSON.stringify(tmpCategories[i].childrenKey)
+            .toString()
+            .trim();
+            //console.log("TMP1: "+tmp1);
+          if (tmp1.localeCompare(tmp2) == 0) {
+            // 0 vraca ako su jednaki
+            //tmpCategories.splice(i, 1);
+            tmpCategories[i].childrenKey =  this.childrenKey.val;
+            tmpCategories[i].id = this.id;
+            tmpCategories[i].categoryName = this.categoryName.val;
+            tmpCategories[i].imageUrl = this.imageUrl.val;
+            tmpCategories[i].active = this.active;
+            //console.log("tmpCategories[i]"+tmpCategories[i]);
+            this.getCategories[i] = tmpCategories[i];
+          }
+        }
+        //console.log("formDataUpdate"+formDataUpdate.id);
+        this.$emit("save-data", formDataUpdate);
+      } else {
+        formDataCreate = {
+          id: this.randomString(),
+          categoryName: this.categoryName.val,
+          imageUrl: this.imageUrl.val,
+          active: true,
+        };
+        //console.log("USAO3");
+        // console.log("FORM DATA: " + formDataUpdate.id);
+        this.$emit("save-data", formDataCreate);
+        //console.log("U PITANJU JE create!");
+      }
+    },
+  },
+  computed: {
+    getCategories() {
+      return this.$store.getters["article/categories"];
     },
   },
 };

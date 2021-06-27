@@ -25,7 +25,7 @@ const router = createRouter({
         { path: '/articles/kucanskiAparati/1', component: ArticleDetail },
         //{ path: '/articles/:category/:' }
         { path: '/cart', component: Cart },
-        { path: '/newCategory', component: NewCategory },
+        { path: '/newCategory', component: NewCategory, name: 'new-category' }, // ovaj name mi treba radi push kod slanja podataka u formu na drugoj ruti :D
         { path: '/auth', component: UserAuth, meta: {requiresUnauth: true} }, // hvali koda
         { path: '/registration', component: UserRegistration, meta: {requiresUnauth: true} },
         { path: '/:notFound(.*)', component: NotFound },

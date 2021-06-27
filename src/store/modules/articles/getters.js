@@ -1,6 +1,6 @@
 export default {
     categories(state) {
-        console.log("STATE CATEGORIES: "+JSON.stringify(state.categories[0].active));
+        //console.log("STATE CATEGORIES: "+JSON.stringify(state.categories[0].active));
         return state.categories;
         // rootGetters.userId; // pristupam getteru u index.js (store folderu) :D BITNO
     },

@@ -1,42 +1,65 @@
 export default {
 
     async addCategory(context, data) {
-        //console.log("USAO U ADD CATEGORY");
-        //console.log("CONTEXT: "+context);
-        console.log("DATA: " + JSON.stringify(data));
-        //console.log("RANDOM ID: "+this.uuidv4());
-        //console.log("IMAGE URL: "+data.imageUrl);
+      
+        var categoryDataCreate = {};
+        var categoryDataUpdate = {};
 
-        //const userId = context.rootGetters.categoryId;
-        const categoryData = {
-            // id: context.rootGetters.userId,
-            id: data.id,
-            categoryName: data.categoryName,
-            imageUrl: data.imageUrl,
-            active: true
-        };
+        if (data.childrenKey != "" && data.childrenKey != undefined) {
+            console.log("DA UPDATE !"+data.childrenKey);
+            var childrenKey = data.childrenKey;
+            categoryDataUpdate = {
+                // id: context.rootGetters.userId,
+                childrenKey: data.childrenKey,
+                id: data.id,
+                categoryName: data.categoryName,
+                imageUrl: data.imageUrl,
+                active: true
+            };
+            const response = await fetch(`https://webshopvuediplomski-default-rtdb.europe-west1.firebasedatabase.app/categories/${childrenKey}/.json`, {
+                // fetch is function built in in browser :D , ovo .json na kraju je u vezi firebase-a , nema veze sa Vue-om 
+                // za autetikaciju koristnika . tj pirlikom registracije dodjeli mu token json?auth=` + token
+                method: 'PUT',
+                body: JSON.stringify(categoryDataUpdate)
+            }); // PAZI KORISTE SE `` ,da bi se dodao USER ID u string,
+            //const responseData = await response.json();
+            //console.log("REPSONSE: " + JSON.stringify(responseData));
 
-        const response = await fetch('https://webshopvuediplomski-default-rtdb.europe-west1.firebasedatabase.app/categories/.json', {
-            method: 'POST',
-            body: JSON.stringify(categoryData)
-        });
+            if (!response.ok) {
+                console.log("ERROR!");
+            }
 
-        const responseData = await response.json();
+            //context.commit('setCategories',requests)
+            //updateCategories(state, number, payload)
+            //context.commit('updateCategories',0,categoryDataUpdate);
 
-        //POVEZI Sa nekim key ili id sta vec da dohvatis SLIKU
+        } else {
+            console.log("DA CREATE !");
+            categoryDataCreate = {
+                // id: context.rootGetters.userId,
+                id: data.id,
+                categoryName: data.categoryName,
+                imageUrl: data.imageUrl,
+                active: true
+            };
 
-        console.log("REPSONSE: " + JSON.stringify(responseData));
+            const response = await fetch('https://webshopvuediplomski-default-rtdb.europe-west1.firebasedatabase.app/categories/.json', {
+                method: 'POST',
+                body: JSON.stringify(categoryDataCreate)
+            });
 
-        // const key = response.key;
+            //const responseData = await response.json();
+            //console.log("REPSONSE: " + JSON.stringify(responseData));
 
-        if (!response.ok) {
-            console.log("ERROR!");
-        }
+            if (!response.ok) {
+                console.log("ERROR!");
+            }
 
-        context.commit('newCategory', { // newCategory u mutations.js
-            ...categoryData, // ... (tri tacke ) radimo sa kopijom categoryData
-            //id: userId
-        });
+            context.commit('newCategory', { // newCategory u mutations.js
+                ...categoryDataCreate, // ... (tri tacke ) radimo sa kopijom categoryData
+                //id: userId
+            });
+        }   
     },
 
     async deleteCategory(context, data) {
@@ -53,7 +76,7 @@ export default {
             active: data.active
         };
 
-        console.log("CATEOGRY DATA ACTION: " + categoryData);
+        //console.log("CATEOGRY DATA ACTION: " + categoryData);
 
         //const response =await fetch(`https://vue-http-demo-d9003-default-rtdb.europe-west1.firebasedatabase.app/coaches/${userId}.json?auth=` + token, { 
         const response = await fetch(`https://webshopvuediplomski-default-rtdb.europe-west1.firebasedatabase.app/categories/${childrenKey}/.json`, {
@@ -67,7 +90,7 @@ export default {
             //error ...
             console.log("ERRORR!!!")
         }
-        
+
         /*
         context.commit('newCategory', { // newCategory u mutations.js // zakomentarisoa da mi ga opet ne doda odma u red :D
             ...categoryData, // ... (tri tacke ) radimo sa kopijom categoryData
@@ -111,7 +134,7 @@ export default {
                 //console.log("CATEGORY: " + JSON.stringify(category));
                 //console.log("PROCITANA KATEGORIJA: "+category.id);
                 if (category.active) {
-                   // console.log("DA");
+                    // console.log("DA");
                     categories.push(category);
                 }
             }

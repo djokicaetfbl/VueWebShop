@@ -23,6 +23,7 @@ export default {
       // to su podaci sa forme koje smo preko emit poslali
       console.log("EMIT: ", data);
       this.$store.dispatch("article/addCategory", data); //article/addCategory --> article je namespace, addCategory je action u action.js
+      
       this.$router.replace("/articles"); // posilje submita prebaci ma na tu rutu
     },
   },

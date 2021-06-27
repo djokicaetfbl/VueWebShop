@@ -1,6 +1,6 @@
 <template id="bla">
   <!-- <MDBListGroup horizontal>  -->
-  <MDBListGroupItem  style="max-width: 100%">
+  <MDBListGroupItem style="max-width: 100%">
     <MDBCard style="max-width: 100%">
       <!-- <MDBCardImg top :src="picture" class="img-fluid" alt="..." /> -->
       <img :src="imageUrl" class="responsive" />
@@ -15,8 +15,19 @@
             id="deleteCategory"
             class="btn btn-primary"
             v-if="isLoggedIn"
+            @click="updateCategory()"
+          >
+            <i class="fa fa-wrench" aria-hidden="true"></i>
+
+            Izmjeni
+          </button>
+          <button
+            id="deleteCategory"
+            class="btn btn-primary"
+            v-if="isLoggedIn"
             @click="deleteCategory"
           >
+            <i class="fa fa-trash" aria-hidden="true">&nbsp;&nbsp;</i>
             Ukloni
           </button>
         </MDBCardText>
@@ -82,6 +93,18 @@ export default {
         }
       }
     },
+    updateCategory() {
+      this.$router.push({
+        name: "new-category",
+        params: {
+          childrenKey: this.childrenKey,
+          id: this.id,
+          categoryName: this.categoryName,
+          imageUrl: this.imageUrl,
+          active: this.active,
+        },
+      });
+    },
   },
   computed: {
     isLoggedIn() {
@@ -104,6 +127,7 @@ export default {
 
 .btn.btn-primary {
   float: right;
+  font-size: 16px;
 }
 
 #bla {
