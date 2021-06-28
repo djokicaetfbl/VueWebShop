@@ -4,7 +4,11 @@
     <br />
     <!-- BLA {{ getCategoriesListSize }}  -->
     <div
-      v-if="currentScreenWidth > currentWidth && getCategoriesListSize < 5 && !isLoggedIn"
+      v-if="
+        currentScreenWidth > currentWidth &&
+        getCategoriesListSize < 5 &&
+        !isLoggedIn
+      "
       class="sekcijaDo4"
     >
       <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
@@ -65,7 +69,8 @@
           class="btn btn-primary"
           v-if="isLoggedIn"
           @click="$router.push('/newCategory')"
-        ><i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+        >
+          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
           <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
           Dodaj kategoriju
         </button>
@@ -76,7 +81,8 @@
       v-else-if="
         currentScreenWidth > currentWidth &&
         getCategoriesListSize > 4 &&
-        getCategoriesListSize < 9 && !isLoggedIn
+        getCategoriesListSize < 9 &&
+        !isLoggedIn
       "
       class="sekcijaDo8"
     >
@@ -138,10 +144,10 @@
           class="btn btn-primary"
           v-if="isLoggedIn"
           @click="$router.push('/newCategory')"
-        ><i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+        >
+          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
           <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
-          Dodaj kategoriju 
-          
+          Dodaj kategoriju
         </button>
       </section>
     </div>
@@ -150,7 +156,8 @@
       v-else-if="
         currentScreenWidth > currentWidth &&
         getCategoriesListSize > 8 &&
-        getCategoriesListSize < 13 && !isLoggedIn
+        getCategoriesListSize < 13 &&
+        !isLoggedIn
       "
       class="sekcijaDo12"
     >
@@ -211,7 +218,8 @@
           class="btn btn-primary"
           v-if="isLoggedIn"
           @click="$router.push('/newCategory')"
-        ><i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+        >
+          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
           <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
           Dodaj kategoriju
         </button>
@@ -222,7 +230,8 @@
       v-else-if="
         currentScreenWidth > currentWidth &&
         getCategoriesListSize > 12 &&
-        getCategoriesListSize < 17 && !isLoggedIn
+        getCategoriesListSize < 17 &&
+        !isLoggedIn
       "
       class="sekcijaDo16"
     >
@@ -284,7 +293,8 @@
           class="btn btn-primary"
           v-if="isLoggedIn"
           @click="$router.push('/newCategory')"
-        ><i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+        >
+          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
           <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
           Dodaj kategoriju
         </button>
@@ -292,7 +302,11 @@
     </div>
 
     <div
-      v-if="currentScreenWidth > currentWidth && getCategoriesListSize < 5 && isLoggedIn"
+      v-if="
+        currentScreenWidth > currentWidth &&
+        getCategoriesListSize < 5 &&
+        isLoggedIn
+      "
       class="sekcijaDo8"
     >
       <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
@@ -353,7 +367,8 @@
           class="btn btn-primary"
           v-if="isLoggedIn"
           @click="$router.push('/newCategory')"
-        ><i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+        >
+          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
           <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
           Dodaj kategoriju
         </button>
@@ -364,7 +379,8 @@
       v-else-if="
         currentScreenWidth > currentWidth &&
         getCategoriesListSize > 4 &&
-        getCategoriesListSize < 9 && isLoggedIn
+        getCategoriesListSize < 9 &&
+        isLoggedIn
       "
       class="sekcijaDo12"
     >
@@ -426,10 +442,10 @@
           class="btn btn-primary"
           v-if="isLoggedIn"
           @click="$router.push('/newCategory')"
-        ><i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+        >
+          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
           <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
-          Dodaj kategoriju 
-          
+          Dodaj kategoriju
         </button>
       </section>
     </div>
@@ -499,7 +515,8 @@
           class="btn btn-primary"
           v-if="isLoggedIn"
           @click="$router.push('/newCategory')"
-        ><i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+        >
+          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
           <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
           Dodaj kategoriju
         </button>
@@ -572,7 +589,8 @@
           class="btn btn-primary"
           v-if="isLoggedIn"
           @click="$router.push('/newCategory')"
-        ><i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+        >
+          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
           <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
           Dodaj kategoriju
         </button>
@@ -619,7 +637,8 @@
           class="btn btn-primary"
           v-if="isLoggedIn && currentScreenWidth > currentWidth"
           @click="$router.push('/newCategory')"
-        ><i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+        >
+          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
           <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
           Dodaj kategoriju
         </button>
@@ -653,10 +672,12 @@ export default {
     sliceItems: function (start, end) {
       return this.getCategories.slice(start, end);
     },
-    async loadCategories() {
+    /*async*/ loadCategories() {
       this.isLoading = true;
       try {
-        await this.$store.dispatch("article/fetchCategories");
+        setTimeout(() => {  /*await*/ this.$store.dispatch("article/fetchCategories"); }, 2000); // sa ovim sam rijesio problem kad mi se vrati sadrzaj nakon 1 sekunde :D
+        //await this.$store.dispatch("article/fetchCategories");
+        //console.log("DJOLENCE!");
       } catch (error) {
         this.error = error.message || "Something failed!";
       }
