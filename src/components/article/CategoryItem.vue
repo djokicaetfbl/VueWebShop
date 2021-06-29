@@ -6,9 +6,12 @@
       <img :src="imageUrl" class="responsive" />
       <MDBCardBody style="max-width: 100%">
         <MDBCardText style="max-width: 100%">
-          <router-link to="/articles/kucanskiAparati">{{
+         <!-- <router-link to="/articles/{{ categoryName}}">{{
             categoryName
-          }}</router-link>
+          }}</router-link>  -->
+          <router-link :to="coachDetailsLink">{{
+            categoryName
+          }}</router-link> 
           <br />
           <br />
           <button
@@ -115,6 +118,9 @@ export default {
     },
     currentScreenWidth() {
       return this.screenWidth;
+    },
+    coachDetailsLink() {
+      return this.$route.path + "/" + this.categoryName;
     },
   },
 };

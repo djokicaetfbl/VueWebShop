@@ -6,7 +6,7 @@
       <p>Authenticating...</p>
       <base-spinner></base-spinner>
     </base-dialog>
-  <the-header></the-header>
+  <the-header-basic></the-header-basic>
   <base-card>
     <form @submit.prevent="submitForm">
       <!-- prevent sprijeci defaultni http (POST) request -->
@@ -84,11 +84,13 @@
 
 
 <script>
-import TheHeader from "../../components/layout/TheHeader.vue";
+//import TheHeader from "../../components/layout/TheHeader.vue";
+import TheHeaderBasic from "../../components/layout/TheHeaderBasic.vue";
 
 export default {
   components: {
-    TheHeader,
+    //TheHeader,
+    TheHeaderBasic
   },
 
   data() {

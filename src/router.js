@@ -8,6 +8,7 @@ import ArticleList from './pages/webshop/ArticleList.vue';
 import ArticleDetail from './pages/webshop/ArticleDetail.vue';
 import Cart from './pages/webshop/Cart.vue';
 import NewCategory from './pages/webshop/NewCategory.vue';
+import NewArticle from  './pages/webshop/NewArticle.vue';
 import store from './store/index.js';
 
 const router = createRouter({
@@ -26,6 +27,7 @@ const router = createRouter({
         //{ path: '/articles/:category/:' }
         { path: '/cart', component: Cart },
         { path: '/newCategory', component: NewCategory, name: 'new-category' }, // ovaj name mi treba radi push kod slanja podataka u formu na drugoj ruti :D
+        { path: '/newArticle', component: NewArticle, name: 'new-article' },
         { path: '/auth', component: UserAuth, meta: {requiresUnauth: true} }, // hvali koda
         { path: '/registration', component: UserRegistration, meta: {requiresUnauth: true} },
         { path: '/:notFound(.*)', component: NotFound },

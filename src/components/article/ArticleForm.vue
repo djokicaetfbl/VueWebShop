@@ -1,63 +1,96 @@
 <template>
   <div>
+    <!-- props: ["childrenKey","id", "category", "name", "price", "describe", "imageUrl", "active"], -->
     <base-card>
       <form @submit.prevent="submitForm">
-        <div class="row mb-4" :class="{ invalid: !categoryName.isValid }">
+        <div class="row mb-4" :class="{ invalid: !name.isValid }">
           <div class="col">
             <div class="form-outline mb-4">
-              <span class="badge bg-primary" for="categoryName">Naziv</span>
+              <span class="badge bg-primary" for="name">Naziv</span>
               <input
                 type="text"
-                name="categoryName"
-                id="categoryName"
+                name="name"
+                id="name"
                 class="form-control"
-                v-model.trim="categoryName.val"
+                v-model.trim="name.val"
                 placeholder="Naziv"
-                @blur="clearValidity('categoryName')"
+                @blur="clearValidity('name')"
               />
-              <p v-if="!categoryName.isValid" style="color: red">
-                Naziv kategorije ne može da bude prazan.
+              <p v-if="!name.isValid" style="color: red">
+                Naziv artikla ne može da bude prazan.
               </p>
             </div>
-            <!-- <label class="form-label" for="email">Email address</label>  -->
           </div>
         </div>
-        
+
+        <div class="row mb-4" :class="{ invalid: !image.isValid }">
+          <div class="col">
+            <button class="btn btn-info" @click="onPickFile">
+              Upload image
+            </button>
+            <input
+              type="file"
+              style="display: none"
+              ref="fileInput"
+              accept="image/*"
+              @change="onFilePicked"
+            />
+
+            <img
+              id="image"
+              v-if="imageUrl.val !== ''"
+              top
+              :src="imageUrl.val"
+              class="img-fluid"
+              alt="..."
+            />
+          </div>
+        </div>
+        <div class="row mb-4" :class="{ invalid: !price.isValid }">
+          <div class="col">
+            <div class="form-outline mb-4">
+              <span class="badge bg-primary" for="price"
+                >Izaberite kategoriju</span
+              >
+              <br />
+              <select name="category" id="category" class="selectCategory">
+                <option v-for="item in getCategories" :value="item" :key="item.id">{{ item.categoryName }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-4" :class="{ invalid: !price.isValid }">
+          <div class="col">
+            <div class="form-outline mb-4">
+              <span class="badge bg-primary" for="price">Cijena</span>
+              <input
+                type="text"
+                name="price"
+                id="price"
+                class="form-control"
+                v-model.trim="price.val"
+                placeholder="Opis"
+                @blur="clearValidity('price')"
+              />
+            </div>
+          </div>
+        </div>
+
         <div class="row mb-4" :class="{ invalid: !describe.isValid }">
           <div class="col">
             <div class="form-outline mb-4">
               <span class="badge bg-primary" for="describe">Opis</span>
               <input
                 type="text"
-                name="articleDescribe"
-                id="articleDescribe"
+                name="describe"
+                id="describe"
                 class="form-control"
-                v-model.trim="name"
+                v-model.trim="describe.val"
                 placeholder="Opis"
-                @blur="clearValidity('articleDescribe')"
+                @blur="clearValidity('describe')"
               />
             </div>
-          </div>
-        </div> 
-
-        <div class="row mb-4" :class="{ invalid: !image.isValid }">
-          <div class="col">
-            <button class="btn btn-info" @click="onPickFile">
-              Dodaj sliku za kateoriju
-            </button>
-            <input
-              type="file"
-              style="display: none"
-              name="image"
-              id="image"
-              ref="fileInput"
-              accept="image/*"        
-              @change="onFilePicked"
-            /> <!-- stavi sliku kao jpeg , https://www.google.com/search?q=image%2F*+MIME+type&rlz=1C1GCEU_enBA945BA945&oq=image%2F*+MIME+type&aqs=chrome..69i57j0i19i22i30l6j69i58.263j0j7&sourceid=chrome&ie=UTF-8-->
-              <!-- MIME TIPOVI NE PODRZAVAJU .PNG -->
-            <p v-if="image.val === null" style="color: red">
-              Niste izabrali sliku za kategoriju.
-            </p>
           </div>
         </div>
 
@@ -68,15 +101,6 @@
         >
           Dodaj
         </button>
-
-        <!-- <div class="row mb-4">
-          <div class="col">
-            <div class="form-outline mb-4">
-              <span class="badge bg-primary" for="describe">Opis</span>
-                <MDBFile v-model="files1" v-model.trim="picture" label="Default file input example" />
-            </div>
-          </div>
-        </div>  -->
       </form>
     </base-card>
   </div>
@@ -84,29 +108,47 @@
 
 <script>
 import BaseCard from "../../components/ui/BaseCard.vue";
+// props: ["childrenKey","id", "category", "name", "price", "describe", "imageUrl", "active"],
 
 export default {
   components: { BaseCard },
   emits: ["save-data"], // BITNO
   data() {
     return {
-      articleName: {
+      name: {
         val: "",
         isValid: true,
       },
-     articleDescribe:  {
-          val: '',
-          isValid: true,
+      describe: {
+        val: "",
+        isValid: true,
+      },
+      /*category: {
+        val: ["Racunari", "Roboti", "Automobili", "Avioni"],
+        isValid: true,
+      },*/
+      category: {
+        val: "",
+        isValid: true,
+      },
+      price: {
+        val: 0.0,
+        isValid: true,
       },
       image: {
         val: null,
         isValid: true,
       },
       imageUrl: {
-        val: '',
+        val: "",
         isValid: true,
       },
       formIsValid: true,
+      id: "",
+      active: true,
+      childrenKey: {
+        val: "",
+      },
     };
   },
   methods: {
@@ -115,61 +157,73 @@ export default {
     },
     validateForm() {
       this.formIsValid = true;
-      if (this.categoryName.val === "") {
+      if (this.name.val === "") {
         this.categoryName.isValid = false;
         this.formIsValid = false;
-        //console.log("DJOLE: "+this.categoryName.val);
       }
       if (!this.image.val) {
         this.image.isValid = false;
         this.formIsValid = false;
-        //console.log("DJOLE1: "+this.image.val);
-      } //articleDescribe
-      if (!this.articleDescribe.val) {
+      }
+      if (!this.describe.val) {
         this.articleDescribe.isValid = false;
         this.formIsValid = false;
-        //console.log("DJOLE1: "+this.image.val);
       }
     },
 
     onPickFile() {
-      this.$refs.fileInput.click();
+      this.$refs.fileInput.click(); // trigerujem na klik
     },
     onFilePicked(event) {
       const files = event.target.files;
-      //let filename = files[0].name;
+      let filename = files[0].name;
+      if (filename.lastIndexOf(".") <= 0) {
+        return alert("Molimo Vas iazberite validan fajl!");
+      }
+      // stavimo ga u base64 string -> binary file to string value
       const fileReader = new FileReader();
       fileReader.addEventListener("load", () => {
-        this.imageUrl = fileReader.result;
-        //console.log("IMAGE URL: "+this.imageUrl);
+        this.imageUrl.val = fileReader.result;
+        //console.log("IMAGE URL: " + this.imageUrl.val);
       });
-      //console.log("FILES OD 0: "+files[0] );
       fileReader.readAsDataURL(files[0]);
+      //console.log("FILE OD 0: " + files[0]);
       this.image.val = files[0];
+      //console.log("this.image.val: " + this.image.val);
+      //console.log("FILENAME: " + filename);
     },
     submitForm() {
-      //console.log("USAO");
-      this.validateForm();
-      //console.log("USAO1");
+      console.log("SUBMIT FORM!");
+      /*this.validateForm();
       if (!this.formIsValid) {
         return;
       }
-      //console.log("USAO2");
 
       const formData = {
-        categoryName: this.categoryName.val,
+        name: this.categoryName.val,
         image: this.image.val,
       };
-      //console.log("USAO3");
       console.log(formData);
-      this.$emit("save-data", formData);
+      this.$emit("save-data", formData);*/
+    },
+  },
+
+  computed: {
+    getCategories() {
+      //console.log("DOBIO SAM: "+JSON.stringify(this.$store.getters["article/categories"]));
+      return this.$store.getters["article/categories"];
     },
   },
 };
 </script>
 
 <style scoped>
-#categoryName {
+img {
+  padding: 20px;
+  max-height: 150px;
+  max-width: 150px;
+}
+#name {
   border: 2px solid #1266f1;
 }
 
@@ -178,7 +232,7 @@ export default {
   min-height: 150px;
 }
 
-#email {
+#price {
   border: 2px solid #1266f1;
 }
 
@@ -201,5 +255,19 @@ export default {
 
 .invalid input {
   border: 1px solid red;
+}
+
+.selectCategory {
+  width: 100%;
+  min-width: 15ch;
+  max-width: 30ch;
+  border: 1px solid var(--select-border);
+  border-radius: 0.25em;
+  padding: 0.25em 0.5em;
+  font-size: 1.25rem;
+  cursor: pointer;
+  line-height: 1.1;
+  background-color: #fff;
+  background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
 }
 </style>

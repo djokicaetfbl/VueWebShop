@@ -107,7 +107,8 @@ export default {
         const responseData = await response.json();
 
         if (responseData) {
-
+            
+            //console.log("DJORDJE PALAVESTRA!");
             //console.log("RESPONSE DATA: " + JSON.stringify(responseData));
 
             if (!response.ok) {
@@ -145,7 +146,7 @@ export default {
 
             context.commit('setCategories', categories) // ovo kreiramo u mutations.js
         } else {
-            console.log("JBG");
+            //console.log("JBG");
             return;
         }
     }

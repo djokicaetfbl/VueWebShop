@@ -24,7 +24,7 @@
 
 export default {
  // components: { TheHeader },
-  props: ["id", "category", "name", "price", "describe"],
+  props: ["childrenKey","id", "category", "name", "price", "describe", "imageUrl", "active"],
 };
 </script>
 

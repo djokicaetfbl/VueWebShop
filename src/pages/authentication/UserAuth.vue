@@ -7,7 +7,7 @@
       <p>Autentikacija...</p>
       <base-spinner></base-spinner>
     </base-dialog>
-    <the-header></the-header>
+    <the-header-basic></the-header-basic>
     <base-dialog :show="!!error" title="An error occured" @close="handleError">
       <!-- !! true or false convert to Boolean -->
       <p>{{ error }}</p>
@@ -62,10 +62,11 @@
 
 <script>
 /*import BaseButton from "../../components/ui/BaseButton.vue";*/
-import TheHeader from "../../components/layout/TheHeader.vue";
+//import TheHeader from "../../components/layout/TheHeader.vue";
+import TheHeaderBasic from "../../components/layout/TheHeaderBasic.vue";
 
 export default {
-  components: { /*BaseButton,*/ TheHeader },
+  components: { /*BaseButton,*/ TheHeaderBasic },
   data() {
     return {
       email: "",

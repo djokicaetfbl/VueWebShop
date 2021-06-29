@@ -36,44 +36,11 @@
       </MDBNavbarItem>
     </nav>
   </header>
-
-  <br />
-
-  <div class="input-group">
-    <div class="form-outline" style="border-style: dotted; border-color: blue">
-      <input
-        id="search-focus"
-        type="search"
-        class="form-control"
-        placeholder="Unesite naziv artikla"
-      />
-      <label class="form-label" for="form1">Pretraži</label>
-    </div>
-    <button type="button" class="btn btn-primary">
-      <i class="fas fa-search"></i>
-    </button>
-    <!-- <vue-select
-      class="selectedOptions"
-      v-model="selectedOptions"
-      :options="options"
-      close-on-select
-    ></vue-select>  -->
-    <select name="category" id="category" class="selectCategory">
-      <option v-for="item in getCategories" :value="item" :key="item.id">
-        {{ item.categoryName }}
-      </option>
-    </select>
-  </div>
 </template>
-
 
 <script>
 import {
   MDBIcon,
-  //MDBNavbar,
-  //MDBNavbarToggler,
-  //MDBNavbarBrand,
-  //MDBNavbarNav,
   MDBNavbarItem,
   MDBDropdown,
   MDBDropdownToggle,
@@ -86,47 +53,23 @@ import { ref } from "vue";
 export default {
   components: {
     MDBIcon,
-    //MDBNavbar,
-    //MDBNavbarToggler,
-    //MDBNavbarBrand,
-    // MDBNavbarNav,
     MDBNavbarItem,
     MDBDropdown,
     MDBDropdownToggle,
     MDBDropdownMenu,
     MDBDropdownItem,
   },
+
   setup() {
-    /*setup function is the entry point in the Composition API. It will be called before the component is created and after the props are prepared. Meaning that, before compiling and processing it’s template into a render object. Setup function is called before the beforeCreate hook. Note that this reference won’t be available inside the setup function. Because the component is not created yet.*/
-    const dropdown3 = ref(false);
-
-    const selectedOptions = ref("Kucanski aparati");
-    var options = ref([
-      "Kucanski aparati",
-      "Racunari i racunarska oprema",
-      "TV,elektorinika i mobiteli",
-      "Parfimerija i drogerija",
-      "Knjige",
-      "Vrt i alati",
-    ]);
-    /*for(var i = 0; i<this.getCategories.length; i++ ){
-      console.log("categories[i]"+getCategories[i]);
-    }*/
-    /*const options = ref(this.getCategories.categoryName);*/
-
-    return {
+      const dropdown3 = ref(false);
+      return {
       dropdown3,
-      selectedOptions,
-      options,
     };
   },
+
   computed: {
     isLoggedIn() {
       return this.$store.getters.isAuthenticated;
-    },
-    getCategories() {
-      //console.log("DOBIO SAM: "+JSON.stringify(this.$store.getters["article/categories"]));
-      return this.$store.getters["article/categories"];
     },
   },
   methods: {
@@ -136,46 +79,15 @@ export default {
     },
   },
 };
-
-/* za search */
-const searchFocus = document.getElementById("search-focus");
-const keys = [
-  { keyCode: "AltLeft", isTriggered: false },
-  { keyCode: "ControlLeft", isTriggered: false },
-];
-
-window.addEventListener("keydown", (e) => {
-  keys.forEach((obj) => {
-    if (obj.keyCode === e.code) {
-      obj.isTriggered = true;
-    }
-  });
-
-  const shortcutTriggered =
-    keys.filter((obj) => obj.isTriggered).length === keys.length;
-
-  if (shortcutTriggered) {
-    searchFocus.focus();
-  }
-});
-
-window.addEventListener("keyup", (e) => {
-  keys.forEach((obj) => {
-    if (obj.keyCode === e.code) {
-      obj.isTriggered = false;
-    }
-  });
-});
-
-/* za search */
 </script>
 
 <style>
+
 #bla {
   height: 100%;
 }
 
-.form-outline {
+.form-outline{
   width: 35%;
 }
 
@@ -264,19 +176,5 @@ header ul {
 
 li {
   margin: 0 0.5rem;
-}
-
-.selectCategory {
-  width: 100%;
-  min-width: 15ch;
-  max-width: 30ch;
-  border: 1px solid var(--select-border);
-  border-radius: 0.25em;
-  padding: 0.25em 0.5em;
-  font-size: 1.25rem;
-  cursor: pointer;
-  line-height: 1.1;
-  background-color: #fff;
-  background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
 }
 </style>
