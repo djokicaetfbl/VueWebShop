@@ -25,7 +25,7 @@
 
         <div class="row mb-4" :class="{ invalid: !image.isValid }">
           <div class="col">
-            <button class="btn btn-info" @click="onPickFile">
+            <button class="btn btn-info" id="uploadImage" @click="onPickFile">
               Upload image
             </button>
             <input
@@ -53,7 +53,7 @@
                 >Izaberite kategoriju</span
               >
               <br />
-              <select name="category" id="category" class="selectCategory">
+              <select name="category" id="category" class="selectCategory" v-model.trim="category.val">
                 <option v-for="item in getCategories" :value="item" :key="item.id">{{ item.categoryName }}</option>
               </select>
             </div>
@@ -156,6 +156,7 @@ export default {
       this[input].isValid = true;
     },
     validateForm() {
+      console.log("POZVAO VALIDATE FORM !");
       this.formIsValid = true;
       if (this.name.val === "") {
         this.categoryName.isValid = false;
@@ -165,10 +166,28 @@ export default {
         this.image.isValid = false;
         this.formIsValid = false;
       }
-      if (!this.describe.val) {
-        this.articleDescribe.isValid = false;
+      if (this.describe.val == "") {
+        this.describe.isValid = false;
         this.formIsValid = false;
       }
+      if (this.price.val === 0) {
+        this.price.isValid = false;
+        this.formIsValid = false;
+      }
+      if (this.category.val === "") {
+        console.log("OVA NE VALJA :D !");
+        this.category.isValid = false;
+        this.formIsValid = false;
+      }
+    },    
+    randomString() {
+      var length = 32;
+      var chars =
+        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      var result = "";
+      for (var i = length; i > 0; --i)
+        result += chars[Math.floor(Math.random() * chars.length)];
+      return result;
     },
 
     onPickFile() {
@@ -194,17 +213,29 @@ export default {
     },
     submitForm() {
       console.log("SUBMIT FORM!");
-      /*this.validateForm();
+      this.validateForm();
       if (!this.formIsValid) {
+        console.log("FORMA NIJE VALIDNA !");
         return;
       }
 
-      const formData = {
-        name: this.categoryName.val,
-        image: this.image.val,
+      //console.log("NAME VAL"+this.name.val);
+     // console.log("CATEGORY VAL"+this.category.val.categoryName);
+      //console.log("CATEGORY (JSON) VAL"+JSON.stringify(this.category.val.categoryName));
+
+      var formDataCreate = {};
+      
+      formDataCreate = {
+        id: this.randomString(),
+        name: this.name.val,
+        imageUrl: this.imageUrl.val,
+        describe: this.describe.val,
+        price: this.price.val,
+        category: this.category.val.categoryName,
+        active: true
       };
-      console.log(formData);
-      this.$emit("save-data", formData);*/
+      console.log(formDataCreate);
+      this.$emit("save-data", formDataCreate);
     },
   },
 
@@ -270,4 +301,13 @@ img {
   background-color: #fff;
   background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
 }
+
+.badge.bg-primary{
+  font-size: 20px;
+}
+
+#uploadImage, #addCategory{
+  font-size: 20px;
+}
+
 </style>

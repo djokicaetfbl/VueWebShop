@@ -33,5 +33,13 @@ export default {
             tmpCouterOfActiveCategory++;
         }
         return tmpCouterOfActiveCategory;
-    }
+    },
+    articles(state) {
+        return state.articles;
+    },
+    hasArticles(state){
+        //console.log("BLA1: "+state.categories);
+        //console.log("BLA2: "+state.categories.length);
+        return state.articles && state.articles.length > 0;
+    },
 };

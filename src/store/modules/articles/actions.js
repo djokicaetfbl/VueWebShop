@@ -1,12 +1,44 @@
 export default {
 
+    async addArticle(context, data) {
+        var articleDataCreate = {};
+
+        articleDataCreate = {
+            // id: context.rootGetters.userId,
+            id: data.id,
+            name: data.name,
+            imageUrl: data.imageUrl,
+            describe: data.describe,
+            price: data.price,
+            category: data.category,
+            active: true
+        };
+
+        const response = await fetch('https://webshopvuediplomski-default-rtdb.europe-west1.firebasedatabase.app/articles/.json', {
+            method: 'POST',
+            body: JSON.stringify(articleDataCreate)
+        });
+
+        //const responseData = await response.json();
+        //console.log("REPSONSE: " + JSON.stringify(responseData));
+
+        if (!response.ok) {
+            console.log("ERROR!");
+        }
+
+        context.commit('newArticle', { // newCategory u mutations.js
+            ...articleDataCreate, // ... (tri tacke ) radimo sa kopijom categoryData
+            //id: userId
+        });
+    },
+
     async addCategory(context, data) {
-      
+
         var categoryDataCreate = {};
         var categoryDataUpdate = {};
 
         if (data.childrenKey != "" && data.childrenKey != undefined) {
-            console.log("DA UPDATE !"+data.childrenKey);
+            console.log("DA UPDATE !" + data.childrenKey);
             var childrenKey = data.childrenKey;
             categoryDataUpdate = {
                 // id: context.rootGetters.userId,
@@ -59,7 +91,7 @@ export default {
                 ...categoryDataCreate, // ... (tri tacke ) radimo sa kopijom categoryData
                 //id: userId
             });
-        }   
+        }
     },
 
     async deleteCategory(context, data) {
@@ -107,7 +139,7 @@ export default {
         const responseData = await response.json();
 
         if (responseData) {
-            
+
             //console.log("DJORDJE PALAVESTRA!");
             //console.log("RESPONSE DATA: " + JSON.stringify(responseData));
 
@@ -148,6 +180,48 @@ export default {
         } else {
             //console.log("JBG");
             return;
+        }
+    },
+
+    async fetchArticles(context) {
+        const response = await fetch('https://webshopvuediplomski-default-rtdb.europe-west1.firebasedatabase.app/articles.json');
+        // samo autentikovani korisnici mogu da vide svoje zahtjeve json?auth=` + token
+        const responseData = await response.json();
+
+        if (responseData) {
+            if (!response.ok) {
+                const error = new Error(responseData.message || 'Failed to fetch.');
+                throw error;
+            }
+
+            let articles = [];
+            let article;
+
+            for (const key in responseData) {
+                article = {
+                    childrenKey: key, // potreban za update, da znam kako da pristupim children-u u stablu na firebase-u
+                    id: responseData[key].id,
+                    name: responseData[key].name,
+                    imageUrl: responseData[key].imageUrl,
+                    active: responseData[key].active,
+                    price: responseData[key].price,
+                    describe: responseData[key].describe,
+                    category: responseData[key].category
+                };
+                //console.log("CATEGORY: " + JSON.stringify(category));
+                //console.log("PROCITANA KATEGORIJA: "+category.id);
+                if (article.active) {
+                    // console.log("DA");
+                    articles.push(article);
+                }
+            }
+            //categories.push(category);
+
+            //console.log("CATEGORIES LENGTH: " + categories[0].id);
+
+
+            context.commit('setArticles', articles) // ovo kreiramo u mutations.js
+
         }
     }
 
