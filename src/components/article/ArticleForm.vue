@@ -224,6 +224,9 @@ export default {
       //console.log("CATEGORY (JSON) VAL"+JSON.stringify(this.category.val.categoryName));
 
       var formDataCreate = {};
+      //var formDataUpdate = {};
+
+
       
       formDataCreate = {
         id: this.randomString(),

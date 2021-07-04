@@ -98,7 +98,7 @@ export default {
     },
     updateCategory() {
       this.$router.push({
-        name: "new-category",
+        name: "new-category", // na pages NewCategory :D
         params: {
           childrenKey: this.childrenKey,
           id: this.id,

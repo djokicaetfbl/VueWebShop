@@ -32,7 +32,7 @@
           :name="article.name"
           :imageUrl="article.imageUrl"
           :describe="article.describe"
-          :price="article.describe"
+          :price="article.price"
           :category="article.category"
           :active="article.active"
           :id="article.id"
@@ -73,9 +73,11 @@ export default {
 
   methods: {
     loadArticles() {
+
+      //console.log("DJOLENCE: "+this.categoryName);
       this.isLoading = true;
       try {
-        setTimeout(() => {  /*await*/ this.$store.dispatch("article/fetchArticles"); }, 2000); // sa ovim sam rijesio problem kad mi se vrati sadrzaj nakon 1 sekunde :D
+        setTimeout(() => {  /*await*/ this.$store.dispatch("article/fetchArticles", this.categoryName); }, 2000); // sa ovim sam rijesio problem kad mi se vrati sadrzaj nakon 1 sekunde :D
         //await this.$store.dispatch("article/fetchCategories");
         //console.log("DJOLENCE!");
       } catch (error) {

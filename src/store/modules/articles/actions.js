@@ -130,6 +130,29 @@ export default {
         });*/
     },
 
+    async deleteArticle(context, data) {
+        const childrenKey = data.childrenKey;
+        const articleData = {
+            childrenKey: data.childrenKey,
+            id: data.id,
+            category: data.category,
+            imageUrl: data.imageUrl,
+            active: data.active,
+            describe: data.describe,
+            name: data.name,
+            price: data.price
+        };
+
+        const response = await fetch(`https://webshopvuediplomski-default-rtdb.europe-west1.firebasedatabase.app/articles/${childrenKey}/.json`, {
+            method: 'PUT',
+            body: JSON.stringify(articleData)
+        });
+        if (!response.ok) {
+            //error ...
+            console.log("ERRORR!!!")
+        }
+    },
+
 
     async fetchCategories(context) {
         //const coachId = context.rootGetters.userId;
@@ -183,7 +206,10 @@ export default {
         }
     },
 
-    async fetchArticles(context) {
+    async fetchArticles(context, categoryName) {
+
+        // console.log("CATEGORY NAME: "+categoryName);
+
         const response = await fetch('https://webshopvuediplomski-default-rtdb.europe-west1.firebasedatabase.app/articles.json');
         // samo autentikovani korisnici mogu da vide svoje zahtjeve json?auth=` + token
         const responseData = await response.json();
@@ -210,7 +236,8 @@ export default {
                 };
                 //console.log("CATEGORY: " + JSON.stringify(category));
                 //console.log("PROCITANA KATEGORIJA: "+category.id);
-                if (article.active) {
+                //console.log("HH: "+article.category);
+                if (article.active && article.category.toString().trim() === categoryName.toString().trim()) {
                     // console.log("DA");
                     articles.push(article);
                 }
