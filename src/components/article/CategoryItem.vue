@@ -98,13 +98,14 @@ export default {
     },
     updateCategory() {
       this.$router.push({
-        name: "new-category", // na pages NewCategory :D
+        name: "new-category", // na pages NewCategory :D , pa CetegoryForm
         params: {
           childrenKey: this.childrenKey,
           id: this.id,
           categoryName: this.categoryName,
           imageUrl: this.imageUrl,
           active: this.active,
+          update: true,
         },
       });
     },

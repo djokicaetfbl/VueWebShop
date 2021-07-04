@@ -53,8 +53,19 @@
                 >Izaberite kategoriju</span
               >
               <br />
-              <select name="category" id="category" class="selectCategory" v-model.trim="category.val">
-                <option v-for="item in getCategories" :value="item" :key="item.id">{{ item.categoryName }}</option>
+              <select
+                name="category"
+                id="category"
+                class="selectCategory"
+                v-model.trim="category.val"
+              >
+                <option
+                  v-for="item in getCategories"
+                  :value="item"
+                  :key="item.id"
+                >
+                  {{ item.categoryName }}
+                </option>
               </select>
             </div>
           </div>
@@ -149,17 +160,54 @@ export default {
       childrenKey: {
         val: "",
       },
+      update: false,
     };
   },
+  created() {
+    // ovo je za update
+    console.log("USAO ODJE !");
+    if (
+      this.$route.params.childrenKey && // ovo primam msm preko onog new-category
+      this.$route.params.id &&
+      this.$route.params.name &&
+      this.$route.params.imageUrl &&
+      this.$route.params.active &&
+      this.$route.params.describe &&
+      this.$route.params.price &&
+      this.$route.params.category &&
+      this.$route.params.update
+    ) {
+      console.log("DADADA!" + this.$route.params.category);
+      this.category.val = this.$route.params.category;
+      this.imageUrl.val = this.$route.params.imageUrl;
+      this.id = this.$route.params.id;
+      this.active = this.$route.params.active;
+      this.childrenKey.val = this.$route.params.childrenKey;
+      this.update = this.$route.params.update;
+      this.name.val = this.$route.params.name;
+      this.price.val = this.$route.params.price;
+      this.describe.val = this.$route.params.describe;
+      //this.image.val = "123";
+    }
+  },
+
+  mounted() {
+    /*var element =*/ 
+    document.getElementById("category").value = this.category.val;
+    console.log("ELEMENT!"+this.category.val);
+    //element.value = this.$route.params.category;
+  },
+
   methods: {
     clearValidity(input) {
       this[input].isValid = true;
     },
+
     validateForm() {
       console.log("POZVAO VALIDATE FORM !");
       this.formIsValid = true;
       if (this.name.val === "") {
-        this.categoryName.isValid = false;
+        this.name.isValid = false;
         this.formIsValid = false;
       }
       if (!this.image.val) {
@@ -179,7 +227,7 @@ export default {
         this.category.isValid = false;
         this.formIsValid = false;
       }
-    },    
+    },
     randomString() {
       var length = 32;
       var chars =
@@ -212,7 +260,6 @@ export default {
       //console.log("FILENAME: " + filename);
     },
     submitForm() {
-      console.log("SUBMIT FORM!");
       this.validateForm();
       if (!this.formIsValid) {
         console.log("FORMA NIJE VALIDNA !");
@@ -220,30 +267,72 @@ export default {
       }
 
       //console.log("NAME VAL"+this.name.val);
-     // console.log("CATEGORY VAL"+this.category.val.categoryName);
+      // console.log("CATEGORY VAL"+this.category.val.categoryName);
       //console.log("CATEGORY (JSON) VAL"+JSON.stringify(this.category.val.categoryName));
 
       var formDataCreate = {};
-      //var formDataUpdate = {};
+      var formDataUpdate = {};
 
+      if (this.update) {
+        // ako ima childrenKey onda je u pitanje update
+        console.log("USAO U UPDATE!!");
+        formDataUpdate = {
+          childrenKey: this.childrenKey.val,
+          id: this.randomString(),
+          name: this.name.val,
+          imageUrl: this.imageUrl.val,
+          describe: this.describe.val,
+          price: this.price.val,
+          category: this.category.val.categoryName,
+          active: true,
+        };
 
-      
-      formDataCreate = {
-        id: this.randomString(),
-        name: this.name.val,
-        imageUrl: this.imageUrl.val,
-        describe: this.describe.val,
-        price: this.price.val,
-        category: this.category.val.categoryName,
-        active: true
-      };
-      console.log(formDataCreate);
-      this.$emit("save-data", formDataCreate);
+        var tmpArticles = this.getArticles;
+        var tmp2 = JSON.stringify(this.childrenKey.val.toString().trim());
+        //console.log("TMP2: "+tmp2);
+        for (let i = 0; i < tmpArticles.length; i++) {
+          var tmp1 = JSON.stringify(tmpArticles[i].childrenKey)
+            .toString()
+            .trim();
+          //console.log("TMP1: "+tmp1);
+          if (tmp1.localeCompare(tmp2) == 0) {
+            // 0 vraca ako su jednaki
+            //tmpCategories.splice(i, 1);
+            tmpArticles[i].childrenKey = this.childrenKey.val;
+            tmpArticles[i].id = this.id;
+            tmpArticles[i].category = this.categoryName.val;
+            tmpArticles[i].imageUrl = this.imageUrl.val;
+            tmpArticles[i].active = this.active;
+            tmpArticles[i].name = this.name;
+            tmpArticles[i].describe = this.describe;
+            tmpArticles[i].price = this.price;
+            //console.log("tmpCategories[i]"+tmpCategories[i]);
+            this.getArticles[i] = tmpArticles[i];
+          }
+        }
+        //console.log("formDataUpdate"+formDataUpdate.id);
+        this.$emit("save-data", formDataUpdate);
+      } else {
+        formDataCreate = {
+          id: this.randomString(),
+          name: this.name.val,
+          imageUrl: this.imageUrl.val,
+          describe: this.describe.val,
+          price: this.price.val,
+          category: this.category.val.categoryName,
+          active: true,
+        };
+        this.$emit("save-data", formDataCreate);
+      }
     },
   },
 
   computed: {
     getCategories() {
+      //console.log("DOBIO SAM: "+JSON.stringify(this.$store.getters["article/categories"]));
+      return this.$store.getters["article/categories"];
+    },
+    getArticles() {
       //console.log("DOBIO SAM: "+JSON.stringify(this.$store.getters["article/categories"]));
       return this.$store.getters["article/categories"];
     },
@@ -305,12 +394,12 @@ img {
   background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
 }
 
-.badge.bg-primary{
+.badge.bg-primary {
   font-size: 20px;
 }
 
-#uploadImage, #addCategory{
+#uploadImage,
+#addCategory {
   font-size: 20px;
 }
-
 </style>

@@ -84,23 +84,27 @@ export default {
       childrenKey: {
         val: "",
       },
+      update: false,
+
     };
   },
   created() {
     // ovo je za update
 
     if (
-      this.$route.params.childrenKey &&
+      this.$route.params.childrenKey && // ovo primam msm preko onog new-category
       this.$route.params.id &&
       this.$route.params.categoryName &&
       this.$route.params.imageUrl &&
-      this.$route.params.active
+      this.$route.params.active &&
+      this.$route.params.update
     ) {
       this.categoryName.val = this.$route.params.categoryName;
       this.imageUrl.val = this.$route.params.imageUrl;
       this.id = this.$route.params.id;
       this.active = this.$route.params.active;
       this.childrenKey.val = this.$route.params.childrenKey;
+      this.update = this.$route.params.update
       //this.image.val = "123";
     }
   },
@@ -172,7 +176,8 @@ export default {
 
       //console.log("CHILDREN KEY VALUE: " + this.childrenKey.val);
 
-      if (this.childrenKey.val != "") {
+      //if (this.childrenKey.val != "") {
+        if (this.update) {
         // ako ima childrenKey onda je u pitanje update
 
         formDataUpdate = {

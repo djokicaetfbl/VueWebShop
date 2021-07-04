@@ -2,34 +2,59 @@ export default {
 
     async addArticle(context, data) {
         var articleDataCreate = {};
+        var articleDataUpdate = {};
 
-        articleDataCreate = {
-            // id: context.rootGetters.userId,
-            id: data.id,
-            name: data.name,
-            imageUrl: data.imageUrl,
-            describe: data.describe,
-            price: data.price,
-            category: data.category,
-            active: true
-        };
+        if (data.childrenKey != "" && data.childrenKey != undefined) {
+            console.log("DA UPDATE !" + data.childrenKey);
+            var childrenKey = data.childrenKey;
+            articleDataUpdate = {
+                childrenKey: data.childrenKey,
+                id: data.id,
+                name: data.name,
+                imageUrl: data.imageUrl,
+                describe: data.describe,
+                price: data.price,
+                category: data.category,
+                active: true
+            };
+            const response = await fetch(`https://webshopvuediplomski-default-rtdb.europe-west1.firebasedatabase.app/articles/${childrenKey}/.json`, {
+                method: 'PUT',
+                body: JSON.stringify(articleDataUpdate)
+            }); 
+            if (!response.ok) {
+                console.log("ERROR!");
+            }
 
-        const response = await fetch('https://webshopvuediplomski-default-rtdb.europe-west1.firebasedatabase.app/articles/.json', {
-            method: 'POST',
-            body: JSON.stringify(articleDataCreate)
-        });
+        } else {
 
-        //const responseData = await response.json();
-        //console.log("REPSONSE: " + JSON.stringify(responseData));
+            articleDataCreate = {
+                // id: context.rootGetters.userId,
+                id: data.id,
+                name: data.name,
+                imageUrl: data.imageUrl,
+                describe: data.describe,
+                price: data.price,
+                category: data.category,
+                active: true
+            };
 
-        if (!response.ok) {
-            console.log("ERROR!");
+            const response = await fetch('https://webshopvuediplomski-default-rtdb.europe-west1.firebasedatabase.app/articles/.json', {
+                method: 'POST',
+                body: JSON.stringify(articleDataCreate)
+            });
+
+            //const responseData = await response.json();
+            //console.log("REPSONSE: " + JSON.stringify(responseData));
+
+            if (!response.ok) {
+                console.log("ERROR!");
+            }
+
+            context.commit('newArticle', { // newCategory u mutations.js
+                ...articleDataCreate, // ... (tri tacke ) radimo sa kopijom categoryData
+                //id: userId
+            });
         }
-
-        context.commit('newArticle', { // newCategory u mutations.js
-            ...articleDataCreate, // ... (tri tacke ) radimo sa kopijom categoryData
-            //id: userId
-        });
     },
 
     async addCategory(context, data) {
@@ -237,7 +262,8 @@ export default {
                 //console.log("CATEGORY: " + JSON.stringify(category));
                 //console.log("PROCITANA KATEGORIJA: "+category.id);
                 //console.log("HH: "+article.category);
-                if (article.active && article.category.toString().trim() === categoryName.toString().trim()) {
+                if (article.active && article.category.toString().trim()
+                    === categoryName.toString().trim()) {
                     // console.log("DA");
                     articles.push(article);
                 }

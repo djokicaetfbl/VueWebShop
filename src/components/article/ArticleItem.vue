@@ -16,10 +16,10 @@
       <h5 class="card-title">Cijena: {{ price }} KM</h5>
       <!-- <a href="#!" class="btn btn-primary"><router-link to="/articles/kucanskiAparati/1">Detalji</router-link></a> -->
       <!-- <h3 id="h3"><router-link to="/articles/kucanskiAparati/1">Detalji</router-link></h3>  -->
-      <button class="btn btn-primary" v-if="isLoggedIn" @click="updateCategory">
+      <button class="btn btn-primary" v-if="isLoggedIn" @click="updateArticle">
         Izmjeni
       </button>
-      <button class="btn btn-primary" v-if="isLoggedIn" @click="deleteCategory">
+      <button class="btn btn-primary" v-if="isLoggedIn" @click="deleteArticle">
         Izbriši
       </button>
       <h3 id="h3">
@@ -27,6 +27,9 @@
       </h3>
     </div>
   </div>
+  <hr>
+  <br>
+  <br>
 </template>
 
 <script>
@@ -46,7 +49,7 @@ export default {
   ],
 
   methods: {
-    deleteCategory() {
+    deleteArticle() {
       const articleData = {
         childrenKey: this.childrenKey,
         id: this.id,
@@ -71,7 +74,7 @@ export default {
         }
       }
     },
-    updateCategory() {
+    updateArticle() {
       this.$router.push({
         name: "new-article", // na pages NewArticle
         params: {
@@ -83,6 +86,7 @@ export default {
           describe: this.describe,
           name: this.name,
           price: this.price,
+          update: true,
         },
       });
     },
