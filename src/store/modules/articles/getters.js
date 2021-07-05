@@ -35,6 +35,7 @@ export default {
         return tmpCouterOfActiveCategory;
     },
     articles(state) {
+        console.log("POZVAO!!");
         return state.articles;
     },
     hasArticles(state){
@@ -42,4 +43,11 @@ export default {
         //console.log("BLA2: "+state.categories.length);
         return state.articles && state.articles.length > 0;
     },
+    getArticleById(state, id) {
+        for(var i = 0; i < state.articles.length; i++){
+            if(state.articles[i].id == id){
+                return state.articles[i];
+            }
+        }
+    }
 };

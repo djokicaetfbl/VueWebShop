@@ -23,13 +23,14 @@
         Izbriši
       </button>
       <h3 id="h3">
-        <router-link :to="articleDetailLink">Detalji</router-link>
+        <!-- <router-link :to="articleDetailLink">Detalji</router-link> -->
+        <button class="btn btn-primary" @click="articleDetails">Detalji</button>
       </h3>
     </div>
   </div>
-  <hr>
-  <br>
-  <br>
+  <hr />
+  <br />
+  <br />
 </template>
 
 <script>
@@ -87,6 +88,23 @@ export default {
           name: this.name,
           price: this.price,
           update: true,
+        },
+      });
+    },
+    articleDetails() {
+      this.$router.push({
+        name: "article-detail", // na pages NewArticle
+        params: {
+          childrenKey: this.childrenKey,
+          id: this.id,
+          category: this.category,
+          imageUrl: this.imageUrl,
+          active: false,
+          describe: this.describe,
+          name: this.name,
+          price: this.price,
+          update: true,
+          articleId: this.id,
         },
       });
     },

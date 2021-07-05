@@ -24,11 +24,11 @@ const router = createRouter({
         ]*/},
         //{ path: '/articles/:category/:id', component: ArticleDetail },
         
-        { path: '/articles/:category/articleDetail/:articleId', component: ArticleDetail },
+        { path: '/articles/:category/articleDetail/:articleId', component: ArticleDetail, name: 'article-detail' },
        
         //{ path: '/articles/:category/:' }
         { path: '/cart', component: Cart },
-        { path: '/newCategory', component: NewCategory, name: 'new-category' }, // ovaj name mi treba radi push kod slanja podataka u formu na drugoj ruti :D
+        { path: '/newCategory', component: NewCategory, name: 'new-category' }, // ovaj name mi treba radi push kod slanja podataka u formu na drugoj ruti :D, to je ona metoda update u CategoryItem
         { path: '/newArticle', component: NewArticle, name: 'new-article' },
         { path: '/auth', component: UserAuth, meta: {requiresUnauth: true} }, // hvali koda
         { path: '/registration', component: UserRegistration, meta: {requiresUnauth: true} },
