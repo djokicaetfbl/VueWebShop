@@ -132,10 +132,32 @@ export default {
   },
   created() {
     // ovo je za update
-    /*console.log("USAO ODJE BRE !");
-    console.log("OJJJJJ: " + JSON.stringify(this.$route.params));
-    this.article = this.getArticleById(JSON.stringify(this.$route.params.id));
-    console.log("ARTIKKLE: " + JSON.stringify(this.article));*/
+    /*console.log("USAO ODJE BRE !");*/
+    this.loadArticles();
+    //console.log("OJJJJJ: " + JSON.stringify(this.$route.params));
+   // this.article = this.getArticleById(JSON.stringify(this.$route.params.articleId));
+   //if(this.getArticleById(this.$route.params.articleId) !== undefined){
+     //console.log("DA RAZL. OD UNDEF.");
+     //this.article = this.getArticleById(this.$route.params.articleId);
+     //console.log("THIS ARTIKLE: "+this.article);
+  // } else {
+     //console.log("IPAK JE UNDEFINED!");
+   //  this.article = "";
+      //this.loadArticles();
+      //var articles = this.getArticles;
+     //console.log("ARTIKLESSSSSSSSS: "+JSON.stringify(articles));
+     //setTimeout(() => {  /*await*/ this.article = this.getArticleById(this.$route.params.articleId)}, 1500);
+      //this.article = this.getArticleById(this.$route.params.articleId);
+ //  }
+   // console.log("ARTIKKLE: " + JSON.stringify(this.article));
+    
+    /*if(this.article === undefined){
+      console.log("DA UNDEFINED!");
+      this.article = "";
+      this.loadArticles();
+      this.article = this.getArticleById(JSON.stringify(this.$route.params.articleId));
+    }*/
+    /*
     if (
       this.$route.params.childrenKey && // ovo primam msm preko onog new-category
       this.$route.params.id &&
@@ -157,11 +179,7 @@ export default {
       this.name.val = this.$route.params.name;
       this.price.val = this.$route.params.price;
       this.describe.val = this.$route.params.describe;
-      //this.image.val = "123";
-      //this.loadArticleDetail();
-      //this.article = this.getArticleById();
-      //console.log("ARTICLE: "+this.article);
-    }
+    }*/
 
     //this.article = this.getArticleById(this.$route.params.articleId);
   },
@@ -180,19 +198,31 @@ export default {
     },
     addArticleToCart() {},
     
-    /*getArticleById: function (id) {
+    getArticleById: function (id) {
       //return this.getCategories.slice(start, end);
       var articles = this.getArticles;
-      console.log("ARTICLESSS: "+JSON.stringify(articles));
-      console.log("IDD: " + id);
+      //console.log("ARTICLESSS: "+JSON.stringify(articles));
+     console.log("IDD: " + id);
       //console.log("ARTICLES LENGTH: "+articles.length);
       for (var i = 0; i < articles.length; i++) {
         console.log("TMP: "+articles[i].id.toString().trim());
-        if (articles[i].id.toString().trim().localeCompare(this.id.toString().trim())) {
+        if (articles[i].id.toString().trim().localeCompare(id.toString().trim()) === 0) {
+          console.log("NASAO GA !!");
           return articles[i];
         }
-      }*
-    },*/
+      }
+    },
+
+    async loadArticles() {
+      try {
+       // setTimeout(() => {  /*await*/ this.$store.dispatch("article/fetchCategories"); }, 2000); // sa ovim sam rijesio problem kad mi se vrati sadrzaj nakon 1 sekunde :D
+        await this.$store.dispatch("article/fetchArticles",this.$route.params.category);
+        //console.log("DJOLENCE!");
+      } catch (error) {
+        this.error = error.message || "Something failed!";
+      }
+      this.article = this.getArticleById(this.$route.params.articleId);
+    },
 
     /*getArticleById() {
       console.log("PERO");

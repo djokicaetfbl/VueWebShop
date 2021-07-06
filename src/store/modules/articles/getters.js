@@ -35,7 +35,7 @@ export default {
         return tmpCouterOfActiveCategory;
     },
     articles(state) {
-        console.log("POZVAO!!");
+        console.log("POZVAO: "+state.articles);
         return state.articles;
     },
     hasArticles(state){

@@ -233,7 +233,7 @@ export default {
 
     async fetchArticles(context, categoryName) {
 
-        // console.log("CATEGORY NAME: "+categoryName);
+         //console.log("CATEGORY NAME: "+categoryName.toString().trim());
 
         const response = await fetch('https://webshopvuediplomski-default-rtdb.europe-west1.firebasedatabase.app/articles.json');
         // samo autentikovani korisnici mogu da vide svoje zahtjeve json?auth=` + token
@@ -249,6 +249,7 @@ export default {
             let article;
 
             for (const key in responseData) {
+                //console.log("JEDAN");
                 article = {
                     childrenKey: key, // potreban za update, da znam kako da pristupim children-u u stablu na firebase-u
                     id: responseData[key].id,
@@ -259,12 +260,15 @@ export default {
                     describe: responseData[key].describe,
                     category: responseData[key].category
                 };
-                //console.log("CATEGORY: " + JSON.stringify(category));
+                //console.log("CATEGORY: " + JSON.stringify(article.category));
                 //console.log("PROCITANA KATEGORIJA: "+category.id);
                 //console.log("HH: "+article.category);
+                //console.log("ACTIVE: "+article.active);
+                //console.log("CATEGORY: "+article.category.toString().trim());
+               // console.log("CATEGORY NAME: "+categoryName.toString().trim());
                 if (article.active && article.category.toString().trim()
                     === categoryName.toString().trim()) {
-                    // console.log("DA");
+                    console.log("DA");
                     articles.push(article);
                 }
             }
