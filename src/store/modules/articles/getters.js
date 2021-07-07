@@ -35,7 +35,6 @@ export default {
         return tmpCouterOfActiveCategory;
     },
     articles(state) {
-        console.log("POZVAO: "+state.articles);
         return state.articles;
     },
     hasArticles(state){
@@ -49,5 +48,11 @@ export default {
                 return state.articles[i];
             }
         }
-    }
+    },
+    cart(state) {
+        return state.cart;
+    },
+    updateCart(state, data){
+        state.cart = data;
+    },
 };

@@ -268,7 +268,7 @@ export default {
                // console.log("CATEGORY NAME: "+categoryName.toString().trim());
                 if (article.active && article.category.toString().trim()
                     === categoryName.toString().trim()) {
-                    console.log("DA");
+                   // console.log("DA");
                     articles.push(article);
                 }
             }
@@ -277,9 +277,12 @@ export default {
             //console.log("CATEGORIES LENGTH: " + categories[0].id);
 
 
-            context.commit('setArticles', articles) // ovo kreiramo u mutations.js
+            context.commit('setArticles', articles); // ovo kreiramo u mutations.js
 
         }
+    },
+    setCart(context, data) {
+        context.commit('setCart', data);
     }
 
 };

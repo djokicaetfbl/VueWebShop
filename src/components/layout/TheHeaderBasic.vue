@@ -2,7 +2,7 @@
   <header style="height: 100%">
     <MDBNavbarItem>
       <router-link to="/cart"
-        ><span class="badge badge-pill bg-danger">1</span>
+        ><span class="badge badge-pill bg-danger">{{ this.getCart.length }}</span>
         <span><MDBIcon icon="shopping-cart" size="2x"></MDBIcon></span
       ></router-link>
     </MDBNavbarItem>
@@ -61,8 +61,8 @@ export default {
   },
 
   setup() {
-      const dropdown3 = ref(false);
-      return {
+    const dropdown3 = ref(false);
+    return {
       dropdown3,
     };
   },
@@ -70,6 +70,9 @@ export default {
   computed: {
     isLoggedIn() {
       return this.$store.getters.isAuthenticated;
+    },
+    getCart() {
+      return this.$store.getters["article/cart"];
     },
   },
   methods: {
@@ -82,12 +85,11 @@ export default {
 </script>
 
 <style>
-
 #bla {
   height: 100%;
 }
 
-.form-outline{
+.form-outline {
   width: 35%;
 }
 

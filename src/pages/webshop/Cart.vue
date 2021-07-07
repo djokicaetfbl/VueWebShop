@@ -14,57 +14,23 @@
       </thead>
 
       <tbody>
-        <tr>
-          <th scope="row">
-            <div class="row">
-              <div class="column">
-                <div class="card">
-                  <img
-                    src="https://mdbootstrap.com/img/new/standard/nature/184.jpg"
-                    class="card-img-top"
-                    alt="..."
-                    style="max-height: 300px"
-                  />
-                </div>
-              </div>
-              <div class="card-body">
-                <p>Naziv artikla</p>
-              </div>
-            </div>
-          </th>
-          <th scope="row">
-            <MDBBtn color="danger">Ukloni</MDBBtn>
-          </th>
-          <th scope="row">Kolicina</th>
-          <th>Cijena</th>
-        </tr>
-        <!-- kraj reda -->
-        <tr>
-          <th scope="row">
-            <div class="row">
-              <div class="column">
-                <div class="card">
-                  <img
-                    src="https://mdbootstrap.com/img/new/standard/nature/184.jpg"
-                    class="card-img-top"
-                    alt="..."
-                    style="max-height: 300px"
-                  />
-                </div>
-              </div>
-              <div class="card-body">
-                <p>Naziv artikla</p>
-              </div>
-            </div>
-          </th>
-          <th scope="row">
-            <MDBBtn color="danger">Ukloni</MDBBtn>
-          </th>
-          <th scope="row">Kolicina</th>
-          <th>Cijena</th>
-        </tr>
+        <cart-item
+          v-for="article in getCart"
+          :key="article.id"
+          :childrenKey="article.childrenKey"
+          :name="article.name"
+          :imageUrl="article.imageUrl"
+          :describe="article.describe"
+          :price="article.price"
+          :category="article.category"
+          :active="article.active"
+          :id="article.id"
+          :quantity="article.quantity"
+        ></cart-item>
       </tbody>
     </MDBTable>
+
+    <h2>Ukupno: {{ getSummaryPriceXQuantity }}KM</h2>
 
     <MDBBtn color="success" @click="buy">Kupi</MDBBtn>
   </base-card>
@@ -73,26 +39,30 @@
 <script>
 import TheHeader from "../../components/layout/TheHeader.vue";
 import BaseCard from "../../components/ui/BaseCard.vue";
+import CartItem from "../../components/article/CartItem.vue";
 import { MDBTable, MDBBtn } from "mdb-vue-ui-kit";
 export default {
-  components: { TheHeader, BaseCard, MDBTable, MDBBtn },
+  components: { TheHeader, BaseCard, CartItem, MDBTable, MDBBtn },
   data() {
     return {
       isLoading: false,
       error: null,
+      summaryPriceXQuantity: 0.0,
     };
   },
   methods: {
     buy() {
       console.log("KUPI!");
+      console.log("THIS GET CART" + JSON.stringify(this.getCart).length);
 
-      if (this.isLoggedIn) {
-
-          console.log("Iznos, Uspjesna kupovina :D");
-
-      } else {
-        console.log("KUPI!");
+      /*var articles = this.getCart;
+      var tmpSum = 0.0;
+      for (var i = 0; i < articles.length; i++) {
+        var parseDecimalSum =
+          parseFloat(articles[i].price) * parseInt(articles[i].quantity);
+        tmpSum = tmpSum + parseDecimalSum;
       }
+      this.summaryPriceXQuantity = tmpSum;*/
     },
     handleError() {
       this.error = null;
@@ -104,6 +74,19 @@ export default {
       return this.$store.getters.isAuthenticated;
       // return this.isLoading;
     },
+    getCart() {
+      return this.$store.getters["article/cart"];
+    },
+   getSummaryPriceXQuantity(){
+      var articles = this.getCart;
+      var tmpSum = 0.0;
+      for(var i = 0 ; i < articles.length; i++){
+        var parseDecimalSum = parseFloat(articles[i].price) * parseInt(articles[i].quantity);
+        tmpSum = tmpSum + parseDecimalSum;
+      }
+      //this.summaryPriceXQuantity = tmpSum;
+      return tmpSum;
+    }
   },
 };
 </script>

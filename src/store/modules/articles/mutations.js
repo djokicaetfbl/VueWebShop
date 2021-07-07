@@ -14,9 +14,11 @@ export default {
     updateCategories(state, number, payload){
         state.categories[number] = payload;
     },
-
     newArticle(state, payload) {
         state.articles.push(payload);
-    }
+    },
+    setCart(state, payload){
+        state.cart = payload;
+    },
 
 };

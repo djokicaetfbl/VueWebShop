@@ -10,7 +10,6 @@
     <div class="card-body">
       <h5 class="card-title">{{ name }}</h5>
       <p class="card-text">
-        2
         {{ describe }}
       </p>
       <h5 class="card-title">Cijena: {{ price }} KM</h5>

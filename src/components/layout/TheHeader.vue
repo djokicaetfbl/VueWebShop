@@ -2,7 +2,7 @@
   <header style="height: 100%">
     <MDBNavbarItem>
       <router-link to="/cart"
-        ><span class="badge badge-pill bg-danger">1</span>
+        ><span class="badge badge-pill bg-danger">{{ this.getCart.length? this.getCart.length : 0}}</span>
         <span><MDBIcon icon="shopping-cart" size="2x"></MDBIcon></span
       ></router-link>
     </MDBNavbarItem>
@@ -127,6 +127,9 @@ export default {
     getCategories() {
       //console.log("DOBIO SAM: "+JSON.stringify(this.$store.getters["article/categories"]));
       return this.$store.getters["article/categories"];
+    },
+    getCart() {
+      return this.$store.getters["article/cart"];
     },
   },
   methods: {

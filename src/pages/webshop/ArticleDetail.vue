@@ -4,12 +4,6 @@
     <div class="row">
       <div class="column">
         <div class="card">
-          <!-- <img
-            :src="imageUrl"
-            class="card-img-top"
-            alt="..."
-            style="max-height: 300px"
-          />  -->
           <img
             :src="article.imageUrl"
             class="card-img-top"
@@ -99,10 +93,6 @@ export default {
         val: "",
         isValid: true,
       },
-      /*category: {
-        val: ["Racunari", "Roboti", "Automobili", "Avioni"],
-        isValid: true,
-      },*/
       category: {
         val: "",
         isValid: true,
@@ -128,65 +118,12 @@ export default {
       update: false,
       counter: 1,
       article: "",
+      cart: [],
     };
   },
   created() {
-    // ovo je za update
-    /*console.log("USAO ODJE BRE !");*/
     this.loadArticles();
-    //console.log("OJJJJJ: " + JSON.stringify(this.$route.params));
-   // this.article = this.getArticleById(JSON.stringify(this.$route.params.articleId));
-   //if(this.getArticleById(this.$route.params.articleId) !== undefined){
-     //console.log("DA RAZL. OD UNDEF.");
-     //this.article = this.getArticleById(this.$route.params.articleId);
-     //console.log("THIS ARTIKLE: "+this.article);
-  // } else {
-     //console.log("IPAK JE UNDEFINED!");
-   //  this.article = "";
-      //this.loadArticles();
-      //var articles = this.getArticles;
-     //console.log("ARTIKLESSSSSSSSS: "+JSON.stringify(articles));
-     //setTimeout(() => {  /*await*/ this.article = this.getArticleById(this.$route.params.articleId)}, 1500);
-      //this.article = this.getArticleById(this.$route.params.articleId);
- //  }
-   // console.log("ARTIKKLE: " + JSON.stringify(this.article));
-    
-    /*if(this.article === undefined){
-      console.log("DA UNDEFINED!");
-      this.article = "";
-      this.loadArticles();
-      this.article = this.getArticleById(JSON.stringify(this.$route.params.articleId));
-    }*/
-    /*
-    if (
-      this.$route.params.childrenKey && // ovo primam msm preko onog new-category
-      this.$route.params.id &&
-      this.$route.params.name &&
-      this.$route.params.imageUrl &&
-      this.$route.params.active &&
-      this.$route.params.describe &&
-      this.$route.params.price &&
-      this.$route.params.category &&
-      this.$route.params.update
-    ) {
-      console.log("DADADA! BRE" + this.$route.params.category);
-      this.category.val = this.$route.params.category;
-      this.imageUrl.val = this.$route.params.imageUrl;
-      this.id = this.$route.params.id;
-      this.active = this.$route.params.active;
-      this.childrenKey.val = this.$route.params.childrenKey;
-      this.update = this.$route.params.update;
-      this.name.val = this.$route.params.name;
-      this.price.val = this.$route.params.price;
-      this.describe.val = this.$route.params.describe;
-    }*/
-
-    //this.article = this.getArticleById(this.$route.params.articleId);
   },
-  /* mounted() {
-      this.article = this.getArticleById(this.id);
-      console.log("ARTIKKLE: "+JSON.stringify(this.article));
-  },*/
   methods: {
     addQuantity() {
       this.counter = this.counter + 1;
@@ -196,18 +133,43 @@ export default {
         this.counter = this.counter - 1;
       }
     },
-    addArticleToCart() {},
+    addArticleToCart() {
+      console.log("W");
+      var tmpArticleWasChosen = false;
+      this.cart = this.getCart;
+      var articleToBuy = { "id": this.article.id ,"name" : this.article.name, "describe" : this.article.describe, "category" : this.article.category ,"price" : this.article.price, "imageUrl" : this.article.imageUrl, "quantity": this.counter };
+      console.log("FAK: "+this.cart.length );
+      if(this.cart.length > 0){
+      for(var i = 0; i <  this.cart.length; i++){
+        if(this.cart[i].id.toString().trim().localeCompare(articleToBuy.id.toString().trim()) === 0 
+        && parseInt(this.cart[i].quantity.toString().trim()) !== parseInt(articleToBuy.quantity) ) {
+        tmpArticleWasChosen = true;
+        console.log("A: "+this.cart[i].quantity);
+        console.log("A2B: "+articleToBuy.quantity);
+          var tmpQuantinityInteger = parseInt(this.cart[i].quantity.toString().trim());
+          var tmpQuantinityIntegerA2B = parseInt(articleToBuy.quantity.toString().trim());
+          tmpQuantinityInteger = tmpQuantinityInteger + tmpQuantinityIntegerA2B;
+          var tmpQuantinityString = tmpQuantinityInteger.toString().trim();
+          this.cart[i].quantity = tmpQuantinityString;
+          console.log("QA: "+this.cart[i].quantity);
+        }
+      }
+      if(!tmpArticleWasChosen) {
+        this.cart.push(articleToBuy); 
+      }
+      } else {
+        console.log("DODAO2!");
+        this.cart.push(articleToBuy);
+      }
+      //this.cart.push(articleToBuy);
+      this.counter = 1;
+      this.$store.dispatch("article/setCart",this.cart);
+    },
     
     getArticleById: function (id) {
-      //return this.getCategories.slice(start, end);
       var articles = this.getArticles;
-      //console.log("ARTICLESSS: "+JSON.stringify(articles));
-     console.log("IDD: " + id);
-      //console.log("ARTICLES LENGTH: "+articles.length);
       for (var i = 0; i < articles.length; i++) {
-        console.log("TMP: "+articles[i].id.toString().trim());
         if (articles[i].id.toString().trim().localeCompare(id.toString().trim()) === 0) {
-          console.log("NASAO GA !!");
           return articles[i];
         }
       }
@@ -215,37 +177,22 @@ export default {
 
     async loadArticles() {
       try {
-       // setTimeout(() => {  /*await*/ this.$store.dispatch("article/fetchCategories"); }, 2000); // sa ovim sam rijesio problem kad mi se vrati sadrzaj nakon 1 sekunde :D
         await this.$store.dispatch("article/fetchArticles",this.$route.params.category);
-        //console.log("DJOLENCE!");
       } catch (error) {
         this.error = error.message || "Something failed!";
       }
       this.article = this.getArticleById(this.$route.params.articleId);
     },
-
-    /*getArticleById() {
-      console.log("PERO");
-      //return this.$store.getters[("article/getArticleById", this.id)];
-    },*/
-    /* async loadArticleDetail() {
-      this.isLoading = true;
-      try {
-        await this.$store.dispatch("article/fetchArticleById", this.id);
-      } catch (error) {
-        this.error = error.message || "Something failed!";
-      }
-      this.isLoading = false;
-
-    }*/
   },
   computed: {
     getCounter() {
       return this.counter;
     },
     getArticles() {
-      //console.log("DOBIO SAM: "+JSON.stringify(this.$store.getters["article/categories"]));
       return this.$store.getters["article/articles"];
+    },
+    getCart() {
+      return this.$store.getters["article/cart"]; 
     },
   },
 };
@@ -256,15 +203,14 @@ export default {
   box-sizing: border-box;
 }
 
-/* Create two equal columns that floats next to each other */
+
 .column {
   float: left;
   width: 50%;
   padding: 10px;
-  height: 300px; /* Should be removed. Only for demonstration */
+  height: 300px; 
 }
 
-/* Clear floats after the columns */
 .row:after {
   content: "";
   display: table;
