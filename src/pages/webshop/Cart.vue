@@ -32,7 +32,35 @@
 
     <h2>Ukupno: {{ getSummaryPriceXQuantity }}KM</h2>
 
-    <MDBBtn color="success" @click="buy">Kupi</MDBBtn>
+    <MDBBtn v-if="getCartLength > 0"
+      color="primary"
+      aria-controls="buyModal"
+      @click="
+        buyModal = true
+      "
+      >Kupi</MDBBtn
+    >
+    <MDBModal
+      id="buyModal"
+      tabindex="-1"
+      labelledby="buyModalLabel"
+      v-model="buyModal"
+    >
+      <MDBModalHeader>
+        <MDBModalTitle id="buyModalLabel"> Uspješna kupovina </MDBModalTitle>
+      </MDBModalHeader>
+      <MDBModalBody>
+        <p>
+          Kupovina u iznosu {{ getSummaryPriceXQuantity }} KM je uspješno
+          obavljena.
+        </p>
+        <p>Hvala Vam na kupovini!</p>
+      </MDBModalBody>
+      <MDBModalFooter>
+        <MDBBtn color="secondary" @click="buyModal = false; clearCart();">Zatvori</MDBBtn>
+        <!-- <MDBBtn color="primary">Save changes</MDBBtn>  -->
+      </MDBModalFooter>
+    </MDBModal>
   </base-card>
 </template>
 
@@ -40,9 +68,36 @@
 import TheHeader from "../../components/layout/TheHeader.vue";
 import BaseCard from "../../components/ui/BaseCard.vue";
 import CartItem from "../../components/article/CartItem.vue";
-import { MDBTable, MDBBtn } from "mdb-vue-ui-kit";
+import {
+  MDBTable,
+  MDBBtn,
+  MDBModal,
+  MDBModalHeader,
+  MDBModalTitle,
+  MDBModalBody,
+  MDBModalFooter,
+} from "mdb-vue-ui-kit";
+import { ref } from "vue";
 export default {
-  components: { TheHeader, BaseCard, CartItem, MDBTable, MDBBtn },
+  components: {
+    TheHeader,
+    BaseCard,
+    CartItem,
+    MDBTable,
+    MDBBtn,
+    MDBModal,
+    MDBModalHeader,
+    MDBModalTitle,
+    MDBModalBody,
+    MDBModalFooter,
+  },
+  setup() {
+    const buyModal = ref(false);
+
+    return {
+      buyModal,
+    };
+  },
   data() {
     return {
       isLoading: false,
@@ -51,18 +106,11 @@ export default {
     };
   },
   methods: {
-    buy() {
-      console.log("KUPI!");
-      console.log("THIS GET CART" + JSON.stringify(this.getCart).length);
-
-      /*var articles = this.getCart;
-      var tmpSum = 0.0;
-      for (var i = 0; i < articles.length; i++) {
-        var parseDecimalSum =
-          parseFloat(articles[i].price) * parseInt(articles[i].quantity);
-        tmpSum = tmpSum + parseDecimalSum;
-      }
-      this.summaryPriceXQuantity = tmpSum;*/
+    clearCart() {
+      var cart = this.getCart;
+      cart = [];
+      this.$store.dispatch("article/setCart", cart);
+      this.$router.replace("/articles");
     },
     handleError() {
       this.error = null;
@@ -70,22 +118,23 @@ export default {
   },
   computed: {
     isLoggedIn() {
-      //this.isLoading = this.$store.getters.isAuthenticated;
       return this.$store.getters.isAuthenticated;
-      // return this.isLoading;
     },
     getCart() {
       return this.$store.getters["article/cart"];
     },
-   getSummaryPriceXQuantity(){
+    getSummaryPriceXQuantity() {
       var articles = this.getCart;
       var tmpSum = 0.0;
-      for(var i = 0 ; i < articles.length; i++){
-        var parseDecimalSum = parseFloat(articles[i].price) * parseInt(articles[i].quantity);
+      for (var i = 0; i < articles.length; i++) {
+        var parseDecimalSum =
+          parseFloat(articles[i].price) * parseInt(articles[i].quantity);
         tmpSum = tmpSum + parseDecimalSum;
       }
-      //this.summaryPriceXQuantity = tmpSum;
       return tmpSum;
+    },
+    getCartLength() {
+      return this.getCart.length;
     }
   },
 };

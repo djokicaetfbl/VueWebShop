@@ -46,23 +46,22 @@
         type="search"
         class="form-control"
         placeholder="Unesite naziv artikla"
+        v-model.trim="articleName"
       />
       <label class="form-label" for="form1">Pretraži</label>
     </div>
-    <button type="button" class="btn btn-primary">
-      <i class="fas fa-search"></i>
-    </button>
-    <!-- <vue-select
-      class="selectedOptions"
-      v-model="selectedOptions"
-      :options="options"
-      close-on-select
-    ></vue-select>  -->
+
+    <!--
     <select name="category" id="category" class="selectCategory">
       <option v-for="item in getCategories" :value="item" :key="item.id">
         {{ item.categoryName }}
       </option>
     </select>
+    -->
+    <input type="text" :value="this.category"  readonly style="width: 20%">
+        <button type="button" class="btn btn-primary" @click="searchArticle">
+      <i class="fas fa-search"></i>
+    </button>
   </div>
 </template>
 
@@ -84,6 +83,15 @@ import {
 import { ref } from "vue";
 
 export default {
+  data() {
+    return {
+      category: "",
+      articleName: "",
+    }
+  },
+  created() {
+    this.category = this.$route.params.category;
+  },
   components: {
     MDBIcon,
     //MDBNavbar,
@@ -137,6 +145,11 @@ export default {
       this.$store.dispatch("logout");
       this.$router.replace("/articles");
     },
+    async searchArticle() {
+      console.log("ARTIKLE NAME: "+this.articleName);
+      const payload= {category: this.category, articleName: this.articleName};
+      await this.$store.dispatch("article/fetchArticleByName", payload);
+    }
   },
 };
 

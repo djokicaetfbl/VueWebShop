@@ -9,13 +9,13 @@
          <!-- <router-link to="/articles/{{ categoryName}}">{{
             categoryName
           }}</router-link>  -->
-          <router-link :to="coachDetailsLink">{{
+          <router-link :to="categoryDetailsLink">{{
             categoryName
           }}</router-link> 
           <br />
           <br />
           <button
-            id="deleteCategory"
+            id="updateCategory"
             class="btn btn-primary"
             v-if="isLoggedIn"
             @click="updateCategory()"
@@ -120,7 +120,7 @@ export default {
     currentScreenWidth() {
       return this.screenWidth;
     },
-    coachDetailsLink() {
+    categoryDetailsLink() {
       return this.$route.path + "/" + this.categoryName;
     },
   },
@@ -141,10 +141,21 @@ export default {
   width: 100%;
 }
 
+a {
+  font-size: 20px;
+}
+
 .responsive {
   width: 300px;
   height: 200px;
 }
+#deleteCategory {
+  background-color: #F93154;
+} 
+
+#updateCategory {
+  background-color: #39C0ED;
+} 
 
 .responsiveForMobile {
   width: 60px;

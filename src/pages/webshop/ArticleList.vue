@@ -1,6 +1,9 @@
 <template>
   <the-header></the-header>
   <br />
+  <div v-if="isLoading">
+    <base-spinner></base-spinner>
+  </div>
   <button
     v-if="isLoggedIn"
     type="button"
@@ -63,6 +66,7 @@ export default {
     const route = useRoute(); // use route da uzmem vrijednost rute
     return {
       categoryName: route.params.category, // ovo category je u router.js :category
+      isLoading: false,
     };
   },
 
@@ -72,18 +76,24 @@ export default {
   },
 
   methods: {
-    loadArticles() {
-
+    async loadArticles() {
       //console.log("DJOLENCE: "+this.categoryName);
       this.isLoading = true;
       try {
-        setTimeout(() => {  /*await*/ this.$store.dispatch("article/fetchArticles", this.categoryName); }, 2000); // sa ovim sam rijesio problem kad mi se vrati sadrzaj nakon 1 sekunde :D
-        //await this.$store.dispatch("article/fetchCategories");
+       /* setTimeout(() => {
+          this.$store.dispatch(
+            "article/fetchArticles",
+            this.categoryName
+          );
+          this.isLoading = false;
+        }, 2000);*/ // sa ovim sam rijesio problem kad mi se vrati sadrzaj nakon 1 sekunde :D
+        await this.$store.dispatch("article/fetchArticles", this.categoryName);
+        this.isLoading = false;
         //console.log("DJOLENCE!");
       } catch (error) {
         this.error = error.message || "Something failed!";
       }
-      this.isLoading = false;
+      
     },
     handleError() {
       this.error = null;

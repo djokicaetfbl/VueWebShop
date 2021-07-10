@@ -134,31 +134,31 @@ export default {
       }
     },
     addArticleToCart() {
-      console.log("W");
+      //console.log("W");
       var tmpArticleWasChosen = false;
       this.cart = this.getCart;
       var articleToBuy = { "id": this.article.id ,"name" : this.article.name, "describe" : this.article.describe, "category" : this.article.category ,"price" : this.article.price, "imageUrl" : this.article.imageUrl, "quantity": this.counter };
-      console.log("FAK: "+this.cart.length );
+      //console.log("FAK: "+this.cart.length );
       if(this.cart.length > 0){
       for(var i = 0; i <  this.cart.length; i++){
         if(this.cart[i].id.toString().trim().localeCompare(articleToBuy.id.toString().trim()) === 0 
         && parseInt(this.cart[i].quantity.toString().trim()) !== parseInt(articleToBuy.quantity) ) {
         tmpArticleWasChosen = true;
-        console.log("A: "+this.cart[i].quantity);
-        console.log("A2B: "+articleToBuy.quantity);
+        //console.log("A: "+this.cart[i].quantity);
+        //console.log("A2B: "+articleToBuy.quantity);
           var tmpQuantinityInteger = parseInt(this.cart[i].quantity.toString().trim());
           var tmpQuantinityIntegerA2B = parseInt(articleToBuy.quantity.toString().trim());
           tmpQuantinityInteger = tmpQuantinityInteger + tmpQuantinityIntegerA2B;
           var tmpQuantinityString = tmpQuantinityInteger.toString().trim();
           this.cart[i].quantity = tmpQuantinityString;
-          console.log("QA: "+this.cart[i].quantity);
+          //console.log("QA: "+this.cart[i].quantity);
         }
       }
       if(!tmpArticleWasChosen) {
         this.cart.push(articleToBuy); 
       }
       } else {
-        console.log("DODAO2!");
+        //console.log("DODAO2!");
         this.cart.push(articleToBuy);
       }
       //this.cart.push(articleToBuy);

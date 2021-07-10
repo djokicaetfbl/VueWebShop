@@ -1,8 +1,10 @@
 <template id="bla">
   <div>
-    <the-header></the-header>
+    <the-header-basic></the-header-basic>
     <br />
-    <!-- BLA {{ getCategoriesListSize }}  -->
+    <div v-if="isLoading">
+      <base-spinner></base-spinner>
+    </div>
     <div
       v-if="
         currentScreenWidth > currentWidth &&
@@ -649,16 +651,17 @@
 
 
 <script>
-import TheHeader from "../../components/layout/TheHeader.vue";
+import TheHeaderBasic from "../../components/layout/TheHeaderBasic.vue";
 import CategoryItem from "../../components/article/CategoryItem.vue";
 import { MDBListGroup } from "mdb-vue-ui-kit";
 
 export default {
-  components: { TheHeader, CategoryItem, MDBListGroup },
+  components: { TheHeaderBasic, CategoryItem, MDBListGroup },
   data() {
     return {
       screenWidth: window.innerWidth,
       currentWidth: 411,
+      isLoading: false,
     };
   },
   created() {
