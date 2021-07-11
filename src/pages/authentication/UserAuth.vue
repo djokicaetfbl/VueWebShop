@@ -12,22 +12,26 @@
       <!-- !! true or false convert to Boolean -->
       <p>{{ error }}</p>
     </base-dialog>
-    <base-dialog :show="isLoading" title="Authenticating..." fixed>
+    <base-dialog :show="isLoading" title="Autentikacija..." fixed>
       <p>Authenticating...</p>
       <base-spinner></base-spinner>
     </base-dialog>
     <base-card>
+      <h2>Prijava korisnika</h2>
+      <hr>
     <form @submit.prevent="submitForm">
   <!-- Email input -->
   <div class="form-outline mb-4" >
-    <span class="badge bg-primary" for="email">Email adresa</span>
+    <!-- <span class="badge bg-primary" for="email">Email adresa</span>   -->
+    <label class="labelEmail" for="lastName">Email</label>
     <input type="email" name="email" id="email" class="form-control" v-model.trim="email" placeholder="Email" />
     <!-- <label class="form-label" for="email">Email address</label>  -->
   </div>
 
   <!-- Password input -->
   <div class="form-outline mb-4">
-    <span class="badge bg-primary" for="password">Lozinka</span>
+    <!-- <span class="badge bg-primary" for="password">Lozinka</span> -->
+    <label class="labelPassword" for="password">Password</label>
     <input type="password" id="password" class="form-control" v-model.trim="password" placeholder="Lozinka"/>
     <!-- <label class="form-label" for="password">Password</label>  -->
   </div>
@@ -54,7 +58,7 @@
   </div>
 
   <!-- Submit button -->
-  <button type="submit" class="btn btn-primary btn-block" id="signIn">Sign in</button>
+  <button type="submit" class="btn btn-primary btn-block" id="signIn">Prijava</button>
 </form>
     </base-card>
   </div>
@@ -116,6 +120,13 @@ export default {
 
 <style scoped>
 
+.labelEmail,
+.labelPassword {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1266f1;
+}
+
 #email {
   border: 2px solid #1266f1;
 }
@@ -141,6 +152,10 @@ form {
   /*border: 1px solid #ccc;*/
   border-radius: 12px;
   padding: 1rem;
+}
+
+#signIn {
+  font-size: 20px;
 }
 
 .form-control {

@@ -5,7 +5,7 @@
       :src="imageUrl"
       class="card-img-top"
       alt="..."
-      style="max-height: 300px"
+      style="max-height: 300px; max-width: 500px;"
     />
     <div class="card-body">
       <h5 class="card-title">{{ name }}</h5>
@@ -15,15 +15,15 @@
       <h5 class="card-title">Cijena: {{ price }} KM</h5>
       <!-- <a href="#!" class="btn btn-primary"><router-link to="/articles/kucanskiAparati/1">Detalji</router-link></a> -->
       <!-- <h3 id="h3"><router-link to="/articles/kucanskiAparati/1">Detalji</router-link></h3>  -->
-      <button class="btn btn-primary" v-if="isLoggedIn" @click="updateArticle">
+      <button id="updateArticle" class="btn btn-primary" v-if="isLoggedIn" @click="updateArticle">
         Izmjeni
       </button>
-      <button class="btn btn-primary" v-if="isLoggedIn" @click="deleteArticle">
+      <button id="deleteArticle" class="btn btn-primary" v-if="isLoggedIn" @click="deleteArticle">
         Izbriši
       </button>
       <h3 id="h3">
         <!-- <router-link :to="articleDetailLink">Detalji</router-link> -->
-        <button class="btn btn-primary" @click="articleDetails">Detalji</button>
+        <button id="articleDetails" class="btn btn-primary" @click="articleDetails">Detalji</button>
       </h3>
     </div>
   </div>
@@ -130,5 +130,17 @@ export default {
 .btn.btn-primary {
   font-size: 20px;
   margin: 20px;
+}
+
+#updateArticle {
+  background-color: #39C0ED;
+}
+
+#deleteArticle{
+  background-color: #F93154;
+}
+
+#articleDetails{
+  background-color: #B23CFD;
 }
 </style>

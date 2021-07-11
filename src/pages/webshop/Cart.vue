@@ -1,15 +1,15 @@
 <template>
-  <the-header></the-header>
+  <the-header-basic></the-header-basic>
 
   <h1 id="korpa">Korpa</h1>
   <base-card>
     <MDBTable>
       <thead class="table-light">
         <tr>
-          <th scope="col">Proizvod</th>
-          <th scope="col">Ukloni</th>
-          <th scope="col">Kolicina</th>
-          <th scope="col">Cijena</th>
+          <th scope="col" id="columnProizvod">Proizvod</th>
+          <th scope="col" id="columnUkloni">Ukloni</th>
+          <th scope="col" id="columnKolicina">Količina</th>
+          <th scope="col" id="columnCijena">Cijena</th>
         </tr>
       </thead>
 
@@ -30,9 +30,11 @@
       </tbody>
     </MDBTable>
 
-    <h2>Ukupno: {{ getSummaryPriceXQuantity }}KM</h2>
+    <h1 class="SummaryCartAmount">Ukupno: {{ getSummaryPriceXQuantity }} KM</h1>
+    <br>
 
     <MDBBtn v-if="getCartLength > 0"
+      id="byAllArticlesFromCart"
       color="primary"
       aria-controls="buyModal"
       @click="
@@ -57,7 +59,7 @@
         <p>Hvala Vam na kupovini!</p>
       </MDBModalBody>
       <MDBModalFooter>
-        <MDBBtn color="secondary" @click="buyModal = false; clearCart();">Zatvori</MDBBtn>
+        <MDBBtn color="secondary" @click="buyModal = false; clearCart();">Potvrdi</MDBBtn>
         <!-- <MDBBtn color="primary">Save changes</MDBBtn>  -->
       </MDBModalFooter>
     </MDBModal>
@@ -65,7 +67,7 @@
 </template>
 
 <script>
-import TheHeader from "../../components/layout/TheHeader.vue";
+import TheHeaderBasic from "../../components/layout/TheHeaderBasic.vue";
 import BaseCard from "../../components/ui/BaseCard.vue";
 import CartItem from "../../components/article/CartItem.vue";
 import {
@@ -80,7 +82,7 @@ import {
 import { ref } from "vue";
 export default {
   components: {
-    TheHeader,
+    TheHeaderBasic,
     BaseCard,
     CartItem,
     MDBTable,
@@ -167,5 +169,20 @@ td {
 
 tr {
   line-height: 1px;
+}
+
+#columnProizvod, #columnUkloni,#columnKolicina, #columnCijena {
+  font-size: 23px;
+}
+
+#byAllArticlesFromCart {
+  align-self: center;
+  width: 50%;
+  background-color: #00B74A;
+  font-size: 24px;
+}
+
+.SummaryCartAmount {
+  font-weight: bold;
 }
 </style>

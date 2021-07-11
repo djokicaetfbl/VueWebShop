@@ -20,15 +20,15 @@
             <MDBIcon icon="user" size="3x" />
           </MDBDropdownToggle>
           <MDBDropdownMenu>
-            <MDBDropdownItem v-if="!isLoggedIn"
+            <MDBDropdownItem v-if="!isLoggedIn" id="dropdwonItemLogin"
               ><router-link to="/auth">Login</router-link></MDBDropdownItem
             >
-            <MDBDropdownItem v-if="!isLoggedIn"
+            <MDBDropdownItem v-if="!isLoggedIn" id="dropdwonItemRegister"
               ><router-link to="/registration"
                 >Register</router-link
               ></MDBDropdownItem
             >
-            <MDBDropdownItem v-if="isLoggedIn" @click="logout"
+            <MDBDropdownItem v-if="isLoggedIn" @click="logout" id="dropdwonItemLogout"
               ><router-link to="">Logout</router-link></MDBDropdownItem
             >
           </MDBDropdownMenu>
@@ -124,7 +124,7 @@ header {
 
 header a {
   text-decoration: none;
-  color: #f391e3;
+  color: #3c3e4b;
   display: inline-block;
   padding: 0.75rem 1.5rem;
   border: 1px solid transparent;
@@ -133,7 +133,7 @@ header a {
 a:active,
 a:hover,
 a.router-link-active {
-  border: 1px solid #f391e3;
+  border: 1px solid #3c3e4b;
 }
 
 h1 {
@@ -165,6 +165,10 @@ header nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+#dropdwonItemLogout, #dropdwonItemRegister, #dropdwonItemLogin {
+  font-size: 20px;
 }
 
 header ul {

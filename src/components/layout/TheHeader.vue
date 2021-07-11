@@ -2,7 +2,9 @@
   <header style="height: 100%">
     <MDBNavbarItem>
       <router-link to="/cart"
-        ><span class="badge badge-pill bg-danger">{{ this.getCart.length? this.getCart.length : 0}}</span>
+        ><span class="badge badge-pill bg-danger">{{
+          this.getCart.length ? this.getCart.length : 0
+        }}</span>
         <span><MDBIcon icon="shopping-cart" size="2x"></MDBIcon></span
       ></router-link>
     </MDBNavbarItem>
@@ -20,15 +22,15 @@
             <MDBIcon icon="user" size="3x" />
           </MDBDropdownToggle>
           <MDBDropdownMenu>
-            <MDBDropdownItem v-if="!isLoggedIn"
+            <MDBDropdownItem v-if="!isLoggedIn" id="dropdwonItemLogin"
               ><router-link to="/auth">Login</router-link></MDBDropdownItem
             >
-            <MDBDropdownItem v-if="!isLoggedIn"
+            <MDBDropdownItem v-if="!isLoggedIn" id="dropdwonItemRegister"
               ><router-link to="/registration"
                 >Register</router-link
               ></MDBDropdownItem
             >
-            <MDBDropdownItem v-if="isLoggedIn" @click="logout"
+            <MDBDropdownItem v-if="isLoggedIn" @click="logout" id="dropdwonItemLogout"
               ><router-link to="">Logout</router-link></MDBDropdownItem
             >
           </MDBDropdownMenu>
@@ -58,8 +60,8 @@
       </option>
     </select>
     -->
-    <input type="text" :value="this.category"  readonly style="width: 20%">
-        <button type="button" class="btn btn-primary" @click="searchArticle">
+    <input type="text" :value="this.category" readonly style="width: 20%" />
+    <button type="button" class="btn btn-primary" @click="searchArticle">
       <i class="fas fa-search"></i>
     </button>
   </div>
@@ -87,9 +89,14 @@ export default {
     return {
       category: "",
       articleName: "",
-    }
+      path: "",
+    };
   },
   created() {
+    //console.log("A: "+JSON.stringify(this.$route.path));
+    this.path = this.$route.path;
+    console.log("THIS PATH: " + this.path);
+    //console.log("B: "+JSON.stringify(this.$route.params));
     this.category = this.$route.params.category;
   },
   components: {
@@ -146,10 +153,26 @@ export default {
       this.$router.replace("/articles");
     },
     async searchArticle() {
-      console.log("ARTIKLE NAME: "+this.articleName);
-      const payload= {category: this.category, articleName: this.articleName};
-      await this.$store.dispatch("article/fetchArticleByName", payload);
-    }
+      /*
+      if (this.path.toString().trim().localeCompare("/cart") === 0) {
+        console.log("DA U PITANJU JE KORPA! "+this.articleName);
+        var cart = this.getCart;
+        var searchableCart = [];
+        for(var i = 0; i < cart.length; i++){
+
+          if(cart[i].name.toString().trim().toLowerCase().startsWith(this.articleName.toString().trim().toLowerCase())){
+            searchableCart.push(cart[i]);
+          }
+        }
+        this.$store.dispatch("article/setCart", searchableCart);
+      } else {*/
+        const payload = {
+          category: this.category,
+          articleName: this.articleName,
+        };
+        await this.$store.dispatch("article/fetchArticleByName", payload);
+      //}
+    },
   },
 };
 
@@ -195,6 +218,10 @@ window.addEventListener("keyup", (e) => {
   width: 35%;
 }
 
+#dropdwonItemLogout, #dropdwonItemRegister, #dropdwonItemLogin {
+  font-size: 20px;
+}
+
 .vue-select.direction-bottom {
   width: 40%;
   height: 45px;
@@ -226,7 +253,7 @@ header {
 
 header a {
   text-decoration: none;
-  color: #f391e3;
+  color: #3c3e4b;
   display: inline-block;
   padding: 0.75rem 1.5rem;
   border: 1px solid transparent;
@@ -235,7 +262,7 @@ header a {
 a:active,
 a:hover,
 a.router-link-active {
-  border: 1px solid #f391e3;
+  border: 1px solid #3c3e4b;
 }
 
 h1 {

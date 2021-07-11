@@ -18,6 +18,7 @@
         <!-- class="sekcijaDo8" do 4 artikla 60 % -->
         <!-- <base-card>  -->
         <h2>Kategorije {{ screenWidth }}</h2>
+        <hr>
 
         <div v-if="hasCategories">
           <div v-if="getCategoriesListSize">
@@ -93,6 +94,7 @@
         <!-- class="sekcijaDo8" do 4 artikla 60 % -->
         <!-- <base-card>  -->
         <h2>Kategorije {{ screenWidth }}</h2>
+        <hr>
 
         <div v-if="hasCategories">
           <div v-if="getCategoriesListSize">
@@ -168,6 +170,8 @@
         <!-- class="sekcijaDo8" do 4 artikla 60 % -->
         <!-- <base-card>  -->
         <h2>Kategorije {{ screenWidth }}</h2>
+                <hr>
+
         <div v-if="hasCategories">
           <div v-if="getCategoriesListSize">
             <MDBListGroup horizontal>
@@ -242,6 +246,8 @@
         <!-- class="sekcijaDo8" do 4 artikla 60 % -->
         <!-- <base-card>  -->
         <h2>Kategorije {{ screenWidth }}</h2>
+                <hr>
+
 
         <div v-if="hasCategories">
           <div v-if="getCategoriesListSize">
@@ -391,6 +397,7 @@
         <!-- class="sekcijaDo8" do 4 artikla 60 % -->
         <!-- <base-card>  -->
         <h2>Kategorije {{ screenWidth }}</h2>
+        <hr>
 
         <div v-if="hasCategories">
           <div v-if="getCategoriesListSize">
@@ -465,6 +472,8 @@
         <!-- class="sekcijaDo8" do 4 artikla 60 % -->
         <!-- <base-card>  -->
         <h2>Kategorije {{ screenWidth }}</h2>
+                <hr>
+
         <div v-if="hasCategories">
           <div v-if="getCategoriesListSize">
             <MDBListGroup horizontal>
@@ -538,6 +547,7 @@
         <!-- class="sekcijaDo8" do 4 artikla 60 % -->
         <!-- <base-card>  -->
         <h2>Kategorije {{ screenWidth }}</h2>
+        <hr>
 
         <div v-if="hasCategories">
           <div v-if="getCategoriesListSize">
@@ -605,6 +615,7 @@
         <!-- class="sekcijaDo8" do 4 artikla 60 % -->
         <!-- <base-card>  -->
         <h2>Kategorije {{ screenWidth }}</h2>
+        <hr>
 
         <div v-if="hasCategories">
           <div v-if="getCategoriesListSize">
@@ -678,13 +689,13 @@ export default {
     /*async*/ loadCategories() {
       this.isLoading = true;
       try {
-        setTimeout(() => {  /*await*/ this.$store.dispatch("article/fetchCategories"); }, 2000); // sa ovim sam rijesio problem kad mi se vrati sadrzaj nakon 1 sekunde :D
+        setTimeout(() => {  /*await*/ this.$store.dispatch("article/fetchCategories");  this.isLoading = false;}, 2000); // sa ovim sam rijesio problem kad mi se vrati sadrzaj nakon 1 sekunde :D
         //await this.$store.dispatch("article/fetchCategories");
         //console.log("DJOLENCE!");
       } catch (error) {
         this.error = error.message || "Something failed!";
       }
-      this.isLoading = false;
+      //this.isLoading = false;
     },
     handleError() {
       this.error = null;
@@ -719,6 +730,8 @@ export default {
   margin-bottom: 20%;
   margin-top: 5%;
   font-size: 16px;
+  background-color: #00B74A;
+  height: 80px;
 }
 
 .sekcijaDo4 {

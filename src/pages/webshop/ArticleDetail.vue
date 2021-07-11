@@ -1,5 +1,5 @@
 <template>
-  <the-header></the-header>
+  <the-header-basic></the-header-basic>
   <base-card>
     <div class="row">
       <div class="column">
@@ -58,7 +58,7 @@
               </div>
             </div>
             <div class="column">
-              <button
+              <!-- <button
                 class="btn btn-primary"
                 type="button"
                 id="addToCart"
@@ -66,6 +66,45 @@
               >
                 Dodaj u korpu <i class="fas fa-shopping-cart fa-2x"></i>
               </button>
+              -->
+
+              <MDBBtn
+                color="primary"
+                id="addToCart"
+                aria-controls="buyModal"
+                @click="buyModal = true"
+              >
+                Dodaj u korpu <i class="fas fa-shopping-cart fa-2x"></i
+              ></MDBBtn>
+              <MDBModal
+                id="buyModal"
+                tabindex="-1"
+                labelledby="buyModalLabel"
+                v-model="buyModal"
+              >
+                <MDBModalHeader>
+                  <MDBModalTitle id="buyModalLabel">
+                    Dodavanje artikla u korpu
+                  </MDBModalTitle>
+                </MDBModalHeader>
+                <MDBModalBody>
+                  <p >
+                    Artikl {{ article.name }} je uspješno dodat u korpu.
+                  </p>
+                  <p>Količina: {{ counter }}</p>
+                </MDBModalBody>
+                <MDBModalFooter>
+                  <MDBBtn
+                    color="secondary"
+                    @click="
+                      buyModal = false;
+                      addArticleToCart();
+                    "
+                    >Potvrdi</MDBBtn
+                  >
+                  <!-- <MDBBtn color="primary">Save changes</MDBBtn>  -->
+                </MDBModalFooter>
+              </MDBModal>
             </div>
           </div>
         </div>
@@ -75,13 +114,36 @@
 </template>
 
 <script>
-import TheHeader from "../../components/layout/TheHeader.vue";
+import TheHeaderBasic from "../../components/layout/TheHeaderBasic.vue";
 import BaseCard from "../../components/ui/BaseCard.vue";
+
+import {
+  MDBBtn,
+  MDBModal,
+  MDBModalHeader,
+  MDBModalTitle,
+  MDBModalBody,
+  MDBModalFooter,
+} from "mdb-vue-ui-kit";
+import { ref } from "vue";
 
 export default {
   components: {
-    TheHeader,
+    TheHeaderBasic,
     BaseCard,
+    MDBBtn,
+    MDBModal,
+    MDBModalHeader,
+    MDBModalTitle,
+    MDBModalBody,
+    MDBModalFooter,
+  },
+  setup() {
+    const buyModal = ref(false);
+
+    return {
+      buyModal,
+    };
   },
   data() {
     return {
@@ -137,39 +199,64 @@ export default {
       //console.log("W");
       var tmpArticleWasChosen = false;
       this.cart = this.getCart;
-      var articleToBuy = { "id": this.article.id ,"name" : this.article.name, "describe" : this.article.describe, "category" : this.article.category ,"price" : this.article.price, "imageUrl" : this.article.imageUrl, "quantity": this.counter };
+      var articleToBuy = {
+        id: this.article.id,
+        name: this.article.name,
+        describe: this.article.describe,
+        category: this.article.category,
+        price: this.article.price,
+        imageUrl: this.article.imageUrl,
+        quantity: this.counter,
+      };
       //console.log("FAK: "+this.cart.length );
-      if(this.cart.length > 0){
-      for(var i = 0; i <  this.cart.length; i++){
-        if(this.cart[i].id.toString().trim().localeCompare(articleToBuy.id.toString().trim()) === 0 
-        && parseInt(this.cart[i].quantity.toString().trim()) !== parseInt(articleToBuy.quantity) ) {
-        tmpArticleWasChosen = true;
-        //console.log("A: "+this.cart[i].quantity);
-        //console.log("A2B: "+articleToBuy.quantity);
-          var tmpQuantinityInteger = parseInt(this.cart[i].quantity.toString().trim());
-          var tmpQuantinityIntegerA2B = parseInt(articleToBuy.quantity.toString().trim());
-          tmpQuantinityInteger = tmpQuantinityInteger + tmpQuantinityIntegerA2B;
-          var tmpQuantinityString = tmpQuantinityInteger.toString().trim();
-          this.cart[i].quantity = tmpQuantinityString;
-          //console.log("QA: "+this.cart[i].quantity);
+      if (this.cart.length > 0) {
+        for (var i = 0; i < this.cart.length; i++) {
+          // console.log("ARTIKLE TO BUY: "+articleToBuy.id);
+          //console.log("TRENUTNI ARTIKL: "+this.cart[i].id);
+          if (
+            this.cart[i].id
+              .toString()
+              .trim()
+              .localeCompare(articleToBuy.id.toString().trim()) === 0
+            /*&& parseInt(this.cart[i].quantity.toString().trim()) !== parseInt(articleToBuy.quantity) */
+          ) {
+            tmpArticleWasChosen = true;
+            //console.log("A: "+this.cart[i].quantity);
+            //console.log("A2B: "+articleToBuy.quantity);
+            var tmpQuantinityInteger = parseInt(
+              this.cart[i].quantity.toString().trim()
+            );
+            var tmpQuantinityIntegerA2B = parseInt(
+              articleToBuy.quantity.toString().trim()
+            );
+            tmpQuantinityInteger =
+              tmpQuantinityInteger + tmpQuantinityIntegerA2B;
+            var tmpQuantinityString = tmpQuantinityInteger.toString().trim();
+            this.cart[i].quantity = tmpQuantinityString;
+            // console.log("QA: "+this.cart[i].quantity);
+          }
         }
-      }
-      if(!tmpArticleWasChosen) {
-        this.cart.push(articleToBuy); 
-      }
+        if (!tmpArticleWasChosen) {
+          this.cart.push(articleToBuy);
+        }
       } else {
         //console.log("DODAO2!");
         this.cart.push(articleToBuy);
       }
       //this.cart.push(articleToBuy);
       this.counter = 1;
-      this.$store.dispatch("article/setCart",this.cart);
+      this.$store.dispatch("article/setCart", this.cart);
     },
-    
+
     getArticleById: function (id) {
       var articles = this.getArticles;
       for (var i = 0; i < articles.length; i++) {
-        if (articles[i].id.toString().trim().localeCompare(id.toString().trim()) === 0) {
+        if (
+          articles[i].id
+            .toString()
+            .trim()
+            .localeCompare(id.toString().trim()) === 0
+        ) {
           return articles[i];
         }
       }
@@ -177,7 +264,10 @@ export default {
 
     async loadArticles() {
       try {
-        await this.$store.dispatch("article/fetchArticles",this.$route.params.category);
+        await this.$store.dispatch(
+          "article/fetchArticles",
+          this.$route.params.category
+        );
       } catch (error) {
         this.error = error.message || "Something failed!";
       }
@@ -192,7 +282,7 @@ export default {
       return this.$store.getters["article/articles"];
     },
     getCart() {
-      return this.$store.getters["article/cart"]; 
+      return this.$store.getters["article/cart"];
     },
   },
 };
@@ -203,12 +293,11 @@ export default {
   box-sizing: border-box;
 }
 
-
 .column {
   float: left;
   width: 50%;
   padding: 10px;
-  height: 300px; 
+  height: 300px;
 }
 
 .row:after {
@@ -219,10 +308,12 @@ export default {
 
 #buttonPlus {
   height: 40px;
+  background-color: #39c0ed;
 }
 
 #buttonMinus {
   height: 40px;
+  background-color: #f93154;
 }
 
 #quantity {
@@ -231,5 +322,6 @@ export default {
 }
 #addToCart {
   font-size: 18px;
+  background-color: #00b74a;
 }
 </style>
