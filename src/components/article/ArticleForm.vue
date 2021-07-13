@@ -2,11 +2,14 @@
   <div>
     <!-- props: ["childrenKey","id", "category", "name", "price", "describe", "imageUrl", "active"], -->
     <base-card>
+      <h2>Dodavanje artikla</h2>
+      <hr />
       <form @submit.prevent="submitForm">
         <div class="row mb-4" :class="{ invalid: !name.isValid }">
           <div class="col">
             <div class="form-outline mb-4">
-              <span class="badge bg-primary" for="name">Naziv</span>
+              <!--  <span class="badge bg-primary" for="name">Naziv</span>  -->
+              <label class="labelName" for="name">Naziv</label>
               <input
                 type="text"
                 name="name"
@@ -26,7 +29,8 @@
         <div class="row mb-4" :class="{ invalid: !image.isValid }">
           <div class="col">
             <button class="btn btn-info" id="uploadImage" @click="onPickFile">
-              Upload image
+              <i class="fa fa-upload" aria-hidden="true"></i>
+              Izaberite sliku
             </button>
             <input
               type="file"
@@ -43,14 +47,21 @@
               :src="imageUrl.val"
               class="img-fluid"
               alt="..."
+              @blur="clearValidity('imageUrl')"
             />
+            <p v-if="!imageUrl.isValid" style="color: red">
+              Niste izabrali fotografiju.
+            </p>
           </div>
         </div>
         <div class="row mb-4" :class="{ invalid: !price.isValid }">
           <div class="col">
             <div class="form-outline mb-4">
-              <span class="badge bg-primary" for="price"
+              <!--<span class="badge bg-primary" for="price"
                 >Izaberite kategoriju</span
+              > -->
+              <label class="labelChooseCategory" for="name"
+                >Izaberite kategoriju</label
               >
               <br />
               <select
@@ -58,6 +69,7 @@
                 id="category"
                 class="selectCategory"
                 v-model.trim="category.val"
+                @blur="clearValidity('category')"
               >
                 <option
                   v-for="item in getCategories"
@@ -67,6 +79,9 @@
                   {{ item.categoryName }}
                 </option>
               </select>
+              <p v-if="!category.isValid" style="color: red">
+                Niste izabrali fotografiju.
+              </p>
             </div>
           </div>
         </div>
@@ -74,7 +89,8 @@
         <div class="row mb-4" :class="{ invalid: !price.isValid }">
           <div class="col">
             <div class="form-outline mb-4">
-              <span class="badge bg-primary" for="price">Cijena</span>
+              <!-- <span class="badge bg-primary" for="price">Cijena</span> -->
+              <label class="labelPrice" for="name">Cijena</label>
               <input
                 type="text"
                 name="price"
@@ -91,7 +107,8 @@
         <div class="row mb-4" :class="{ invalid: !describe.isValid }">
           <div class="col">
             <div class="form-outline mb-4">
-              <span class="badge bg-primary" for="describe">Opis</span>
+              <!-- <span class="badge bg-primary" for="describe">Opis</span>  -->
+              <label class="labelDescribe" for="name">Opis</label>
               <input
                 type="text"
                 name="describe"
@@ -109,7 +126,7 @@
           type="submit"
           id="addCategory"
           class="btn btn-primary btn-block mb-4"
-        >
+        ><i class="fa fa-plus-circle" aria-hidden="true"></i>
           Dodaj
         </button>
       </form>
@@ -119,7 +136,6 @@
 
 <script>
 import BaseCard from "../../components/ui/BaseCard.vue";
-// props: ["childrenKey","id", "category", "name", "price", "describe", "imageUrl", "active"],
 
 export default {
   components: { BaseCard },
@@ -134,10 +150,6 @@ export default {
         val: "",
         isValid: true,
       },
-      /*category: {
-        val: ["Racunari", "Roboti", "Automobili", "Avioni"],
-        isValid: true,
-      },*/
       category: {
         val: "",
         isValid: true,
@@ -165,7 +177,6 @@ export default {
   },
   created() {
     // ovo je za update
-    console.log("USAO ODJE !");
     if (
       this.$route.params.childrenKey && // ovo primam msm preko onog new-category
       this.$route.params.id &&
@@ -177,7 +188,6 @@ export default {
       this.$route.params.category &&
       this.$route.params.update
     ) {
-      console.log("DADADA!" + this.$route.params.category);
       this.category.val = this.$route.params.category;
       this.imageUrl.val = this.$route.params.imageUrl;
       this.id = this.$route.params.id;
@@ -187,15 +197,11 @@ export default {
       this.name.val = this.$route.params.name;
       this.price.val = this.$route.params.price;
       this.describe.val = this.$route.params.describe;
-      //this.image.val = "123";
     }
   },
 
   mounted() {
-    /*var element =*/ 
     document.getElementById("category").value = this.category.val;
-    console.log("ELEMENT!"+this.category.val);
-    //element.value = this.$route.params.category;
   },
 
   methods: {
@@ -204,14 +210,13 @@ export default {
     },
 
     validateForm() {
-      console.log("POZVAO VALIDATE FORM !");
       this.formIsValid = true;
       if (this.name.val === "") {
         this.name.isValid = false;
         this.formIsValid = false;
       }
-      if (!this.image.val) {
-        this.image.isValid = false;
+      if (!this.imageUrl.val) {
+        this.imageUrl.isValid = false;
         this.formIsValid = false;
       }
       if (this.describe.val == "") {
@@ -223,7 +228,6 @@ export default {
         this.formIsValid = false;
       }
       if (this.category.val === "") {
-        console.log("OVA NE VALJA :D !");
         this.category.isValid = false;
         this.formIsValid = false;
       }
@@ -341,6 +345,15 @@ export default {
 </script>
 
 <style scoped>
+.labelName,
+.labelChooseCategory,
+.labelPrice,
+.labelDescribe {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1266f1;
+}
+
 img {
   padding: 20px;
   max-height: 150px;
@@ -368,7 +381,7 @@ img {
 }
 
 #addCategory {
-  width: 30%;
+  /*width: 30%;*/
   float: right;
 }
 
@@ -398,8 +411,12 @@ img {
   font-size: 20px;
 }
 
+#addCategory {
+  background-color: #00b74a;
+}
+
 #uploadImage,
 #addCategory {
-  font-size: 20px;
+  font-size: 18px;
 }
 </style>

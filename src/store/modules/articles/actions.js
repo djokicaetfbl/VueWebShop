@@ -5,7 +5,7 @@ export default {
         var articleDataUpdate = {};
 
         if (data.childrenKey != "" && data.childrenKey != undefined) {
-            console.log("DA UPDATE !" + data.childrenKey);
+            //console.log("DA UPDATE !" + data.childrenKey);
             var childrenKey = data.childrenKey;
             articleDataUpdate = {
                 childrenKey: data.childrenKey,
@@ -63,7 +63,7 @@ export default {
         var categoryDataUpdate = {};
 
         if (data.childrenKey != "" && data.childrenKey != undefined) {
-            console.log("DA UPDATE !" + data.childrenKey);
+            //console.log("DA UPDATE !" + data.childrenKey);
             var childrenKey = data.childrenKey;
             categoryDataUpdate = {
                 // id: context.rootGetters.userId,
@@ -91,7 +91,7 @@ export default {
             //context.commit('updateCategories',0,categoryDataUpdate);
 
         } else {
-            console.log("DA CREATE !");
+            //console.log("DA CREATE !");
             categoryDataCreate = {
                 // id: context.rootGetters.userId,
                 id: data.id,

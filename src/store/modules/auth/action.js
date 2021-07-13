@@ -43,7 +43,7 @@ export default { // definisemo akcije za login i signup
             throw error;
         }
 
-        console.log("ODGOVOR: "+JSON.stringify(responseData));
+        //console.log("ODGOVOR: "+JSON.stringify(responseData));
 
         const expiresIn = +responseData.expiresIn * 1000; // + ispred konvertuje u broj type: number
         //const expiresIn = 5000; // samo za potrebe testiranja 5 sekundi

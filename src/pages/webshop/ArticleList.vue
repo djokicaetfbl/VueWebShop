@@ -15,15 +15,8 @@
     artikal
   </button>
   <base-card>
-    <!-- 
-  id: this.randomString(),
-        name: this.name.val,
-        imageUrl: this.imageUrl.val,
-        describe: this.describe.val,
-        price: this.price.val,
-        category: this.category.val.categoryName,
-        active: true
--->
+
+  <h2>Artikli » {{ categoryName }}</h2>
 
     <ul class="list-group" v-if="hasArticles">
       <!-- <li class="list-group-item"><article-item></article-item></li> -->

@@ -1,11 +1,14 @@
 <template>
   <div>
     <base-card>
+    <h2>Dodavanje kategorije</h2>
+    <hr>
       <form @submit.prevent="submitForm">
         <div class="row mb-4" :class="{ invalid: !categoryName.isValid }">
           <div class="col">
             <div class="form-outline mb-4">
-              <span class="badge bg-primary" for="categoryName">Naziv</span>
+              <!-- <span class="badge bg-primary" for="categoryName">Naziv</span> -->
+              <label class="labelCategoryName" for="categoryName">Naziv</label><br />
               <input
                 type="text"
                 name="categoryName"
@@ -24,8 +27,9 @@
 
         <div class="row mb-4" :class="{ invalid: !image.isValid }">
           <div class="col">
-            <button class="btn btn-info" @click="onPickFile">
-              Upload image
+            <button class="btn btn-info" id="uploadPhoto" @click="onPickFile">
+              <i class="fa fa-upload" aria-hidden="true"></i>
+              Izaberite sliku
             </button>
             <input
               type="file"
@@ -42,14 +46,19 @@
               :src="imageUrl.val"
               class="img-fluid"
               alt="..."
+              @blur="clearValidity('imageUrl')"
             />
+            <p v-if="!imageUrl.isValid" style="color: red">
+              Niste izabrali fotografiju.
+            </p>
           </div>
         </div>
         <button
           type="submit"
           id="addCategory"
           class="btn btn-primary btn-block mb-4"
-        >
+          :disabled="!isLoadingPhoto"
+        ><i class="fa fa-plus-circle" aria-hidden="true"></i>
           Dodaj
         </button>
       </form>
@@ -85,7 +94,7 @@ export default {
         val: "",
       },
       update: false,
-
+      isLoadingPhoto: false,
     };
   },
   created() {
@@ -104,7 +113,7 @@ export default {
       this.id = this.$route.params.id;
       this.active = this.$route.params.active;
       this.childrenKey.val = this.$route.params.childrenKey;
-      this.update = this.$route.params.update
+      this.update = this.$route.params.update;
       //this.image.val = "123";
     }
   },
@@ -119,11 +128,9 @@ export default {
         this.formIsValid = false;
         //console.log("DJOLE: " + this.categoryName.val);
       }
-      if (!this.image.val) {
-        this.image.isValid = false;
+      if(!this.imageUrl.val) {
+        this.imageUrl.isValid = false;
         this.formIsValid = false;
-
-        console.log("Image dont have value: " + this.image.val);
       }
     },
 
@@ -136,17 +143,14 @@ export default {
       if (filename.lastIndexOf(".") <= 0) {
         return alert("Molimo Vas iazberite validan fajl!");
       }
-      // stavimo ga u base64 string -> binary file to string value
       const fileReader = new FileReader();
       fileReader.addEventListener("load", () => {
         this.imageUrl.val = fileReader.result;
-        //console.log("IMAGE URL: " + this.imageUrl.val);
       });
       fileReader.readAsDataURL(files[0]);
-      //console.log("FILE OD 0: " + files[0]);
       this.image.val = files[0];
-      //console.log("this.image.val: " + this.image.val);
-      //console.log("FILENAME: " + filename);
+
+      this.isLoadingPhoto = true;
     },
 
     randomString() {
@@ -160,9 +164,7 @@ export default {
     },
 
     submitForm() {
-      // console.log("USAO");
       this.validateForm();
-      //console.log("USAO1");
       if (!this.formIsValid) {
         return;
       }
@@ -170,14 +172,9 @@ export default {
         console.log("Image is NULL");
         return;
       }
-      //console.log("USAO2");
       var formDataCreate = {};
       var formDataUpdate = {};
-
-      //console.log("CHILDREN KEY VALUE: " + this.childrenKey.val);
-
-      //if (this.childrenKey.val != "") {
-        if (this.update) {
+      if (this.update) {
         // ako ima childrenKey onda je u pitanje update
 
         formDataUpdate = {
@@ -190,21 +187,16 @@ export default {
 
         var tmpCategories = this.getCategories;
         var tmp2 = JSON.stringify(this.childrenKey.val.toString().trim());
-        //console.log("TMP2: "+tmp2);
         for (let i = 0; i < tmpCategories.length; i++) {
           var tmp1 = JSON.stringify(tmpCategories[i].childrenKey)
             .toString()
             .trim();
-            //console.log("TMP1: "+tmp1);
           if (tmp1.localeCompare(tmp2) == 0) {
-            // 0 vraca ako su jednaki
-            //tmpCategories.splice(i, 1);
-            tmpCategories[i].childrenKey =  this.childrenKey.val;
+            tmpCategories[i].childrenKey = this.childrenKey.val;
             tmpCategories[i].id = this.id;
             tmpCategories[i].categoryName = this.categoryName.val;
             tmpCategories[i].imageUrl = this.imageUrl.val;
             tmpCategories[i].active = this.active;
-            //console.log("tmpCategories[i]"+tmpCategories[i]);
             this.getCategories[i] = tmpCategories[i];
           }
         }
@@ -217,8 +209,6 @@ export default {
           imageUrl: this.imageUrl.val,
           active: true,
         };
-        //console.log("USAO3");
-        // console.log("FORM DATA: " + formDataUpdate.id);
         this.$emit("save-data", formDataCreate);
         //console.log("U PITANJU JE create!");
       }
@@ -233,6 +223,12 @@ export default {
 </script>
 
 <style scoped>
+.labelCategoryName {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1266f1;
+}
+
 img {
   padding: 20px;
   max-height: 150px;
@@ -260,8 +256,10 @@ img {
 }
 
 #addCategory {
-  width: 30%;
+ /* width: 30%;*/
   float: right;
+  font-size: 18px;
+  background-color: #00B74A;
 }
 
 .invalid label {
@@ -270,5 +268,9 @@ img {
 
 .invalid input {
   border: 1px solid red;
+}
+
+#uploadPhoto {
+  font-size: 18px;
 }
 </style>

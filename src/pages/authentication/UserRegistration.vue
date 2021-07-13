@@ -9,40 +9,44 @@
   </base-dialog>
   <the-header-basic></the-header-basic>
   <base-card>
-  <h2>Registracija korisnika</h2>
-  <hr>
+    <h2>Registracija korisnika</h2>
+    <hr />
     <form @submit.prevent="submitForm">
       <!-- prevent sprijeci defaultni http (POST) request -->
       <!-- 2 column grid layout with text inputs for the first and last names -->
       <div class="row mb-4">
         <div class="col">
-          <div class="form-outline mb-4">
+          <div class="form-outline mb-4" :class="{ invalid: !firstName.isValid }">
             <!--<span class="badge bg-primary" for="firstName">Ime</span> -->
-            <label class="labelFirstName" for="firstName">Ime</label>
+            <label class="labelFirstName" for="firstName">Ime</label><br>
+            <label>{{ firstName.error ? firstName.errorMessage : "" }}</label>
             <br />
             <input
               type="text"
               name="firstName"
               id="firstName"
               class="form-control"
-              v-model.trim="firstname"
+              v-model.trim="firstName.val"
               placeholder="Ime"
+              @blur="clearValidity('firstName')"
             />
           </div>
           <!-- <label class="form-label" for="email">Email address</label>  -->
         </div>
 
         <div class="col">
-          <div class="form-outline mb-4">
+          <div class="form-outline mb-4" :class="{ invalid: !lastName.isValid }">
             <!-- <span class="badge bg-primary" for="lastName"></span> -->
-            <label class="labelLastName" for="lastName">Prezime</label>
+            <label class="labelLastName" for="lastName">Prezime</label><br>
+            <label>{{ lastName.error ? lastName.errorMessage : "" }}</label>
             <input
               type="text"
               name="lastName"
               id="lastName"
               class="form-control"
-              v-model.trim="lastname"
+              v-model.trim="lastName.val"
               placeholder="Prezime"
+              @blur="clearValidity('lastName')"
             />
             <!-- <label class="form-label" for="email">Email address</label>  -->
           </div>
@@ -51,16 +55,18 @@
       <!-- Email input -->
       <div class="row mb-4">
         <div class="col">
-          <div class="form-outline mb-4">
+          <div class="form-outline mb-4" :class="{ invalid: !email.isValid }">
             <!-- <span class="badge bg-primary" for="email">Email adresa</span> -->
-            <label class="labelEmail" for="lastName">Email</label>
+            <label class="labelEmail" for="email">Email</label><br>
+            <label>{{ email.error ? email.errorMessage : "" }}</label>
             <input
               type="email"
               name="email"
               id="email"
               class="form-control"
-              v-model.trim="email"
+              v-model.trim="email.val"
               placeholder="Email"
+              @blur="clearValidity('email')"
             />
             <!-- <label class="form-label" for="email">Email address</label>  -->
           </div>
@@ -68,15 +74,17 @@
 
         <!-- Password input -->
         <div class="col">
-          <div class="form-outline mb-4">
+          <div class="form-outline mb-4" :class="{ invalid: !email.isValid }">
             <!-- <span class="badge bg-primary" for="password">Lozinka</span> -->
-            <label class="labelPassword" for="lastName">Password</label>
+            <label class="labelPassword" for="password">Password</label><br>
+            <label>{{ password.error ? password.errorMessage : "" }}</label>
             <input
               type="password"
               id="password"
               class="form-control"
-              v-model.trim="password"
+              v-model.trim="password.val"
               placeholder="Lozinka"
+              @blur="clearValidity('password')"
             />
             <!-- <label class="form-label" for="password">Password</label>  -->
           </div>
@@ -85,7 +93,11 @@
       <!-- Submit button -->
       <div class="container">
         <div class="center">
-          <button id="regiterUser" type="submit" class="btn btn-primary btn-block mb-4">
+          <button
+            id="regiterUser"
+            type="submit"
+            class="btn btn-primary btn-block mb-4"
+          >
             Registracija
           </button>
         </div>
@@ -101,16 +113,34 @@ import TheHeaderBasic from "../../components/layout/TheHeaderBasic.vue";
 
 export default {
   components: {
-    //TheHeader,
     TheHeaderBasic,
   },
-
   data() {
     return {
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: "",
+      firstName: {
+        val: "",
+        isValid: true,
+        errorMessage: "Unesite ispravano ime.",
+        error: false,
+      },
+      lastName: {
+        val: "",
+        isValid: true,
+        errorMessage: "Unesite ispravano prezime.",
+        error: false,
+      },
+      email: {
+        val: "",
+        isValid: true,
+        errorMessage: "Unesite ispravan e-mail.",
+        error: false,
+      },
+      password: {
+        val: "",
+        isValid: true,
+        errorMessage: "Unesite password dužine minimalno 6 karaktera.",
+        error: false,
+      },
       formIsValid: true,
       mode: "signup",
       isLoading: false,
@@ -119,8 +149,42 @@ export default {
   },
 
   methods: {
+    clearValidity(input) {
+      this[input].isValid = true;
+    },
+    validateForm() {
+      this.formIsValid = true;
+      if (this.email.val === "" || !this.email.val.includes("@")) {
+        this.email.isValid = false;
+        this.email.error = true;
+        this.formIsValid = false;
+      } else {
+        this.email.error = false;
+      }
+      if (this.password.val === "" || this.password.val.length < 6) {
+        this.password.isValid = false;
+        this.password.error = true;
+        this.formIsValid = false;
+      } else {
+        this.password.error = false;
+      }
+      if (this.firstName.val === "") {
+        this.firstName.isValid = false;
+        this.firstName.error = true;
+        this.formIsValid = false;
+      } else {
+        this.firstName.error = false;
+      }
+      if (this.lastName.val === "") {
+        this.lastName.isValid = false;
+        this.lastName.error = true;
+        this.formIsValid = false;
+      } else {
+        this.lastName.error = false;
+      }
+    },
     async submitForm() {
-      if (
+      /*if (
         this.email === "" ||
         !this.email.includes("@") ||
         this.password.length < 6 ||
@@ -133,12 +197,16 @@ export default {
         console.log("LASTNAME: " + this.lastname);
         this.formIsValid = false;
         return;
+      }*/
+      this.validateForm();
+      if (!this.formIsValid) {
+        return;
       }
       this.isLoading = true;
 
       const actionPayload = {
-        email: this.email,
-        password: this.password,
+        email: this.email.val,
+        password: this.password.val,
       };
 
       try {
@@ -147,7 +215,8 @@ export default {
         this.$router.replace(redirectUrl);
       } catch (error) {
         this.error =
-          error.message || "Failed to authenticate, Check your login data.";
+          error.message ||
+          "Došlo je do greške prilikom autentikacije! Molimo provjerite vaše podatke.";
       }
       this.isLoading = false;
     },
@@ -169,7 +238,7 @@ export default {
   color: #1266f1;
 }
 
-.container { 
+.container {
   height: 50px;
   position: relative;
 }
@@ -206,5 +275,13 @@ export default {
 
 .form-outline.mb-4 {
   width: 100%;
+}
+
+.invalid label {
+  color: red;
+}
+
+.invalid input {
+  border: 1px solid red;
 }
 </style>

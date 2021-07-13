@@ -42,16 +42,15 @@
   <br />
 
   <div class="input-group">
-    <div class="form-outline" style="border-style: dotted; border-color: blue">
+    <!-- <div class="form-outline" style="border-style: dotted; border-color: blue">  -->
       <input
         id="search-focus"
         type="search"
-        class="form-control"
         placeholder="Unesite naziv artikla"
         v-model.trim="articleName"
       />
-      <label class="form-label" for="form1">Pretraži</label>
-    </div>
+      <!--  <label class="form-label" for="form1">Pretraži</label>  -->
+ <!--   </div>  -->
 
     <!--
     <select name="category" id="category" class="selectCategory">
@@ -71,10 +70,6 @@
 <script>
 import {
   MDBIcon,
-  //MDBNavbar,
-  //MDBNavbarToggler,
-  //MDBNavbarBrand,
-  //MDBNavbarNav,
   MDBNavbarItem,
   MDBDropdown,
   MDBDropdownToggle,
@@ -227,8 +222,14 @@ window.addEventListener("keyup", (e) => {
   height: 45px;
 }
 
+#search-focus{
+  width: 30%;
+}
+
 .input-group {
   justify-content: center;
+  height: 45px;
+  font-size: 18px;
 }
 
 .nav-item {
