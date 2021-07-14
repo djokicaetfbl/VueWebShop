@@ -1,5 +1,6 @@
 <template>
   <the-header-basic></the-header-basic>
+  <div>
   <base-card>
     <div class="row">
       <div class="column">
@@ -15,9 +16,10 @@
       <div class="column">
         <div class="card-body">
           <h5 class="card-title">{{ article.name }}</h5>
-          <p class="card-text">
+          <p id="articleDescribeParagraph" class="card-text">
             {{ article.describe }}
-          </p>
+          </p> 
+          <!-- <MDBTextarea label="Message" rows="4" v-model="textareaValue" /> -->
           <h5 class="card-title">{{ article.price }}KM</h5>
 
           <div class="row">
@@ -25,7 +27,7 @@
               <div class="col-sm-6 col-md-5 col-lg-6">
                 <div class="qty-selector input-group js-qty-selector">
                   <span class="input-group-btn">
-                    <button
+                    <button v-if="screenWidth > currentWidth"
                       class="btn btn-primary"
                       id="buttonPlus"
                       type="button"
@@ -33,8 +35,16 @@
                     >
                       <i class="fas fa-plus"></i>
                     </button>
+                    <button v-else
+                      class="btn btn-primary"
+                      id="buttonPlusMDisplay"
+                      type="button"
+                      @click="addQuantity"
+                    >
+                      <i class="fas fa-plus"></i>
+                    </button>
 
-                    <input
+                    <input v-if="screenWidth > currentWidth"
                       type="number"
                       id="quantity"
                       readonly
@@ -43,10 +53,27 @@
                       :value="getCounter"
                       name="pdpAddtoCartInput"
                     />
+                    <input v-else
+                      type="number"
+                      id="quantityMDisplay"
+                      readonly
+                      maxlength="3"
+                      class="form-control"
+                      :value="getCounter"
+                      name="pdpAddtoCartInput"
+                    />
 
-                    <button
+                    <button  v-if="screenWidth > currentWidth"
                       class="btn btn-primary"
                       id="buttonMinus"
+                      type="button"
+                      @click="removeQuantity"
+                    >
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <button  v-else
+                      class="btn btn-primary"
+                      id="buttonMinusMDisplay"
                       type="button"
                       @click="removeQuantity"
                     >
@@ -57,7 +84,7 @@
                 <div class="stock-status"></div>
               </div>
             </div>
-            <div class="column">
+            <div class="column" id="columnAddArticleToCart">
               <!-- <button
                 class="btn btn-primary"
                 type="button"
@@ -68,7 +95,7 @@
               </button>
               -->
 
-              <MDBBtn
+              <MDBBtn v-if="screenWidth > currentWidth"
                 color="primary"
                 id="addToCart"
                 aria-controls="buyModal"
@@ -76,6 +103,15 @@
               >
                 Dodaj u korpu <i class="fas fa-shopping-cart fa-2x"></i
               ></MDBBtn>
+              <MDBBtn v-else
+                color="primary"
+                id="addToCartMDisplay"
+                aria-controls="buyModal"
+                @click="buyModal = true"
+              >
+                Dodaj u korpu <i class="fas fa-shopping-cart fa-2x"></i
+              ></MDBBtn>
+
               <MDBModal
                 id="buyModal"
                 tabindex="-1"
@@ -111,6 +147,7 @@
       </div>
     </div>
   </base-card>
+  </div>
 </template>
 
 <script>
@@ -124,6 +161,7 @@ import {
   MDBModalTitle,
   MDBModalBody,
   MDBModalFooter,
+ // MDBTextarea ,
 } from "mdb-vue-ui-kit";
 import { ref } from "vue";
 
@@ -131,6 +169,7 @@ export default {
   components: {
     TheHeaderBasic,
     BaseCard,
+   // MDBTextarea ,
     MDBBtn,
     MDBModal,
     MDBModalHeader,
@@ -181,6 +220,8 @@ export default {
       counter: 1,
       article: "",
       cart: [],
+      screenWidth: window.innerWidth,
+      currentWidth: 411,
     };
   },
   created() {
@@ -311,17 +352,51 @@ export default {
   background-color: #39c0ed;
 }
 
+#columnAddArticleToCart{
+  margin-left: -10px;
+}
+
+#buttonPlusMDisplay {
+  height: 30px;
+  background-color: #39c0ed;
+  font-size: 6px;
+}
+
 #buttonMinus {
   height: 40px;
   background-color: #f93154;
+}
+
+#buttonMinusMDisplay {
+  height: 30px;
+  background-color: #f93154;
+  font-size: 6px;
 }
 
 #quantity {
   max-width: 58px;
   height: 40%;
 }
+
+#quantityMDisplay {
+  max-width: 52px;
+  height: 25%;
+  /*font-size: 6px;*/
+}
 #addToCart {
   font-size: 18px;
   background-color: #00b74a;
+}
+
+#addToCartMDisplay {
+  font-size: 8px;
+  background-color: #00b74a;
+}
+
+#articleDescribeParagraph {
+    width: 15ch;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 </style>

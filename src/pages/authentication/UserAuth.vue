@@ -56,7 +56,10 @@
         <div class="row mb-4">
           <div class="col d-flex justify-content-center"></div>
         </div>
-        <button type="submit" class="btn btn-primary btn-block" id="signIn">
+        <button v-if="screenWidth > currentWidth " type="submit" class="btn btn-primary btn-block" id="signIn">
+          Prijava
+        </button>
+        <button v-else type="submit" class="btn btn-primary btn-block" id="signInMDisplay">
           Prijava
         </button>
       </form>
@@ -87,6 +90,8 @@ export default {
       mode: "login",
       isLoading: false,
       error: null,
+      screenWidth: window.innerWidth,
+      currentWidth: 411,
     };
   },
   computed: {},
@@ -180,6 +185,10 @@ form {
   font-size: 20px;
 }
 
+#signInMDisplay {
+  font-size: 14px;
+}
+
 .form-control {
   margin: 0.5rem 0;
 }
@@ -222,4 +231,6 @@ textarea:focus {
 .invalid input {
   border: 1px solid red;
 }
+
+
 </style>

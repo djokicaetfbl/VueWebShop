@@ -6,10 +6,14 @@
     <MDBTable>
       <thead class="table-light">
         <tr>
-          <th scope="col" id="columnProizvod">Proizvod</th>
-          <th scope="col" id="columnUkloni">Ukloni</th>
-          <th scope="col" id="columnKolicina">Količina</th>
-          <th scope="col" id="columnCijena">Cijena</th>
+          <th v-if="screenWidth > currentWidth " scope="col" id="columnProizvod">Proizvod</th>
+           <th v-else scope="col" id="columnProizvodMDisplay" >Proizvod</th>
+          <th v-if="screenWidth > currentWidth " scope="col" id="columnUkloni">Ukloni</th>
+          <th v-else scope="col" id="columnUkloniMDisplay">Ukloni</th>
+          <th v-if="screenWidth > currentWidth " scope="col" id="columnKolicina">Količina</th>
+          <th v-else scope="col" id="columnKolicinaMDisplay">Količina</th>
+          <th v-if="screenWidth > currentWidth " scope="col" id="columnCijena">Cijena</th>
+          <th v-else scope="col" id="columnCijenamDisplay">Cijena</th>
         </tr>
       </thead>
 
@@ -105,6 +109,8 @@ export default {
       isLoading: false,
       error: null,
       summaryPriceXQuantity: 0.0,
+      screenWidth: window.innerWidth,
+      currentWidth: 411,
     };
   },
   methods: {
@@ -173,6 +179,10 @@ tr {
 
 #columnProizvod, #columnUkloni,#columnKolicina, #columnCijena {
   font-size: 23px;
+}
+
+#columnProizvodMDisplay, #columnUkloniMDisplay,#columnKolicinaMDisplay, #columnCijenaMDisplay {
+  font-size: 12px;
 }
 
 #byAllArticlesFromCart {

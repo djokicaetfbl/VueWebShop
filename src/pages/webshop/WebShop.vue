@@ -17,7 +17,7 @@
       <section>
         <!-- class="sekcijaDo8" do 4 artikla 60 % -->
         <!-- <base-card>  -->
-        <h2>Kategorije {{ screenWidth }}</h2>
+        <h2>Kategorije </h2>
         <hr>
 
         <div v-if="hasCategories">
@@ -93,7 +93,7 @@
       <section>
         <!-- class="sekcijaDo8" do 4 artikla 60 % -->
         <!-- <base-card>  -->
-        <h2>Kategorije {{ screenWidth }}</h2>
+        <h2>Kategorije</h2>
         <hr>
 
         <div v-if="hasCategories">
@@ -169,7 +169,7 @@
       <section>
         <!-- class="sekcijaDo8" do 4 artikla 60 % -->
         <!-- <base-card>  -->
-        <h2>Kategorije {{ screenWidth }}</h2>
+        <h2>Kategorije</h2>
                 <hr>
 
         <div v-if="hasCategories">
@@ -245,7 +245,7 @@
       <section>
         <!-- class="sekcijaDo8" do 4 artikla 60 % -->
         <!-- <base-card>  -->
-        <h2>Kategorije {{ screenWidth }}</h2>
+        <h2>Kategorije</h2>
                 <hr>
 
 
@@ -321,7 +321,7 @@
       <section>
         <!-- class="sekcijaDo8" do 4 artikla 60 % -->
         <!-- <base-card>  -->
-        <h2>Kategorije {{ screenWidth }}</h2>
+        <h2>Kategorije</h2>
 
         <div v-if="hasCategories">
           <div v-if="getCategoriesListSize">
@@ -396,7 +396,7 @@
       <section>
         <!-- class="sekcijaDo8" do 4 artikla 60 % -->
         <!-- <base-card>  -->
-        <h2>Kategorije {{ screenWidth }}</h2>
+        <h2>Kategorije</h2>
         <hr>
 
         <div v-if="hasCategories">
@@ -546,7 +546,7 @@
       <section>
         <!-- class="sekcijaDo8" do 4 artikla 60 % -->
         <!-- <base-card>  -->
-        <h2>Kategorije {{ screenWidth }}</h2>
+        <h2>Kategorije</h2>
         <hr>
 
         <div v-if="hasCategories">
@@ -614,7 +614,7 @@
       <section>
         <!-- class="sekcijaDo8" do 4 artikla 60 % -->
         <!-- <base-card>  -->
-        <h2>Kategorije {{ screenWidth }}</h2>
+        <h2>Kategorije</h2>
         <hr>
 
         <div v-if="hasCategories">
@@ -635,17 +635,16 @@
           <br />
         </div>
         <!-- </base-card> -->
-        <button
+         <button
           class="btn btn-primary"
           style="margin-left: 70%"
           v-if="isLoggedIn && currentScreenWidth < currentWidth + 1"
-          @click="dodajKategoriju"
-          to="/newCategory"
-        >
-          <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
-          Dodaj kategoriju
-        </button>
+           @click="$router.push('/newCategory')"
 
+        >
+          + Dodaj kategoriju
+        </button>
+        
         <button
           class="btn btn-primary"
           v-if="isLoggedIn && currentScreenWidth > currentWidth"
