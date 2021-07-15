@@ -1,14 +1,15 @@
 <template>
   <div>
     <base-card>
-    <h2>Dodavanje kategorije</h2>
-    <hr>
+      <h2>Dodavanje kategorije</h2>
+      <hr />
       <form @submit.prevent="submitForm">
         <div class="row mb-4" :class="{ invalid: !categoryName.isValid }">
           <div class="col">
             <div class="form-outline mb-4">
               <!-- <span class="badge bg-primary" for="categoryName">Naziv</span> -->
-              <label class="labelCategoryName" for="categoryName">Naziv</label><br />
+              <label class="labelCategoryName" for="categoryName">Naziv</label
+              ><br />
               <input
                 type="text"
                 name="categoryName"
@@ -36,6 +37,7 @@
               style="display: none"
               ref="fileInput"
               accept="image/*"
+              @blur="clearValidity('imageUrl')"
               @change="onFilePicked"
             />
 
@@ -53,13 +55,23 @@
             </p>
           </div>
         </div>
-        <button
+        <button v-if="!update"
           type="submit"
           id="addCategory"
           class="btn btn-primary btn-block mb-4"
           :disabled="!isLoadingPhoto"
-        ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+        >
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
           Dodaj
+        </button>
+        <button v-else
+          type="submit"
+          id="addCategory"
+          class="btn btn-primary btn-block mb-4"
+          :disabled="!isLoadingPhoto"
+        >
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
+          Izmjeni
         </button>
       </form>
     </base-card>
@@ -114,6 +126,9 @@ export default {
       this.active = this.$route.params.active;
       this.childrenKey.val = this.$route.params.childrenKey;
       this.update = this.$route.params.update;
+      if (this.imageUrl.val !== "") {
+        this.isLoadingPhoto = true;
+      }
       //this.image.val = "123";
     }
   },
@@ -128,13 +143,15 @@ export default {
         this.formIsValid = false;
         //console.log("DJOLE: " + this.categoryName.val);
       }
-      if(!this.imageUrl.val) {
+      if (this.imageUrl.val.localeCompare("") === 0) {
+        console.log("USAO BRE");
         this.imageUrl.isValid = false;
         this.formIsValid = false;
       }
     },
 
     onPickFile() {
+      this.imageUrl.val = "";
       this.$refs.fileInput.click(); // trigerujem na klik
     },
     onFilePicked(event) {
@@ -168,10 +185,11 @@ export default {
       if (!this.formIsValid) {
         return;
       }
-      if (!this.image) {
+      console.log("NASTAVIO");
+     /* if (!this.image) {
         console.log("Image is NULL");
         return;
-      }
+      }*/
       var formDataCreate = {};
       var formDataUpdate = {};
       if (this.update) {
@@ -256,10 +274,10 @@ img {
 }
 
 #addCategory {
- /* width: 30%;*/
+  /* width: 30%;*/
   float: right;
   font-size: 18px;
-  background-color: #00B74A;
+  background-color: #00b74a;
 }
 
 .invalid label {

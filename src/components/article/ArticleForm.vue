@@ -123,11 +123,24 @@
         </div>
 
         <button
+          v-if="!update"
           type="submit"
           id="addCategory"
           class="btn btn-primary btn-block mb-4"
-        ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+          :disabled="!isLoadingPhoto"
+        >
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
           Dodaj
+        </button>
+        <button
+          v-else
+          type="submit"
+          id="addCategory"
+          class="btn btn-primary btn-block mb-4"
+          :disabled="!isLoadingPhoto"
+        >
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
+          Izmjeni
         </button>
       </form>
     </base-card>
@@ -173,6 +186,7 @@ export default {
         val: "",
       },
       update: false,
+      isLoadingPhoto: false,
     };
   },
   created() {
@@ -197,11 +211,50 @@ export default {
       this.name.val = this.$route.params.name;
       this.price.val = this.$route.params.price;
       this.describe.val = this.$route.params.describe;
+      if (this.imageUrl.val !== "") {
+        this.isLoadingPhoto = true;
+      }
     }
   },
 
   mounted() {
     document.getElementById("category").value = this.category.val;
+    /*console.log("A: " + this.$route.params.category);
+    var temp = this.$route.params.category; //ono kad se komponente kreiraju mounted tako nesto
+    console.log("TEMP!" + temp);
+    var mySelect = document.getElementById("category");
+    console.log("MY SELECT LENGTH: " + mySelect.length);*/
+
+    /*
+        var value = select.options[select.selectedIndex].value;
+        console.log(value); // en
+         */
+
+    /*
+        var mySubString = str.substring(
+        str.lastIndexOf(":") + 1, 
+        str.lastIndexOf(";")
+    );
+
+         */
+
+    /*for (var i = 0; i < mySelect.length; i++) {
+      //console.log("VALUE: " + JSON.stringify(mySelect[i]));
+      var tmpString = JSON.stringify(mySelect[i]).toString();
+      var mySubString = tmpString.substring(tmpString.lastIndexOf("categoryName:") + 1, tmpString.lastIndexOf("imageUrl:"))
+      console.log("MUSBSTR: "+mySubString);
+      mySelect.selectedIndex = 0;
+    }*/
+
+    /*for (var i, j = 0; (i = mySelect.options[j]); j++) {
+          console.log("NEKO I: "+JSON.stringify(i.value.id));
+          //console.log("mm: "+JSON.stringify(i.value));
+          if (i.value == temp) {
+            console.log("DA");
+            mySelect.selectedIndex = j;
+            break;
+          }
+        }*/
   },
 
   methods: {
@@ -215,7 +268,7 @@ export default {
         this.name.isValid = false;
         this.formIsValid = false;
       }
-      if (!this.imageUrl.val) {
+      if (this.imageUrl.val.localeCompare("") === 0) {
         this.imageUrl.isValid = false;
         this.formIsValid = false;
       }
@@ -243,6 +296,7 @@ export default {
     },
 
     onPickFile() {
+      this.imageUrl.val = "";
       this.$refs.fileInput.click(); // trigerujem na klik
     },
     onFilePicked(event) {
@@ -262,6 +316,7 @@ export default {
       this.image.val = files[0];
       //console.log("this.image.val: " + this.image.val);
       //console.log("FILENAME: " + filename);
+      this.isLoadingPhoto = true;
     },
     submitForm() {
       this.validateForm();
@@ -290,6 +345,8 @@ export default {
           category: this.category.val.categoryName,
           active: true,
         };
+
+        // set default select
 
         var tmpArticles = this.getArticles;
         var tmp2 = JSON.stringify(this.childrenKey.val.toString().trim());
