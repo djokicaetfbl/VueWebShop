@@ -28,8 +28,8 @@ const router = createRouter({
        
         //{ path: '/articles/:category/:' }
         { path: '/cart', component: Cart },
-        { path: '/newCategory', component: NewCategory, name: 'new-category' }, // ovaj name mi treba radi push kod slanja podataka u formu na drugoj ruti :D, to je ona metoda update u CategoryItem
-        { path: '/newArticle', component: NewArticle, name: 'new-article' },
+        { path: '/newCategory', component: NewCategory, name: 'new-category' ,  meta: {requiresAuth: true} }, // ovaj name mi treba radi push kod slanja podataka u formu na drugoj ruti :D, to je ona metoda update u CategoryItem
+        { path: '/newArticle', component: NewArticle, name: 'new-article', meta: {requiresAuth: true} }, // zahtjeva autentikaciju korisnika da bi mogao da pristupi ovom page-u
         { path: '/auth', component: UserAuth, meta: {requiresUnauth: true} }, // hvali koda
         { path: '/registration', component: UserRegistration, meta: {requiresUnauth: true} },
         { path: '/:notFound(.*)', component: NotFound },
