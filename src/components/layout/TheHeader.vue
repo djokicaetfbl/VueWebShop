@@ -23,15 +23,24 @@
             <MDBIcon icon="user" size="3x" />
           </MDBDropdownToggle>
           <MDBDropdownMenu>
-            <MDBDropdownItem v-if="!isLoggedIn" id="dropdwonItemLogin" style="font-size: 18px"
+            <MDBDropdownItem
+              v-if="!isLoggedIn"
+              id="dropdwonItemLogin"
+              style="font-size: 18px"
               ><router-link to="/auth">Prijava</router-link></MDBDropdownItem
             >
-            <MDBDropdownItem v-if="!isLoggedIn" id="dropdwonItemRegister" style="font-size: 18px"
+            <MDBDropdownItem
+              v-if="!isLoggedIn"
+              id="dropdwonItemRegister"
+              style="font-size: 18px"
               ><router-link to="/registration"
                 >Registracija</router-link
               ></MDBDropdownItem
             >
-            <MDBDropdownItem v-if="isLoggedIn" @click="logout" id="dropdwonItemLogout"
+            <MDBDropdownItem
+              v-if="isLoggedIn"
+              @click="logout"
+              id="dropdwonItemLogout"
               ><router-link to="">Odjava</router-link></MDBDropdownItem
             >
           </MDBDropdownMenu>
@@ -42,28 +51,47 @@
 
   <br />
 
-  <div class="input-group">
+  <div class="input-group" v-if="!isMobile">
     <!-- <div class="form-outline" style="border-style: dotted; border-color: blue">  -->
+    <input
+      id="search-focus"
+      type="search"
+      placeholder="Unesite naziv artikla"
+      v-model.trim="articleName"
+    />
+    <input type="text" :value="this.category" readonly style="width: 20%" />
+    <button type="button" class="btn btn-primary" @click="searchArticle">
+      <i class="fas fa-search"></i>
+    </button>
+  </div>
+  <div v-if="isMobile">
+    <div class="row">
+      <input
+        type="text"
+        :value="this.category"
+        readonly
+        style="width: 50%; margin-left: 20%"
+      />
+    </div>
+    <div class="row">
       <input
         id="search-focus"
         type="search"
         placeholder="Unesite naziv artikla"
         v-model.trim="articleName"
+        style="width: 50%; margin-left: 20%; margin-top: 2%;"
       />
-      <!--  <label class="form-label" for="form1">Pretraži</label>  -->
- <!--   </div>  -->
-
-    <!--
-    <select name="category" id="category" class="selectCategory">
-      <option v-for="item in getCategories" :value="item" :key="item.id">
-        {{ item.categoryName }}
-      </option>
-    </select>
-    -->
-    <input type="text" :value="this.category" readonly style="width: 20%" />
-    <button type="button" class="btn btn-primary" @click="searchArticle">
-      <i class="fas fa-search"></i>
-    </button>
+    </div>
+    <div class="row">
+      <button
+        type="button"
+        class="btn btn-primary"
+        @click="searchArticle"
+        style="width: 50%; margin-left: 20%; margin-top: 2%;"
+      >
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -86,10 +114,37 @@ export default {
       category: "",
       articleName: "",
       path: "",
+      currentScreenWidth: window.screen.width,
+      currentWidth: 500,
+      isLoading: false,
+      isMobile: false,
     };
   },
+
+  mounted() {
+    // IZVRSIT CE SE PRIJE NEGO SE KOMPONENTA UCITA
+    console.log("USAAA");
+    this.currentScreenWidth = window.screen.width;
+    window.onresize = () => {
+      this.currentScreenWidth = window.screen.width;
+      if (this.currentScreenWidth < this.currentWidth) {
+        this.isMobile = true;
+        console.log("USAAA DA");
+      } else {
+        console.log("USAAA NE");
+        this.isMobile = false;
+      }
+    };
+  },
+
   created() {
-    //console.log("A: "+JSON.stringify(this.$route.path));
+    this.currentScreenWidth = window.screen.width;
+    if (this.currentScreenWidth < this.currentWidth) {
+      this.isMobile = true;
+    } else {
+      this.isMobile = false;
+    }
+
     this.path = this.$route.path;
     console.log("THIS PATH: " + this.path);
     //console.log("B: "+JSON.stringify(this.$route.params));
@@ -162,11 +217,11 @@ export default {
         }
         this.$store.dispatch("article/setCart", searchableCart);
       } else {*/
-        const payload = {
-          category: this.category,
-          articleName: this.articleName,
-        };
-        await this.$store.dispatch("article/fetchArticleByName", payload);
+      const payload = {
+        category: this.category,
+        articleName: this.articleName,
+      };
+      await this.$store.dispatch("article/fetchArticleByName", payload);
       //}
     },
   },
@@ -214,7 +269,9 @@ window.addEventListener("keyup", (e) => {
   width: 35%;
 }
 
-#dropdwonItemLogout, #dropdwonItemRegister, #dropdwonItemLogin {
+#dropdwonItemLogout,
+#dropdwonItemRegister,
+#dropdwonItemLogin {
   font-size: 20px;
 }
 
@@ -223,7 +280,7 @@ window.addEventListener("keyup", (e) => {
   height: 45px;
 }
 
-#search-focus{
+#search-focus {
   width: 30%;
 }
 
