@@ -4,13 +4,15 @@
       <div class="row">
         <div class="column">
           <div class="card">
-            <img v-if="screenWidth > currentWidth"
+            <img
+              v-if="screenWidth > currentWidth"
               :src="imageUrl"
               class="card-img-top"
               alt="..."
               style="max-height: 300px; max-width: 500px"
             />
-            <img v-else
+            <img
+              v-else
               :src="imageUrl"
               class="card-img-top"
               alt="..."
@@ -19,7 +21,9 @@
           </div>
         </div>
         <div class="card-body">
-          <p v-if="screenWidth > currentWidth" class="articleHistory">{{ name }} » {{ category }}</p>
+          <p v-if="screenWidth > currentWidth" class="articleHistory">
+            {{ name }} » {{ category }}
+          </p>
           <p v-else class="articleHistoryMDisplay">{{ name }}</p>
         </div>
       </div>
@@ -38,15 +42,19 @@
         color="danger"
         @click="deleteArticleFromCart"
         id="deleteArticleFromCartMDisplay"
-        ><i class="fa fa-trash fa-sm" aria-hidden="true">&nbsp;&nbsp;</i
+        ><i class="fa fa-trash fa-sm" aria-hidden="true"
+          >&nbsp;&nbsp;</i
         ></MDBBtn
       >
     </th>
-    <th v-if="screenWidth > currentWidth" scope="row" id="articleQuantity">{{ quantity }}</th>
+    <th v-if="screenWidth > currentWidth" scope="row" id="articleQuantity">
+      {{ quantity }}
+    </th>
     <th v-else scope="row" id="articleQuantityMDisplay">{{ quantity }}</th>
     <th v-if="screenWidth > currentWidth" id="articlePrice">{{ price }}</th>
     <th v-else id="articlePriceMDisplay">{{ price }}</th>
   </tr>
+
 </template>
 
 <script>
@@ -71,14 +79,20 @@ export default {
       currentWidth: 411,
     };
   },
+
   methods: {
     deleteArticleFromCart() {
       var cart = this.getCart;
-      for(var i = 0; i < cart.length; i++){
-          if(cart[i].id.toString().trim().localeCompare(this.id.toString().trim()) === 0){
-              cart.splice(i,1);
-              this.$store.dispatch("article/setCart",cart);
-          }
+      for (var i = 0; i < cart.length; i++) {
+        if (
+          cart[i].id
+            .toString()
+            .trim()
+            .localeCompare(this.id.toString().trim()) === 0
+        ) {
+          cart.splice(i, 1);
+          this.$store.dispatch("article/setCart", cart);
+        }
       }
     },
   },
@@ -129,5 +143,4 @@ export default {
   font-size: 8px;
   color: #39c0ed;
 }
-
 </style>

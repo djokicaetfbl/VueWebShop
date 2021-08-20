@@ -8,6 +8,7 @@ import ArticleList from './pages/webshop/ArticleList.vue';
 import ArticleDetail from './pages/webshop/ArticleDetail.vue';
 import Cart from './pages/webshop/Cart.vue';
 import NewCategory from './pages/webshop/NewCategory.vue';
+
 import NewArticle from  './pages/webshop/NewArticle.vue';
 import store from './store/index.js';
 
