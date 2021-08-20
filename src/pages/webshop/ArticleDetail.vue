@@ -1,152 +1,149 @@
 <template>
   <the-header-basic></the-header-basic>
   <div>
-  <base-card>
-    <div class="row">
-      <div class="column">
-        <div class="card">
-          <img
-            :src="article.imageUrl"
-            class="card-img-top"
-            alt="..."
-            style="max-height: 300px"
-          />
+    <base-card style="width: 82%">
+      <div class="row">
+        <div class="column">
+          <div class="card">
+            <img
+              :src="article.imageUrl"
+              class="card-img-top"
+              alt="..."
+              style="max-height: 300px"
+            />
+          </div>
         </div>
-      </div>
-      <div class="column">
-        <div class="card-body">
-          <h5 class="card-title">{{ article.name }}</h5>
-          <p id="articleDescribeParagraph" class="card-text">
-            {{ article.describe }}
-          </p> 
-          <!-- <MDBTextarea label="Message" rows="4" v-model="textareaValue" /> -->
-          <h5 class="card-title">{{ article.price }}KM</h5>
+        <div class="column">
+          <div class="card-body">
+            <h5 class="card-title">{{ article.name }}</h5>
+            <p id="articleDescribeParagraph" class="card-text">
+              {{ article.describe }}
+            </p>
+            <!-- <MDBTextarea label="Message" rows="4" v-model="textareaValue" /> -->
+            <h5 class="card-title">{{ article.price }}KM</h5>
 
-          <div class="row">
-            <div class="column">
-              <div class="col-sm-6 col-md-5 col-lg-6">
-                <div class="qty-selector input-group js-qty-selector">
-                  <span class="input-group-btn">
-                    <button v-if="screenWidth > currentWidth"
-                      class="btn btn-primary"
-                      id="buttonPlus"
-                      type="button"
-                      @click="addQuantity"
-                    >
-                      <i class="fas fa-plus"></i>
-                    </button>
-                    <button v-else
-                      class="btn btn-primary"
-                      id="buttonPlusMDisplay"
-                      type="button"
-                      @click="addQuantity"
-                    >
-                      <i class="fas fa-plus"></i>
-                    </button>
+            <div class="row">
+              <div class="column">
+                <div class="col-sm-6 col-md-5 col-lg-6">
+                  <div class="qty-selector input-group js-qty-selector">
+                    <span class="input-group-btn">
+                      <button
+                        v-if="!isMobile"
+                        class="btn btn-primary"
+                        id="buttonPlus"
+                        type="button"
+                        @click="addQuantity"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
+                      <button
+                        v-else
+                        class="btn btn-primary"
+                        id="buttonPlusMDisplay"
+                        type="button"
+                        @click="addQuantity"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
 
-                    <input v-if="screenWidth > currentWidth"
-                      type="number"
-                      id="quantity"
-                      readonly
-                      maxlength="3"
-                      class="form-control"
-                      :value="getCounter"
-                      name="pdpAddtoCartInput"
-                    />
-                    <input v-else
-                      type="number"
-                      id="quantityMDisplay"
-                      readonly
-                      maxlength="3"
-                      class="form-control"
-                      :value="getCounter"
-                      name="pdpAddtoCartInput"
-                    />
+                      <input
+                        v-if="!isMobile"
+                        type="number"
+                        id="quantity"
+                        readonly
+                        maxlength="3"
+                        class="form-control"
+                        :value="getCounter"
+                        name="pdpAddtoCartInput"
+                      />
+                      <input
+                        v-else
+                        type="number"
+                        id="quantityMDisplay"
+                        readonly
+                        maxlength="3"
+                        class="form-control"
+                        :value="getCounter"
+                        name="pdpAddtoCartInput"
+                      />
 
-                    <button  v-if="screenWidth > currentWidth"
-                      class="btn btn-primary"
-                      id="buttonMinus"
-                      type="button"
-                      @click="removeQuantity"
-                    >
-                      <i class="fas fa-minus"></i>
-                    </button>
-                    <button  v-else
-                      class="btn btn-primary"
-                      id="buttonMinusMDisplay"
-                      type="button"
-                      @click="removeQuantity"
-                    >
-                      <i class="fas fa-minus"></i>
-                    </button>
-                  </span>
+                      <button
+                        v-if="!isMobile"
+                        class="btn btn-primary"
+                        id="buttonMinus"
+                        type="button"
+                        @click="removeQuantity"
+                      >
+                        <i class="fas fa-minus"></i>
+                      </button>
+                      <button
+                        v-else
+                        class="btn btn-primary"
+                        id="buttonMinusMDisplay"
+                        type="button"
+                        @click="removeQuantity"
+                      >
+                        <i class="fas fa-minus"></i>
+                      </button>
+                    </span>
+                  </div>
+                  <div class="stock-status"></div>
                 </div>
-                <div class="stock-status"></div>
               </div>
-            </div>
-            <div class="column" id="columnAddArticleToCart">
-              <!-- <button
-                class="btn btn-primary"
-                type="button"
-                id="addToCart"
-                @click="addArticleToCart"
-              >
-                Dodaj u korpu <i class="fas fa-shopping-cart fa-2x"></i>
-              </button>
-              -->
+              <div class="column" id="columnAddArticleToCart">
 
-              <MDBBtn v-if="screenWidth > currentWidth"
-                color="primary"
-                id="addToCart"
-                aria-controls="buyModal"
-                @click="buyModal = true"
-              >
-                Dodaj u korpu <i class="fas fa-shopping-cart fa-2x"></i
-              ></MDBBtn>
-              <MDBBtn v-else
-                color="primary"
-                id="addToCartMDisplay"
-                aria-controls="buyModal"
-                @click="buyModal = true"
-              >
-                Dodaj u korpu <i class="fas fa-shopping-cart fa-2x"></i
-              ></MDBBtn>
+                <MDBBtn
+                  v-if="!isMobile"
+                  color="primary"
+                  id="addToCart"
+                  aria-controls="buyModal"
+                  @click="buyModal = true"
+                >
+                  Dodaj u korpu <i class="fas fa-shopping-cart fa-2x"></i
+                ></MDBBtn>
+                <MDBBtn
+                   v-if="isMobile"
+                  color="primary"
+                  id="addToCartMDisplay"
+                  aria-controls="buyModal"
+                  @click="buyModal = true"
+                >
+                  Dodaj korpu lll<i class="fas fa-shopping-cart fa-2x"></i
+                ></MDBBtn>
 
-              <MDBModal
-                id="buyModal"
-                tabindex="-1"
-                labelledby="buyModalLabel"
-                v-model="buyModal"
-              >
-                <MDBModalHeader>
-                  <MDBModalTitle id="buyModalLabel">
-                    Dodavanje artikla u korpu
-                  </MDBModalTitle>
-                </MDBModalHeader>
-                <MDBModalBody>
-                  <p >
-                    Artikl {{ article.name }} je uspješno dodat u korpu.
-                  </p>
-                  <p>Količina: {{ counter }}</p>
-                </MDBModalBody>
-                <MDBModalFooter>
-                  <MDBBtn
-                    color="secondary"
-                    @click="
-                      buyModal = false;
-                      addArticleToCart();
-                    "
-                    >Potvrdi</MDBBtn
-                  >
-                  <!-- <MDBBtn color="primary">Save changes</MDBBtn>  -->
-                </MDBModalFooter>
-              </MDBModal>
+                <MDBModal
+                  id="buyModal"
+                  tabindex="-1"
+                  labelledby="buyModalLabel"
+                  v-model="buyModal"
+                >
+                  <MDBModalHeader>
+                    <MDBModalTitle id="buyModalLabel">
+                      Dodavanje artikla u korpu
+                    </MDBModalTitle>
+                  </MDBModalHeader>
+                  <MDBModalBody>
+                    <p>Artikl {{ article.name }} je uspješno dodat u korpu.</p>
+                    <p>Količina: {{ counter }}</p>
+                  </MDBModalBody>
+                  <MDBModalFooter>
+                    <MDBBtn
+                      color="secondary"
+                      @click="
+                        buyModal = false;
+                        addArticleToCart();
+                      "
+                      >Potvrdi</MDBBtn
+                    >
+                    <!-- <MDBBtn color="primary">Save changes</MDBBtn>  -->
+                  </MDBModalFooter>
+                </MDBModal>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </base-card>
+    </base-card>
   </div>
 </template>
 
@@ -161,7 +158,7 @@ import {
   MDBModalTitle,
   MDBModalBody,
   MDBModalFooter,
- // MDBTextarea ,
+  // MDBTextarea ,
 } from "mdb-vue-ui-kit";
 import { ref } from "vue";
 
@@ -169,7 +166,7 @@ export default {
   components: {
     TheHeaderBasic,
     BaseCard,
-   // MDBTextarea ,
+    // MDBTextarea ,
     MDBBtn,
     MDBModal,
     MDBModalHeader,
@@ -220,12 +217,33 @@ export default {
       counter: 1,
       article: "",
       cart: [],
-      screenWidth: window.innerWidth,
-      currentWidth: 411,
+      currentScreenWidth: window.screen.width,
+      currentWidth: 500,
+      isLoading: false,
+      isMobile: false,
     };
   },
   created() {
     this.loadArticles();
+
+    this.currentScreenWidth = window.screen.width;
+    if (this.currentScreenWidth < this.currentWidth) {
+      this.isMobile = true;
+    } else {
+      this.isMobile = false;
+    }
+  },
+  mounted() {
+    // IZVRSIT CE SE PRIJE NEGO SE KOMPONENTA UCITA
+    this.currentScreenWidth = window.screen.width;
+    window.onresize = () => {
+      this.currentScreenWidth = window.screen.width;
+      if (this.currentScreenWidth < this.currentWidth) {
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
+      }
+    };
   },
   methods: {
     addQuantity() {
@@ -352,7 +370,7 @@ export default {
   background-color: #39c0ed;
 }
 
-#columnAddArticleToCart{
+#columnAddArticleToCart {
   margin-left: -10px;
 }
 
@@ -394,9 +412,9 @@ export default {
 }
 
 #articleDescribeParagraph {
-    width: 15ch;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  width: 15ch;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>

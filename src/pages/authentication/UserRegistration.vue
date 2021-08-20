@@ -8,16 +8,15 @@
     <base-spinner></base-spinner>
   </base-dialog>
   <the-header-basic></the-header-basic>
-  <base-card>
+  <base-card style="max-width: 82%">
     <h2>Registracija korisnika</h2>
     <hr />
     <form @submit.prevent="submitForm">
       <!-- prevent sprijeci defaultni http (POST) request -->
       <!-- 2 column grid layout with text inputs for the first and last names -->
-      <div class="row mb-4">
-        <div class="col">
+      <!-- <div class="row mb-4">
+         <div class="col">
           <div class="form-outline mb-4" :class="{ invalid: !firstName.isValid }">
-            <!--<span class="badge bg-primary" for="firstName">Ime</span> -->
             <label class="labelFirstName" for="firstName">Ime</label><br>
             <label>{{ firstName.error ? firstName.errorMessage : "" }}</label>
             <br />
@@ -31,12 +30,11 @@
               @blur="clearValidity('firstName')"
             />
           </div>
-          <!-- <label class="form-label" for="email">Email address</label>  -->
         </div>
+        
 
         <div class="col">
           <div class="form-outline mb-4" :class="{ invalid: !lastName.isValid }">
-            <!-- <span class="badge bg-primary" for="lastName"></span> -->
             <label class="labelLastName" for="lastName">Prezime</label><br>
             <label>{{ lastName.error ? lastName.errorMessage : "" }}</label>
             <input
@@ -48,10 +46,9 @@
               placeholder="Prezime"
               @blur="clearValidity('lastName')"
             />
-            <!-- <label class="form-label" for="email">Email address</label>  -->
           </div>
         </div>
-      </div>
+      </div> -->
       <!-- Email input -->
       <div class="row mb-4">
         <div class="col">
@@ -70,10 +67,10 @@
             />
             <!-- <label class="form-label" for="email">Email address</label>  -->
           </div>
-        </div>
+       <!--  </div> -->
 
         <!-- Password input -->
-        <div class="col">
+        <!-- <div class="col">  -->
           <div class="form-outline mb-4" :class="{ invalid: !email.isValid }">
             <!-- <span class="badge bg-primary" for="password">Lozinka</span> -->
             <label class="labelPassword" for="password">Password</label><br>
@@ -168,7 +165,7 @@ export default {
       } else {
         this.password.error = false;
       }
-      if (this.firstName.val === "") {
+     /* if (this.firstName.val === "") {
         this.firstName.isValid = false;
         this.firstName.error = true;
         this.formIsValid = false;
@@ -181,7 +178,7 @@ export default {
         this.formIsValid = false;
       } else {
         this.lastName.error = false;
-      }
+      }*/
     },
     async submitForm() {
       /*if (

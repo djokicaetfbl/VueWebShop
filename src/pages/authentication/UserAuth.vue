@@ -23,7 +23,7 @@
       <p>Authenticating...</p>
       <base-spinner></base-spinner>
     </base-dialog>
-    <base-card>
+    <base-card style="max-width: 82%">
       <h2>Prijava korisnika</h2>
       <hr />
       <form @submit.prevent="submitForm">
@@ -91,7 +91,7 @@ export default {
       isLoading: false,
       error: null,
       screenWidth: window.innerWidth,
-      currentWidth: 411,
+      currentWidth: 500,
     };
   },
   computed: {},

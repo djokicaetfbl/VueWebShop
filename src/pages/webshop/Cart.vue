@@ -1,18 +1,18 @@
 <template>
-  <the-header-basic></the-header-basic>
+  <the-header-basic style="width: 100%"></the-header-basic>
 
   <h1 id="korpa">Korpa</h1>
   <base-card>
     <MDBTable>
       <thead class="table-light">
         <tr>
-          <th v-if="screenWidth > currentWidth " scope="col" id="columnProizvod">Proizvod</th>
+          <th v-if="!isMobile" scope="col" id="columnProizvod">Proizvod</th>
            <th v-else scope="col" id="columnProizvodMDisplay" >Proizvod</th>
-          <th v-if="screenWidth > currentWidth " scope="col" id="columnUkloni">Ukloni</th>
+          <th v-if="!isMobile" scope="col" id="columnUkloni">Ukloni</th>
           <th v-else scope="col" id="columnUkloniMDisplay">Ukloni</th>
-          <th v-if="screenWidth > currentWidth " scope="col" id="columnKolicina">Količina</th>
+          <th v-if="!isMobile" scope="col" id="columnKolicina">Količina</th>
           <th v-else scope="col" id="columnKolicinaMDisplay">Količina</th>
-          <th v-if="screenWidth > currentWidth " scope="col" id="columnCijena">Cijena</th>
+          <th v-if="!isMobile" scope="col" id="columnCijena">Cijena</th>
           <th v-else scope="col" id="columnCijenamDisplay">Cijena</th>
         </tr>
       </thead>
@@ -109,10 +109,35 @@ export default {
       isLoading: false,
       error: null,
       summaryPriceXQuantity: 0.0,
-      screenWidth: window.innerWidth,
-      currentWidth: 411,
+      currentScreenWidth: window.screen.width,
+      currentWidth: 500,
+      isMobile: false,
     };
   },
+
+  created() {
+    this.currentScreenWidth = window.screen.width;
+    if (this.currentScreenWidth < this.currentWidth) {
+      this.isMobile = true;
+    } else {
+      this.isMobile = false;
+    }
+  },
+  mounted() {
+    // IZVRSIT CE SE PRIJE NEGO SE KOMPONENTA UCITA
+    this.currentScreenWidth = window.screen.width;
+    window.onresize = () => {
+      this.currentScreenWidth = window.screen.width;
+      if (this.currentScreenWidth < this.currentWidth) {
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
+      }
+    };
+  },
+
+
+
   methods: {
     clearCart() {
       var cart = this.getCart;

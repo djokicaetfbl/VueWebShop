@@ -3,9 +3,9 @@
     <th scope="row">
       <div class="row">
         <div class="column">
-          <div class="card">
+          <div class="card" >
             <img
-              v-if="screenWidth > currentWidth"
+              v-if="!isMobile"
               :src="imageUrl"
               class="card-img-top"
               alt="..."
@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="card-body">
-          <p v-if="screenWidth > currentWidth" class="articleHistory">
+          <p v-if="!isMobile" class="articleHistory">
             {{ name }} » {{ category }}
           </p>
           <p v-else class="articleHistoryMDisplay">{{ name }}</p>
@@ -30,7 +30,7 @@
     </th>
     <th scope="row">
       <MDBBtn
-        v-if="screenWidth > currentWidth"
+        v-if="!isMobile"
         color="danger"
         @click="deleteArticleFromCart"
         id="deleteArticleFromCart"
@@ -47,14 +47,13 @@
         ></MDBBtn
       >
     </th>
-    <th v-if="screenWidth > currentWidth" scope="row" id="articleQuantity">
+    <th v-if="!isMobile" scope="row" id="articleQuantity">
       {{ quantity }}
     </th>
     <th v-else scope="row" id="articleQuantityMDisplay">{{ quantity }}</th>
-    <th v-if="screenWidth > currentWidth" id="articlePrice">{{ price }}</th>
+    <th v-if="!isMobile" id="articlePrice">{{ price }}</th>
     <th v-else id="articlePriceMDisplay">{{ price }}</th>
   </tr>
-
 </template>
 
 <script>
@@ -75,8 +74,31 @@ export default {
   ],
   data() {
     return {
-      screenWidth: window.innerWidth,
-      currentWidth: 411,
+      currentScreenWidth: window.screen.width,
+      currentWidth: 500,
+      isLoading: false,
+      isMobile: false,
+    };
+  },
+
+  created() {
+    this.currentScreenWidth = window.screen.width;
+    if (this.currentScreenWidth < this.currentWidth) {
+      this.isMobile = true;
+    } else {
+      this.isMobile = false;
+    }
+  },
+  mounted() {
+    // IZVRSIT CE SE PRIJE NEGO SE KOMPONENTA UCITA
+    this.currentScreenWidth = window.screen.width;
+    window.onresize = () => {
+      this.currentScreenWidth = window.screen.width;
+      if (this.currentScreenWidth < this.currentWidth) {
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
+      }
     };
   },
 

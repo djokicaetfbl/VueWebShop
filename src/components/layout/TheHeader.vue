@@ -18,20 +18,21 @@
             tag="a"
             class="nav-link"
             @click="dropdown3 = !dropdown3"
+            style="margin-right: 50px"
           >
             <MDBIcon icon="user" size="3x" />
           </MDBDropdownToggle>
           <MDBDropdownMenu>
-            <MDBDropdownItem v-if="!isLoggedIn" id="dropdwonItemLogin"
-              ><router-link to="/auth">Login</router-link></MDBDropdownItem
+            <MDBDropdownItem v-if="!isLoggedIn" id="dropdwonItemLogin" style="font-size: 18px"
+              ><router-link to="/auth">Prijava</router-link></MDBDropdownItem
             >
-            <MDBDropdownItem v-if="!isLoggedIn" id="dropdwonItemRegister"
+            <MDBDropdownItem v-if="!isLoggedIn" id="dropdwonItemRegister" style="font-size: 18px"
               ><router-link to="/registration"
-                >Register</router-link
+                >Registracija</router-link
               ></MDBDropdownItem
             >
             <MDBDropdownItem v-if="isLoggedIn" @click="logout" id="dropdwonItemLogout"
-              ><router-link to="">Logout</router-link></MDBDropdownItem
+              ><router-link to="">Odjava</router-link></MDBDropdownItem
             >
           </MDBDropdownMenu>
         </MDBDropdown>

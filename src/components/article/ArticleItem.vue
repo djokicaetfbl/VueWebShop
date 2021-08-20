@@ -5,7 +5,7 @@
       :src="imageUrl"
       class="card-img-top"
       alt="..."
-      style="max-height: 300px; max-width: 500px;"
+      style="max-height: 300px; max-width: 500px"
     />
     <div class="card-body">
       <h5 class="card-title">{{ name }}</h5>
@@ -15,16 +15,39 @@
       <h5 class="card-title">Cijena: {{ price }} KM</h5>
       <!-- <a href="#!" class="btn btn-primary"><router-link to="/articles/kucanskiAparati/1">Detalji</router-link></a> -->
       <!-- <h3 id="h3"><router-link to="/articles/kucanskiAparati/1">Detalji</router-link></h3>  -->
-      <button id="updateArticle" class="btn btn-primary" v-if="isLoggedIn" @click="updateArticle">
+      <button
+        id="updateArticle"
+        class="btn btn-primary"
+        v-if="isLoggedIn"
+        @click="updateArticle"
+      >
         Izmjeni
       </button>
-      <button id="deleteArticle" class="btn btn-primary" v-if="isLoggedIn" @click="deleteArticle">
+      <button
+        id="deleteArticle"
+        class="btn btn-primary"
+        v-if="isLoggedIn"
+        @click="deleteArticle"
+      >
         Izbriši
       </button>
       <h3 id="h3">
         <!-- <router-link :to="articleDetailLink">Detalji</router-link> -->
-        <button id="articleDetails" class="btn btn-primary" @click="articleDetails">Detalji</button>
+        <button v-if="!isMobile"
+          id="articleDetails"
+          class="btn btn-primary"
+          @click="articleDetails"
+        >
+          Detalji
+        </button>
       </h3>
+      <button v-if="isMobile"
+          id="articleDetails"
+          class="btn btn-primary"
+          @click="articleDetails"
+        >
+          Detalji
+        </button>
     </div>
   </div>
   <hr />
@@ -47,6 +70,39 @@ export default {
     "imageUrl",
     "active",
   ],
+
+  data() {
+    return {
+      screenWidth: window.screen.width /*window.innerWidth,*/,
+      currentWidth: 500,
+      isLoading: false,
+
+      isMobile: false,
+      MOBILE_WIDTH: 500,
+    };
+  },
+
+  created() {
+    this.currentScreenWidth = window.screen.width;
+    if (this.screenWidth < this.MOBILE_WIDTH) {
+      this.isMobile = true;
+    } else {
+      this.isMobile = false;
+    }
+  },
+
+  mounted() {
+    // IZVRSIT CE SE PRIJE NEGO SE KOMPONENTA UCITA
+    this.currentScreenWidth = window.screen.width;
+    window.onresize = () => {
+      this.currentScreenWidth = window.screen.width;
+      if (this.screenWidth < this.MOBILE_WIDTH) {
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
+      }
+    };
+  },
 
   methods: {
     deleteArticle() {
@@ -133,14 +189,15 @@ export default {
 }
 
 #updateArticle {
-  background-color: #39C0ED;
+  background-color: #39c0ed;
 }
 
-#deleteArticle{
-  background-color: #F93154;
+#deleteArticle {
+  background-color: #f93154;
 }
 
-#articleDetails{
-  background-color: #B23CFD;
+#articleDetails {
+  background-color: #b23cfd;
 }
+
 </style>

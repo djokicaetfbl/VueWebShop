@@ -634,7 +634,7 @@
         <!-- </base-card> -->
         <button
           class="btn btn-primary"
-          style="margin-left: 70%"
+          style="margin-right: 5%"
           v-if="isLoggedIn && currentScreenWidth < currentWidth + 1"
           @click="$router.push('/newCategory')"
         >
