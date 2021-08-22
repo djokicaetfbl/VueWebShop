@@ -50,9 +50,9 @@
               alt="..."
               @blur="clearValidity('imageUrl')"
             />
-            <p v-if="!imageUrl.isValid" style="color: red">
+            <!-- <p v-if="!imageUrl.isValid" style="color: red">
               Niste izabrali fotografiju.
-            </p>
+            </p>  -->
           </div>
         </div>
         <button v-if="!update"

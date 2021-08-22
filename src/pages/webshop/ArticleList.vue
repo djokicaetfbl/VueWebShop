@@ -1,9 +1,9 @@
 <template>
   <the-header></the-header>
   <br />
-  <div v-if="isLoading">
+  <!-- <div v-if="isLoading">
     <base-spinner></base-spinner>
-  </div>
+  </div>  -->
   <button
     v-if="isLoggedIn"
     type="button"

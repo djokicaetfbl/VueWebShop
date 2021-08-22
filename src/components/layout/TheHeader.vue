@@ -123,15 +123,12 @@ export default {
 
   mounted() {
     // IZVRSIT CE SE PRIJE NEGO SE KOMPONENTA UCITA
-    console.log("USAAA");
     this.currentScreenWidth = window.screen.width;
     window.onresize = () => {
       this.currentScreenWidth = window.screen.width;
       if (this.currentScreenWidth < this.currentWidth) {
         this.isMobile = true;
-        console.log("USAAA DA");
       } else {
-        console.log("USAAA NE");
         this.isMobile = false;
       }
     };
@@ -146,8 +143,6 @@ export default {
     }
 
     this.path = this.$route.path;
-    console.log("THIS PATH: " + this.path);
-    //console.log("B: "+JSON.stringify(this.$route.params));
     this.category = this.$route.params.category;
   },
   components: {

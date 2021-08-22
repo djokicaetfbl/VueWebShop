@@ -34,6 +34,7 @@
         color="danger"
         @click="deleteArticleFromCart"
         id="deleteArticleFromCart"
+        style="margin-top: 0.2%;"
         ><i class="fa fa-trash" aria-hidden="true">&nbsp;&nbsp;</i
         >Ukloni</MDBBtn
       >
@@ -133,7 +134,6 @@ export default {
 }
 
 #deleteArticleFromCartMDisplay {
-  /*font-size: 5px;*/
   margin-top: -10%;
   margin-left: -20px;
 }

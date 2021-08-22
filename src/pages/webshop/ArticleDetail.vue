@@ -1,5 +1,5 @@
 <template>
-  <the-header-basic></the-header-basic>
+  <the-header-basic style="width: 100%"></the-header-basic>
   <div>
     <base-card style="width: 82%">
       <div class="row">
@@ -108,7 +108,7 @@
                   aria-controls="buyModal"
                   @click="buyModal = true"
                 >
-                  Dodaj korpu lll<i class="fas fa-shopping-cart fa-2x"></i
+                  Dodaj u korpu<i class="fas fa-shopping-cart fa-2x"></i
                 ></MDBBtn>
 
                 <MDBModal

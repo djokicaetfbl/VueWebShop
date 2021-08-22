@@ -1,7 +1,7 @@
 <template id="bla">
    <div v-if="!isMobileHrizontal">  
     <div>
-    <the-header-basic></the-header-basic>
+    <the-header-basic style="width: 100%"></the-header-basic>
     <br />
     <div v-if="isLoading">
       <base-spinner></base-spinner>

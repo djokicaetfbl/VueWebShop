@@ -49,9 +49,9 @@
               alt="..."
               @blur="clearValidity('imageUrl')"
             />
-            <p v-if="!imageUrl.isValid" style="color: red">
+            <!--<p v-if="!imageUrl.isValid" style="color: red">
               Niste izabrali fotografiju.
-            </p>
+            </p>  -->
           </div>
         </div>
         <div class="row mb-4" :class="{ invalid: !price.isValid }">
@@ -75,6 +75,7 @@
                   v-for="item in getCategories"
                   :value="item"
                   :key="item.id"
+                  id="selectID"
                 >
                   {{ item.categoryName }}
                 </option>
@@ -202,7 +203,8 @@ export default {
       this.$route.params.category &&
       this.$route.params.update
     ) {
-      this.category.val = this.$route.params.category;
+      this.category.val = this.$route.params.category; //categoryName
+      // this.category.val.categoryName = this.$route.params.category;
       this.imageUrl.val = this.$route.params.imageUrl;
       this.id = this.$route.params.id;
       this.active = this.$route.params.active;
@@ -214,47 +216,16 @@ export default {
       if (this.imageUrl.val !== "") {
         this.isLoadingPhoto = true;
       }
+      /*setTimeout(() => 
+      
+      , 500);*/
     }
   },
 
   mounted() {
-    document.getElementById("category").value = this.category.val;
-    /*console.log("A: " + this.$route.params.category);
-    var temp = this.$route.params.category; //ono kad se komponente kreiraju mounted tako nesto
-    console.log("TEMP!" + temp);
-    var mySelect = document.getElementById("category");
-    console.log("MY SELECT LENGTH: " + mySelect.length);*/
-
-    /*
-        var value = select.options[select.selectedIndex].value;
-        console.log(value); // en
-         */
-
-    /*
-        var mySubString = str.substring(
-        str.lastIndexOf(":") + 1, 
-        str.lastIndexOf(";")
-    );
-
-         */
-
-    /*for (var i = 0; i < mySelect.length; i++) {
-      //console.log("VALUE: " + JSON.stringify(mySelect[i]));
-      var tmpString = JSON.stringify(mySelect[i]).toString();
-      var mySubString = tmpString.substring(tmpString.lastIndexOf("categoryName:") + 1, tmpString.lastIndexOf("imageUrl:"))
-      console.log("MUSBSTR: "+mySubString);
-      mySelect.selectedIndex = 0;
-    }*/
-
-    /*for (var i, j = 0; (i = mySelect.options[j]); j++) {
-          console.log("NEKO I: "+JSON.stringify(i.value.id));
-          //console.log("mm: "+JSON.stringify(i.value));
-          if (i.value == temp) {
-            console.log("DA");
-            mySelect.selectedIndex = j;
-            break;
-          }
-        }*/
+    document
+      .getElementById("category")
+      .getElementsByTagName("option")[0].selected = this.category.val;
   },
 
   methods: {
@@ -334,17 +305,33 @@ export default {
 
       if (this.update) {
         // ako ima childrenKey onda je u pitanje update
-        console.log("USAO U UPDATE!!");
-        formDataUpdate = {
-          childrenKey: this.childrenKey.val,
-          id: this.randomString(),
-          name: this.name.val,
-          imageUrl: this.imageUrl.val,
-          describe: this.describe.val,
-          price: this.price.val,
-          category: this.category.val.categoryName,
-          active: true,
-        };
+        console.log("USAO U UPDATE!!"); // if category val onda ovaj form data inace formData koji ima category.val.categoryName
+        console.log("H1: " + this.category.val.categoryName); // ovo je za kad NE izaberem onda je undefined
+        console.log("H2: " + this.category.val);
+
+        if (this.category.val.categoryName === undefined) {
+          formDataUpdate = {
+            childrenKey: this.childrenKey.val,
+            id: this.randomString(),
+            name: this.name.val,
+            imageUrl: this.imageUrl.val,
+            describe: this.describe.val,
+            price: this.price.val,
+            category: this.category.val, // UPECAO GA :D
+            active: true,
+          };
+        } else {
+          formDataUpdate = {
+            childrenKey: this.childrenKey.val,
+            id: this.randomString(),
+            name: this.name.val,
+            imageUrl: this.imageUrl.val,
+            describe: this.describe.val,
+            price: this.price.val,
+            category: this.category.val.categoryName, // UPECAO GA :D
+            active: true,
+          };
+        }
 
         // set default select
 
