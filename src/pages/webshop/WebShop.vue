@@ -460,7 +460,8 @@
       v-else-if="
         currentScreenWidth > currentWidth &&
         getCategoriesListSize > 8 &&
-        getCategoriesListSize < 13
+        getCategoriesListSize < 13 &&
+        isLoggedIn
       "
       class="sekcijaDo16"
     >
@@ -468,7 +469,7 @@
       <section>
         <!-- class="sekcijaDo8" do 4 artikla 60 % -->
         <!-- <base-card>  -->
-        <h2>Kategorije {{ screenWidth }}</h2>
+        <h2>Kategorije</h2>
         <hr />
 
         <div v-if="hasCategories">
@@ -487,9 +488,10 @@
             </MDBListGroup>
           </div>
           <br />
-          <div v-if="getCategoriesListSize > 4">
+          <div v-if="getCategoriesListSize > 4  ">
             <!-- && getCategoriesListSize < 9 -->
             <MDBListGroup horizontal>
+              
               <category-item
                 v-for="category in sliceItems(4, 8)"
                 :key="category.id"
@@ -503,6 +505,7 @@
             </MDBListGroup>
           </div>
           <br />
+          
           <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
             <MDBListGroup horizontal>
               <category-item
@@ -535,7 +538,8 @@
       v-else-if="
         currentScreenWidth > currentWidth &&
         getCategoriesListSize > 12 &&
-        getCategoriesListSize < 17
+        getCategoriesListSize < 17 &&
+        isLoggedIn
       "
       class="sekcijaDo20"
     >
@@ -546,7 +550,7 @@
         <h2>Kategorije</h2>
         <hr />
 
-        <div v-if="hasCategories">
+        <div v-if="hasCategories">                                          <!-- DJOLE -->
           <div v-if="getCategoriesListSize">
             <MDBListGroup horizontal>
               <category-item
@@ -562,7 +566,7 @@
             </MDBListGroup>
           </div>
           <br />
-          <div v-if="getCategoriesListSize > 4">
+          <div v-if="getCategoriesListSize > 4 ">
             <!-- && getCategoriesListSize < 9 -->
             <MDBListGroup horizontal>
               <category-item

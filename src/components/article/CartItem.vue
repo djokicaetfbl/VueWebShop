@@ -24,7 +24,7 @@
           <p v-if="!isMobile" class="articleHistory">
             {{ name }} » {{ category }}
           </p>
-          <p v-else class="articleHistoryMDisplay">{{ name }}</p>
+         <!-- <p v-else class="articleHistoryMDisplay">{{ name }}</p> -->
         </div>
       </div>
     </th>
@@ -164,5 +164,10 @@ export default {
 .articleHistoryMDisplay {
   font-size: 8px;
   color: #39c0ed;
+  white-space: normal;
+  /*width: 5ch;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;*/
 }
 </style>

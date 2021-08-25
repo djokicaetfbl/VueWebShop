@@ -1,26 +1,32 @@
 <template>
   <the-header-basic style="width: 100%"></the-header-basic>
   <div>
-    <base-card style="width: 82%">
-      <div class="row">
-        <div class="column">
-          <div class="card">
+    <base-card style="width: 82%; height: 100%">
+      <div class="row" style="height: 100%">
+        <div class="column" style="height: 100%">
+          <div class="card" style="height: 100%">
             <img
               :src="article.imageUrl"
               class="card-img-top"
               alt="..."
-              style="max-height: 300px"
-            />
+              style="max-height: 300px; max-width: 60%; margin: 10%"
+            /> <!-- height="300px" width="60%" style="margin: 10%;" -->
           </div>
-        </div>
-        <div class="column">
-          <div class="card-body">
-            <h5 class="card-title">{{ article.name }}</h5>
+                    <div id="divForArticleDescribe">
             <p id="articleDescribeParagraph" class="card-text">
               {{ article.describe }}
             </p>
+            </div>
+        </div>
+        <div class="column">
+          <div class="card-body">
+            <h4 class="card-title">{{ article.name }}</h4>
+            <br><br>
+            <!-- <p id="articleDescribeParagraph" class="card-text">
+              {{ article.describe }}
+            </p>  -->
             <!-- <MDBTextarea label="Message" rows="4" v-model="textareaValue" /> -->
-            <h5 class="card-title">{{ article.price }}KM</h5>
+            <!-- <h4 class="card-title">{{ article.price }}KM</h4>  -->
 
             <div class="row">
               <div class="column">
@@ -138,8 +144,12 @@
                     <!-- <MDBBtn color="primary">Save changes</MDBBtn>  -->
                   </MDBModalFooter>
                 </MDBModal>
+                <div id="priceTestDIV">
+                <h3 class="card-title">{{ article.price }}KM</h3>
+                </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -412,9 +422,21 @@ export default {
 }
 
 #articleDescribeParagraph {
-  width: 15ch;
+  width: 25ch;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+#priceTestDIV {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+}
+
+#divForArticleDescribe {
+  position: absolute;
+  bottom: 0.5%;
+  /*left: 0;*/
 }
 </style>

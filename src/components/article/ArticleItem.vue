@@ -5,8 +5,8 @@
       :src="imageUrl"
       class="card-img-top"
       alt="..."
-      style="max-height: 300px; max-width: 500px"
-    />
+      style="max-height: 300px; max-width: 500px; margin: 5%; " 
+    />                                                              <!-- border:5px solid black -->
     <div class="card-body">
       <h5 class="card-title">{{ name }}</h5>
       <p class="card-text">
