@@ -93,8 +93,9 @@
               <!-- <span class="badge bg-primary" for="price">Cijena</span> -->
               <label class="labelPrice" for="name">Cijena</label>
               <input
-                type="text"
+                type="number"
                 name="price"
+                min="0"
                 id="price"
                 class="form-control"
                 v-model.trim="price.val"

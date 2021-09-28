@@ -1,672 +1,673 @@
 <template id="bla">
-   <div v-if="!isMobileHrizontal">  
+  <div v-if="!isMobileHrizontal">
     <div>
-    <the-header-basic style="width: 100%"></the-header-basic>
-    <br />
-    <div v-if="isLoading">
-      <base-spinner></base-spinner>
-    </div>
-    <div
-      v-if="
-        currentScreenWidth > currentWidth &&
-        getCategoriesListSize < 5 &&
-        !isLoggedIn
-      "
-      class="sekcijaDo4"
-    >
-      <section>
-        <h2>Kategorije</h2>
-        <hr />
+      <the-header-basic style="width: 100%"></the-header-basic>
+      <br />
+      <div v-if="isLoading">
+        <base-spinner></base-spinner>
+      </div>
+      <div
+        v-if="
+          currentScreenWidth > currentWidth &&
+          getCategoriesListSize < 5 &&
+          !isLoggedIn
+        "
+        class="sekcijaDo4"
+      >
+        <section>
+          <h2>Kategorije</h2>
+          <hr />
 
-        <div v-if="hasCategories">
-          <div v-if="getCategoriesListSize">
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(0, 4)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
+          <div v-if="hasCategories">
+            <div v-if="getCategoriesListSize">
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(0, 4)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
+            <br />
+            <div v-if="getCategoriesListSize > 4">
+              <!-- && getCategoriesListSize < 9 -->
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(4, 8)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
+            <br />
+            <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(8, 12)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
           </div>
-          <br />
-          <div v-if="getCategoriesListSize > 4">
-            <!-- && getCategoriesListSize < 9 -->
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(4, 8)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
-          </div>
-          <br />
-          <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(8, 12)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
-          </div>
-        </div>
-        <!-- </base-card> -->
-        <button
-          class="btn btn-primary"
-          v-if="isLoggedIn"
-          @click="$router.push('/newCategory')"
-        >
-          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
-          <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
-          Dodaj kategoriju
-        </button>
-      </section>
-    </div>
+          <!-- </base-card> -->
+          <button
+            class="btn btn-primary"
+            v-if="isLoggedIn"
+            @click="$router.push('/newCategory')"
+          >
+            <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+            <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
+            Dodaj kategoriju
+          </button>
+        </section>
+      </div>
 
-    <div
-      v-else-if="
-        currentScreenWidth > currentWidth &&
-        getCategoriesListSize > 4 &&
-        getCategoriesListSize < 9 &&
-        !isLoggedIn
-      "
-      class="sekcijaDo8"
-    >
-      <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
-      <section>
-        <!-- class="sekcijaDo8" do 4 artikla 60 % -->
-        <!-- <base-card>  -->
-        <h2>Kategorije</h2>
-        <hr />
+      <div
+        v-else-if="
+          currentScreenWidth > currentWidth &&
+          getCategoriesListSize > 4 &&
+          getCategoriesListSize < 9 &&
+          !isLoggedIn
+        "
+        class="sekcijaDo8"
+      >
+        <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
+        <section>
+          <!-- class="sekcijaDo8" do 4 artikla 60 % -->
+          <!-- <base-card>  -->
+          <h2 style="margin-top: 10%">Kategorije</h2>
+          <hr />
 
-        <div v-if="hasCategories">
-          <div v-if="getCategoriesListSize">
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(0, 4)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
+          <div v-if="hasCategories">
+            <div v-if="getCategoriesListSize">
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(0, 4)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
+            <br />
+            <div v-if="getCategoriesListSize > 4">
+              <!-- && getCategoriesListSize < 9 -->
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(4, 8)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
+            <br />
+            <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(8, 12)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
           </div>
-          <br />
-          <div v-if="getCategoriesListSize > 4">
-            <!-- && getCategoriesListSize < 9 -->
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(4, 8)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
-          </div>
-          <br />
-          <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(8, 12)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
-          </div>
-        </div>
-        <!-- </base-card> -->
-        <button
-          class="btn btn-primary"
-          v-if="isLoggedIn"
-          @click="$router.push('/newCategory')"
-        >
-          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
-          <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
-          Dodaj kategoriju
-        </button>
-      </section>
-    </div>
+          <!-- </base-card> -->
+          <button
+            class="btn btn-primary"
+            v-if="isLoggedIn"
+            @click="$router.push('/newCategory')"
+          >
+            <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+            <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
+            Dodaj kategoriju
+          </button>
+        </section>
+      </div>
 
-    <div
-      v-else-if="
-        currentScreenWidth > currentWidth &&
-        getCategoriesListSize > 8 &&
-        getCategoriesListSize < 13 &&
-        !isLoggedIn
-      "
-      class="sekcijaDo12"
-    >
-      <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
-      <section>
-        <!-- class="sekcijaDo8" do 4 artikla 60 % -->
-        <!-- <base-card>  -->
-        <h2>Kategorije</h2>
-        <hr />
+      <div
+        v-else-if="
+          currentScreenWidth > currentWidth &&
+          getCategoriesListSize > 8 &&
+          getCategoriesListSize < 13 &&
+          !isLoggedIn
+        "
+        class="sekcijaDo12"
+      >
+        <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
+        <section>
+          <!-- class="sekcijaDo8" do 4 artikla 60 % -->
+          <!-- <base-card>  -->
+          <h2>Kategorije</h2>
+          <hr />
 
-        <div v-if="hasCategories">
-          <div v-if="getCategoriesListSize">
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(0, 4)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
+          <div v-if="hasCategories">
+            <div v-if="getCategoriesListSize">
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(0, 4)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
+            <br />
+            <div v-if="getCategoriesListSize > 4">
+              <!-- && getCategoriesListSize < 9 -->
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(4, 8)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
+            <br />
+            <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(8, 12)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
           </div>
-          <br />
-          <div v-if="getCategoriesListSize > 4">
-            <!-- && getCategoriesListSize < 9 -->
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(4, 8)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
-          </div>
-          <br />
-          <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(8, 12)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
-          </div>
-        </div>
-        <!-- </base-card> -->
-        <button
-          class="btn btn-primary"
-          v-if="isLoggedIn"
-          @click="$router.push('/newCategory')"
-        >
-          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
-          <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
-          Dodaj kategoriju
-        </button>
-      </section>
-    </div>
+          <!-- </base-card> -->
+          <button
+            class="btn btn-primary"
+            v-if="isLoggedIn"
+            @click="$router.push('/newCategory')"
+          >
+            <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+            <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
+            Dodaj kategoriju
+          </button>
+        </section>
+      </div>
 
-    <div
-      v-else-if="
-        currentScreenWidth > currentWidth &&
-        getCategoriesListSize > 12 &&
-        getCategoriesListSize < 17 &&
-        !isLoggedIn
-      "
-      class="sekcijaDo16"
-    >
-      <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
-      <section>
-        <!-- class="sekcijaDo8" do 4 artikla 60 % -->
-        <!-- <base-card>  -->
-        <h2>Kategorije</h2>
-        <hr />
+      <div
+        v-else-if="
+          currentScreenWidth > currentWidth &&
+          getCategoriesListSize > 12 &&
+          getCategoriesListSize < 17 &&
+          !isLoggedIn
+        "
+        class="sekcijaDo16"
+      >
+        <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
+        <section>
+          <!-- class="sekcijaDo8" do 4 artikla 60 % -->
+          <!-- <base-card>  -->
+          <h2>Kategorije</h2>
+          <hr />
 
-        <div v-if="hasCategories">
-          <div v-if="getCategoriesListSize">
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(0, 4)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
+          <div v-if="hasCategories">
+            <div v-if="getCategoriesListSize">
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(0, 4)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
+            <br />
+            <div v-if="getCategoriesListSize > 4">
+              <!-- && getCategoriesListSize < 9 -->
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(4, 8)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
+            <br />
+            <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(8, 12)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
           </div>
-          <br />
-          <div v-if="getCategoriesListSize > 4">
-            <!-- && getCategoriesListSize < 9 -->
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(4, 8)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
-          </div>
-          <br />
-          <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(8, 12)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
-          </div>
-        </div>
-        <!-- </base-card> -->
-        <button
-          class="btn btn-primary"
-          v-if="isLoggedIn"
-          @click="$router.push('/newCategory')"
-        >
-          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
-          <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
-          Dodaj kategoriju
-        </button>
-      </section>
-    </div>
+          <!-- </base-card> -->
+          <button
+            class="btn btn-primary"
+            v-if="isLoggedIn"
+            @click="$router.push('/newCategory')"
+          >
+            <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+            <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
+            Dodaj kategoriju
+          </button>
+        </section>
+      </div>
 
-    <div
-      v-if="
-        currentScreenWidth > currentWidth &&
-        getCategoriesListSize < 5 &&
-        isLoggedIn
-      "
-      class="sekcijaDo8"
-    >
-      <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
-      <section>
-        <!-- class="sekcijaDo8" do 4 artikla 60 % -->
-        <!-- <base-card>  -->
-        <h2>Kategorije</h2>
+      <div
+        v-if="
+          currentScreenWidth > currentWidth &&
+          getCategoriesListSize < 5 &&
+          isLoggedIn
+        "
+        class="sekcijaDo8"
+      >
+        <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
+        <section>
+          <!-- class="sekcijaDo8" do 4 artikla 60 % -->
+          <!-- <base-card>  -->
+          <h2>Kategorije</h2>
 
-        <div v-if="hasCategories">
-          <div v-if="getCategoriesListSize">
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(0, 4)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
+          <div v-if="hasCategories">
+            <div v-if="getCategoriesListSize">
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(0, 4)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
+            <br />
+            <div v-if="getCategoriesListSize > 4">
+              <!-- && getCategoriesListSize < 9 -->
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(4, 8)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
+            <br />
+            <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(8, 12)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
           </div>
-          <br />
-          <div v-if="getCategoriesListSize > 4">
-            <!-- && getCategoriesListSize < 9 -->
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(4, 8)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
-          </div>
-          <br />
-          <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(8, 12)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
-          </div>
-        </div>
-        <!-- </base-card> -->
-        <button
-          class="btn btn-primary"
-          v-if="isLoggedIn"
-          @click="$router.push('/newCategory')"
-        >
-          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
-          <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
-          Dodaj kategoriju
-        </button>
-      </section>
-    </div>
+          <!-- </base-card> -->
+          <button
+            class="btn btn-primary"
+            v-if="isLoggedIn"
+            @click="$router.push('/newCategory')"
+          >
+            <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+            <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
+            Dodaj kategoriju
+          </button>
+        </section>
+      </div>
 
-    <div
-      v-else-if="
-        currentScreenWidth > currentWidth &&
-        getCategoriesListSize > 4 &&
-        getCategoriesListSize < 9 &&
-        isLoggedIn
-      "
-      class="sekcijaDo12"
-    >
-      <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
-      <section>
-        <!-- class="sekcijaDo8" do 4 artikla 60 % -->
-        <!-- <base-card>  -->
-        <h2>Kategorije</h2>
-        <hr />
+      <div
+        v-else-if="
+          currentScreenWidth > currentWidth &&
+          getCategoriesListSize > 4 &&
+          getCategoriesListSize < 9 &&
+          isLoggedIn
+        "
+        class="sekcijaDo12"
+      >
+        <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
+        <section>
+          <!-- class="sekcijaDo8" do 4 artikla 60 % -->
+          <!-- <base-card>  -->
+          <h2>Kategorije</h2>
+          <hr />
 
-        <div v-if="hasCategories">
-          <div v-if="getCategoriesListSize">
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(0, 4)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
+          <div v-if="hasCategories">
+            <div v-if="getCategoriesListSize">
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(0, 4)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
+            <br />
+            <div v-if="getCategoriesListSize > 4">
+              <!-- && getCategoriesListSize < 9 -->
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(4, 8)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
+            <br />
+            <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(8, 12)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
           </div>
-          <br />
-          <div v-if="getCategoriesListSize > 4">
-            <!-- && getCategoriesListSize < 9 -->
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(4, 8)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
-          </div>
-          <br />
-          <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(8, 12)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
-          </div>
-        </div>
-        <!-- </base-card> -->
-        <button
-          class="btn btn-primary"
-          v-if="isLoggedIn"
-          @click="$router.push('/newCategory')"
-        >
-          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
-          <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
-          Dodaj kategoriju
-        </button>
-      </section>
-    </div>
+          <!-- </base-card> -->
+          <button
+            class="btn btn-primary"
+            v-if="isLoggedIn"
+            @click="$router.push('/newCategory')"
+          >
+            <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+            <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
+            Dodaj kategoriju
+          </button>
+        </section>
+      </div>
 
-    <div
-      v-else-if="
-        currentScreenWidth > currentWidth &&
-        getCategoriesListSize > 8 &&
-        getCategoriesListSize < 13 &&
-        isLoggedIn
-      "
-      class="sekcijaDo16"
-    >
-      <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
-      <section>
-        <!-- class="sekcijaDo8" do 4 artikla 60 % -->
-        <!-- <base-card>  -->
-        <h2>Kategorije</h2>
-        <hr />
+      <div
+        v-else-if="
+          currentScreenWidth > currentWidth &&
+          getCategoriesListSize > 8 &&
+          getCategoriesListSize < 13 &&
+          isLoggedIn
+        "
+        class="sekcijaDo16"
+      >
+        <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
+        <section>
+          <!-- class="sekcijaDo8" do 4 artikla 60 % -->
+          <!-- <base-card>  -->
+          <h2>Kategorije</h2>
+          <hr />
 
-        <div v-if="hasCategories">
-          <div v-if="getCategoriesListSize">
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(0, 4)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
-          </div>
-          <br />
-          <div v-if="getCategoriesListSize > 4  ">
-            <!-- && getCategoriesListSize < 9 -->
-            <MDBListGroup horizontal>
-              
-              <category-item
-                v-for="category in sliceItems(4, 8)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
-          </div>
-          <br />
-          
-          <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(8, 12)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
-          </div>
-        </div>
-        <!-- </base-card> -->
-        <button
-          class="btn btn-primary"
-          v-if="isLoggedIn"
-          @click="$router.push('/newCategory')"
-        >
-          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
-          <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
-          Dodaj kategoriju
-        </button>
-      </section>
-    </div>
+          <div v-if="hasCategories">
+            <div v-if="getCategoriesListSize">
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(0, 4)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
+            <br />
+            <div v-if="getCategoriesListSize > 4">
+              <!-- && getCategoriesListSize < 9 -->
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(4, 8)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
+            <br />
 
-    <div
-      v-else-if="
-        currentScreenWidth > currentWidth &&
-        getCategoriesListSize > 12 &&
-        getCategoriesListSize < 17 &&
-        isLoggedIn
-      "
-      class="sekcijaDo20"
-    >
-      <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
-      <section>
-        <!-- class="sekcijaDo8" do 4 artikla 60 % -->
-        <!-- <base-card>  -->
-        <h2>Kategorije</h2>
-        <hr />
-
-        <div v-if="hasCategories">                                          <!-- DJOLE -->
-          <div v-if="getCategoriesListSize">
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(0, 4)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
+            <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(8, 12)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
           </div>
-          <br />
-          <div v-if="getCategoriesListSize > 4 ">
-            <!-- && getCategoriesListSize < 9 -->
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(4, 8)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
-          </div>
-          <br />
-          <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
-            <MDBListGroup horizontal>
-              <category-item
-                v-for="category in sliceItems(8, 12)"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
-          </div>
-        </div>
-        <!-- </base-card> -->
-        <button
-          class="btn btn-primary"
-          v-if="isLoggedIn"
-          @click="$router.push('/newCategory')"
-        >
-          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
-          <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
-          Dodaj kategoriju
-        </button>
-      </section>
-    </div>
+          <!-- </base-card> -->
+          <button
+            class="btn btn-primary"
+            v-if="isLoggedIn"
+            @click="$router.push('/newCategory')"
+          >
+            <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+            <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
+            Dodaj kategoriju
+          </button>
+        </section>
+      </div>
 
-    <div v-else-if="currentScreenWidth < currentWidth + 1">
-      <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
-      <section>
-        <!-- class="sekcijaDo8" do 4 artikla 60 % -->
-        <!-- <base-card>  -->
-        <h2>Kategorije</h2>
-        <hr />
+      <div
+        v-else-if="
+          currentScreenWidth > currentWidth &&
+          getCategoriesListSize > 12 &&
+          getCategoriesListSize < 17 &&
+          isLoggedIn
+        "
+        class="sekcijaDo20"
+      >
+        <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
+        <section>
+          <!-- class="sekcijaDo8" do 4 artikla 60 % -->
+          <!-- <base-card>  -->
+          <h2>Kategorije</h2>
+          <hr />
 
-        <div v-if="hasCategories">
-          <div v-if="getCategoriesListSize">
-            <MDBListGroup vertical>
-              <category-item
-                v-for="category in getCategories"
-                :key="category.id"
-                :childrenKey="category.childrenKey"
-                :categoryName="category.categoryName"
-                :imageUrl="category.imageUrl"
-                :active="category.active"
-                :id="category.id"
-              >
-              </category-item>
-            </MDBListGroup>
+          <div v-if="hasCategories">
+            <!-- DJOLE -->
+            <div v-if="getCategoriesListSize">
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(0, 4)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
+            <br />
+            <div v-if="getCategoriesListSize > 4">
+              <!-- && getCategoriesListSize < 9 -->
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(4, 8)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
+            <br />
+            <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
+              <MDBListGroup horizontal>
+                <category-item
+                  v-for="category in sliceItems(8, 12)"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
           </div>
-          <br />
-        </div>
-        <!-- </base-card> -->
-        <button
-          class="btn btn-primary"
-          style="margin-right: 5%"
-          v-if="isLoggedIn && currentScreenWidth < currentWidth + 1"
-          @click="$router.push('/newCategory')"
-        >
-          + Dodaj kategoriju
-        </button>
+          <!-- </base-card> -->
+          <button
+            class="btn btn-primary"
+            v-if="isLoggedIn"
+            @click="$router.push('/newCategory')"
+          >
+            <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+            <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
+            Dodaj kategoriju
+          </button>
+        </section>
+      </div>
 
-        <button
-          class="btn btn-primary"
-          v-if="isLoggedIn && currentScreenWidth > currentWidth"
-          @click="$router.push('/newCategory')"
-        >
-          <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
-          <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
-          Dodaj kategoriju
-        </button>
-      </section>
+      <div v-else-if="currentScreenWidth < currentWidth + 1">
+        <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
+        <section>
+          <!-- class="sekcijaDo8" do 4 artikla 60 % -->
+          <!-- <base-card>  -->
+          <h2>Kategorije</h2>
+          <hr />
+
+          <div v-if="hasCategories">
+            <div v-if="getCategoriesListSize">
+              <MDBListGroup vertical>
+                <category-item
+                  v-for="category in getCategories"
+                  :key="category.id"
+                  :childrenKey="category.childrenKey"
+                  :categoryName="category.categoryName"
+                  :imageUrl="category.imageUrl"
+                  :active="category.active"
+                  :id="category.id"
+                >
+                </category-item>
+              </MDBListGroup>
+            </div>
+            <br />
+          </div>
+          <!-- </base-card> -->
+          <button
+            class="btn btn-primary"
+            style="margin-right: 5%"
+            v-if="isLoggedIn && currentScreenWidth < currentWidth + 1"
+            @click="$router.push('/newCategory')"
+          >
+            + Dodaj kategoriju
+          </button>
+
+          <button
+            class="btn btn-primary"
+            v-if="isLoggedIn && currentScreenWidth > currentWidth"
+            @click="$router.push('/newCategory')"
+          >
+            <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+            <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
+            Dodaj kategoriju
+          </button>
+        </section>
+      </div>
     </div>
   </div>
-   </div>
-  
+
   <div v-if="isMobileHrizontal">
     <the-header-basic></the-header-basic>
     <base-card>
       <div class="card>">
-              <section>
-        <h2>Kategorije</h2>
-        <hr />
-                    <MDBListGroup vertical>
+        <section>
+          <h2>Kategorije</h2>
+          <hr />
+          <div v-if="getCategoriesListSize">
+            <MDBListGroup vertical>
               <category-item
                 v-for="category in sliceItems(0, 4)"
                 :key="category.id"
@@ -678,15 +679,51 @@
               >
               </category-item>
             </MDBListGroup>
-              </section>
+          </div>
+          <br />
+          <div v-if="getCategoriesListSize > 4">
+            <MDBListGroup vertical>
+              <category-item
+                v-for="category in sliceItems(4, 8)"
+                :key="category.id"
+                :childrenKey="category.childrenKey"
+                :categoryName="category.categoryName"
+                :imageUrl="category.imageUrl"
+                :active="category.active"
+                :id="category.id"
+              >
+              </category-item>
+            </MDBListGroup>
+          </div>
+
+          <br />
+          <div v-if="getCategoriesListSize > 8 && getCategoriesListSize < 11">
+            <MDBListGroup vertical>
+              <category-item
+                v-for="category in sliceItems(8, 12)"
+                :key="category.id"
+                :childrenKey="category.childrenKey"
+                :categoryName="category.categoryName"
+                :imageUrl="category.imageUrl"
+                :active="category.active"
+                :id="category.id"
+              >
+              </category-item>
+            </MDBListGroup>
+          </div>
+          <button
+            class="btn btn-primary"
+            v-if="isLoggedIn"
+            @click="$router.push('/newCategory')"
+          >
+            <i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;</i>
+            <!-- <router-link to="/newCategory">Dodaj kategoriju</router-link>  -->
+            Dodaj kategoriju
+          </button>
+        </section>
       </div>
     </base-card>
-     
-
   </div>
-
-
-
 </template>
 
 
@@ -694,7 +731,7 @@
 import TheHeaderBasic from "../../components/layout/TheHeaderBasic.vue";
 import CategoryItem from "../../components/article/CategoryItem.vue";
 import { MDBListGroup } from "mdb-vue-ui-kit";
-import BaseCard from '../../components/ui/BaseCard.vue';
+import BaseCard from "../../components/ui/BaseCard.vue";
 
 export default {
   components: { TheHeaderBasic, CategoryItem, MDBListGroup, BaseCard },
@@ -703,11 +740,14 @@ export default {
       screenWidth: window.screen.width /*window.innerWidth,*/,
       currentWidth: 500,
       isLoading: false,
-
+      isEdgeNormal: false,
       isMobileHrizontal: false,
       MOBILE_WIDTH: 500,
-      MOBILE_WIDTH_HORIZONTAL_MIN:  700,
-      MOBILE_WIDTH_HORIZONTAL_MAX:  920,
+      //MOBILE_WIDTH: 700,
+      //MOBILE_WIDTH_HORIZONTAL_MIN:  700,
+      MOBILE_WIDTH_HORIZONTAL_MIN: 500,
+      MOBILE_WIDTH_HORIZONTAL_MAX: 920,
+      EDGE_NORMAL_WIDTH: 1255
     };
   },
   created() {
@@ -716,18 +756,25 @@ export default {
     //this.screenWidth = window.screen.width;
     this.currentScreenWidth = window.screen.width;
     console.log("AA");
-    if(this.screenWidth > this.MOBILE_WIDTH_HORIZONTAL_MIN && this.screenWidth < this.MOBILE_WIDTH_HORIZONTAL_MAX) {
-        this.isMobileHrizontal = true;  
-      } else {
-        this.isMobileHrizontal = false;
-      }
+    if (
+      this.screenWidth > this.MOBILE_WIDTH_HORIZONTAL_MIN &&
+      this.screenWidth < this.MOBILE_WIDTH_HORIZONTAL_MAX
+    ) {
+      this.isMobileHrizontal = true;
+    } else {
+      this.isMobileHrizontal = false;
+    }
   },
 
-  mounted() { // IZVRSIT CE SE PRIJE NEGO SE KOMPONENTA UCITA
+  mounted() {
+    // IZVRSIT CE SE PRIJE NEGO SE KOMPONENTA UCITA
     window.onresize = () => {
-      this.screenWidth = window.screen.width;//window.innerWidth; // ovo this.screenWidth se vraca preko computed : currentScreenWidth
-      if(this.screenWidth > this.MOBILE_WIDTH_HORIZONTAL_MIN && this.screenWidth < this.MOBILE_WIDTH_HORIZONTAL_MAX) {
-        this.isMobileHrizontal = true;  
+      this.screenWidth = window.screen.width; //window.innerWidth; // ovo this.screenWidth se vraca preko computed : currentScreenWidth
+      if (
+        this.screenWidth > this.MOBILE_WIDTH_HORIZONTAL_MIN &&
+        this.screenWidth < this.MOBILE_WIDTH_HORIZONTAL_MAX
+      ) {
+        this.isMobileHrizontal = true;
       } else {
         this.isMobileHrizontal = false;
       }

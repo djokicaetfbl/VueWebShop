@@ -7,7 +7,7 @@
     <p>Autentikacija...</p>
     <base-spinner></base-spinner>
   </base-dialog>
-  <the-header-basic></the-header-basic>
+  <the-header-basic style="width: 100%;"></the-header-basic>
   <base-card style="max-width: 82%">
     <h2>Registracija korisnika</h2>
     <hr />

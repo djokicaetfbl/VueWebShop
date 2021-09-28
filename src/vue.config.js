@@ -1,5 +1,14 @@
+/*module.exports = {
+  devServer: {
+      disableHostCheck: true,
+      port: 8080,
+      public: '0.0.0.0:8080'
+  },
+  publicPath: "/"
+}*/
+
 module.exports = {
-    devServer: {
-      proxy: 'http://localhost:8080'
-    }
-  }
+  devServer: {
+    host: 'localhost',
+  },
+};

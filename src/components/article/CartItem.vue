@@ -21,9 +21,10 @@
           </div>
         </div>
         <div class="card-body">
-          <p v-if="!isMobile" class="articleHistory">
+          <br>
+          <!-- <p v-if="!isMobile" class="articleHistory">
             {{ name }} » {{ category }}
-          </p>
+          </p>  -->
          <!-- <p v-else class="articleHistoryMDisplay">{{ name }}</p> -->
         </div>
       </div>
@@ -159,6 +160,12 @@ export default {
 .articleHistory {
   font-size: 18px;
   color: #39c0ed;
+
+  /*width: 25ch;
+  height: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;*/
 }
 
 .articleHistoryMDisplay {
