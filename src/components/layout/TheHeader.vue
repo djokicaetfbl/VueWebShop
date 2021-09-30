@@ -53,24 +53,38 @@
 
   <div class="input-group" v-if="!isMobile">
     <!-- <div class="form-outline" style="border-style: dotted; border-color: blue">  -->
+    <!-- <div v-if="!isMiddleWidth && !isEdgeNormal">   -->
     <input
       id="search-focus"
       type="search"
       placeholder="Unesite naziv artikla"
       v-model.trim="articleName"
+      style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden"
     />
-    <input type="text" :value="this.category" readonly style="width: 20%" />
+    <input
+      type="text"
+      :value="this.category"
+      readonly
+      style="
+        width: 20%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      "
+    />
     <button type="button" class="btn btn-primary" @click="searchArticle">
-      <i class="fas fa-search"></i>
+      <i class="fas fa-search" v-if="!isMiddleWidth"></i>
     </button>
   </div>
+  <br />
+  <!-- </div> -->
   <div v-if="isMobile">
     <div class="row">
       <input
         type="text"
         :value="this.category"
         readonly
-        style="width: 50%; margin-left: 20%"
+        style="width: 50%; margin-left: 20%; font-size: 12px"
       />
     </div>
     <div class="row">
@@ -79,7 +93,7 @@
         type="search"
         placeholder="Unesite naziv artikla"
         v-model.trim="articleName"
-        style="width: 50%; margin-left: 20%; margin-top: 2%;"
+        style="width: 50%; margin-left: 20%; margin-top: 2%; font-size: 12px"
       />
     </div>
     <div class="row">
@@ -87,7 +101,7 @@
         type="button"
         class="btn btn-primary"
         @click="searchArticle"
-        style="width: 50%; margin-left: 20%; margin-top: 2%;"
+        style="width: 50%; margin-left: 20%; margin-top: 2%"
       >
         <i class="fas fa-search"></i>
       </button>
@@ -118,33 +132,62 @@ export default {
       currentWidth: 500,
       isLoading: false,
       isMobile: false,
-    };
-  },
-
-  mounted() {
-    // IZVRSIT CE SE PRIJE NEGO SE KOMPONENTA UCITA
-    this.currentScreenWidth = window.screen.width;
-    window.onresize = () => {
-      this.currentScreenWidth = window.screen.width;
-      if (this.currentScreenWidth < this.currentWidth) {
-        this.isMobile = true;
-      } else {
-        this.isMobile = false;
-      }
+      EDGE_NORMAL_WIDTH: 1255,
+      isEdgeNormal: false,
+      MIDDLE_WIDTH: 800,
+      isMiddleWidth: false,
     };
   },
 
   created() {
+    /* PRVO CREATED PA ONDA MOUNTED :D */
     this.currentScreenWidth = window.screen.width;
     if (this.currentScreenWidth < this.currentWidth) {
       this.isMobile = true;
     } else {
       this.isMobile = false;
     }
+    /*
+    if (
+      this.currentScreenWidth >= this.currentWidth &&
+      this.currentScreenWidth < this.MIDDLE_WIDTH
+    ) {
+      this.isMiddleWidth = true;
+    } else {
+      this.isMiddleWidth = false;
+    }
 
+    if (
+      this.currentScreenWidth >= this.MIDDLE_WIDTH &&
+      this.currentScreenWidth <= this.EDGE_NORMAL_WIDTH
+    ) {
+      this.isEdgeNormal = true;
+    } else {
+      this.isEdgeNormal = false;
+    }
+*/
     this.path = this.$route.path;
     this.category = this.$route.params.category;
   },
+
+  mounted() {
+    console.log("DJOLE POZVAO");
+    this.myFunction();
+    // IZVRSIT CE SE PRIJE NEGO SE KOMPONENTA UCITA
+    /*this.currentScreenWidth = window.screen.width; // BEZ OVOGA DA RERSIZE RADI, pa onda prestane omg :S
+    window.onresize = () => {
+      this.currentScreenWidth = window.screen.width;
+      if (this.currentScreenWidth < this.currentWidth) {
+        this.isMobile = true;
+        console.log("DA MOBILE");
+      } else {
+        this.isMobile = false;
+        console.log("NE MOBILE");
+      }
+     
+    };*/
+  },
+
   components: {
     MDBIcon,
     //MDBNavbar,
@@ -194,6 +237,20 @@ export default {
     },
   },
   methods: {
+    myFunction() {
+      this.currentScreenWidth = window.screen.width; // BEZ OVOGA DA RERSIZE RADI, pa onda prestane omg :S
+      window.onresize = () => {
+        this.currentScreenWidth = window.screen.width;
+        if (this.currentScreenWidth < this.currentWidth) {
+          this.isMobile = true;
+          console.log("DA MOBILE");
+        } else {
+          this.isMobile = false;
+          console.log("NE MOBILE");
+        }
+      };
+    },
+
     logout() {
       this.$store.dispatch("logout");
       this.$router.replace("/articles");

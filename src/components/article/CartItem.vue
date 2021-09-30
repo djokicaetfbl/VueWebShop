@@ -3,7 +3,7 @@
     <th scope="row">
       <div class="row">
         <div class="column">
-          <div class="card" >
+          <div class="card">
             <img
               v-if="!isMobile"
               :src="imageUrl"
@@ -21,11 +21,11 @@
           </div>
         </div>
         <div class="card-body">
-          <br>
+          <br />
           <!-- <p v-if="!isMobile" class="articleHistory">
             {{ name }} » {{ category }}
           </p>  -->
-         <!-- <p v-else class="articleHistoryMDisplay">{{ name }}</p> -->
+          <!-- <p v-else class="articleHistoryMDisplay">{{ name }}</p> -->
         </div>
       </div>
     </th>
@@ -35,7 +35,7 @@
         color="danger"
         @click="deleteArticleFromCart"
         id="deleteArticleFromCart"
-        style="margin-top: 0.2%;"
+        style="margin-top: 0.2%"
         ><i class="fa fa-trash" aria-hidden="true">&nbsp;&nbsp;</i
         >Ukloni</MDBBtn
       >
@@ -77,9 +77,10 @@ export default {
   data() {
     return {
       currentScreenWidth: window.screen.width,
-      currentWidth: 500,
+      currentWidth: 570,
       isLoading: false,
       isMobile: false,
+
     };
   },
 

@@ -1,7 +1,8 @@
 <template id="bla">
   <div v-if="!isMobileHrizontal">
     <div>
-      <the-header-basic style="width: 100%"></the-header-basic>
+      <the-header-basic v-if="!isLitMob" style="width: 100%"></the-header-basic>
+      <the-header-basic v-if="isLitMob" style="width: 120%"></the-header-basic>
       <br />
       <div v-if="isLoading">
         <base-spinner></base-spinner>
@@ -15,6 +16,7 @@
         class="sekcijaDo4"
       >
         <section>
+          <br />
           <h2>Kategorije</h2>
           <hr />
 
@@ -91,6 +93,7 @@
         <section>
           <!-- class="sekcijaDo8" do 4 artikla 60 % -->
           <!-- <base-card>  -->
+          <br />
           <h2 style="margin-top: 10%">Kategorije</h2>
           <hr />
 
@@ -167,6 +170,7 @@
         <section>
           <!-- class="sekcijaDo8" do 4 artikla 60 % -->
           <!-- <base-card>  -->
+          <br />
           <h2>Kategorije</h2>
           <hr />
 
@@ -243,6 +247,7 @@
         <section>
           <!-- class="sekcijaDo8" do 4 artikla 60 % -->
           <!-- <base-card>  -->
+          <br />
           <h2>Kategorije</h2>
           <hr />
 
@@ -307,6 +312,7 @@
       </div>
 
       <div
+        style="margin-top: 5%"
         v-if="
           currentScreenWidth > currentWidth &&
           getCategoriesListSize < 5 &&
@@ -318,6 +324,7 @@
         <section>
           <!-- class="sekcijaDo8" do 4 artikla 60 % -->
           <!-- <base-card>  -->
+          <br />
           <h2>Kategorije</h2>
 
           <div v-if="hasCategories">
@@ -381,6 +388,7 @@
       </div>
 
       <div
+        style="margin-top: 5%"
         v-else-if="
           currentScreenWidth > currentWidth &&
           getCategoriesListSize > 4 &&
@@ -393,6 +401,7 @@
         <section>
           <!-- class="sekcijaDo8" do 4 artikla 60 % -->
           <!-- <base-card>  -->
+          <br />
           <h2>Kategorije</h2>
           <hr />
 
@@ -464,11 +473,13 @@
           isLoggedIn
         "
         class="sekcijaDo16"
+        style="margin-top: 5%"
       >
         <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
         <section>
           <!-- class="sekcijaDo8" do 4 artikla 60 % -->
           <!-- <base-card>  -->
+          <br />
           <h2>Kategorije</h2>
           <hr />
 
@@ -546,6 +557,7 @@
         <section>
           <!-- class="sekcijaDo8" do 4 artikla 60 % -->
           <!-- <base-card>  -->
+          <br />
           <h2>Kategorije</h2>
           <hr />
 
@@ -615,6 +627,7 @@
         <section>
           <!-- class="sekcijaDo8" do 4 artikla 60 % -->
           <!-- <base-card>  -->
+          <br />
           <h2>Kategorije</h2>
           <hr />
 
@@ -660,10 +673,12 @@
   </div>
 
   <div v-if="isMobileHrizontal">
-    <the-header-basic></the-header-basic>
+    <the-header-basic v-if="!isLitMob"></the-header-basic>
+    <the-header-basic v-if="isLitMob" style="width: 120%;"></the-header-basic>
     <base-card>
       <div class="card>">
         <section>
+          <br />
           <h2>Kategorije</h2>
           <hr />
           <div v-if="getCategoriesListSize">
@@ -742,12 +757,14 @@ export default {
       isLoading: false,
       isEdgeNormal: false,
       isMobileHrizontal: false,
+      isLitMob: false,
       MOBILE_WIDTH: 500,
       //MOBILE_WIDTH: 700,
       //MOBILE_WIDTH_HORIZONTAL_MIN:  700,
       MOBILE_WIDTH_HORIZONTAL_MIN: 500,
       MOBILE_WIDTH_HORIZONTAL_MAX: 920,
-      EDGE_NORMAL_WIDTH: 1255
+      EDGE_NORMAL_WIDTH: 1255,
+      LIT_MOB_WIDTH: 351,
     };
   },
   created() {
@@ -764,6 +781,11 @@ export default {
     } else {
       this.isMobileHrizontal = false;
     }
+    if (this.screenWidth < this.LIT_MOB_WIDTH) {
+      this.isLitMob = true;
+    } else {
+      this.isLitMob = false;
+    }
   },
 
   mounted() {
@@ -777,6 +799,12 @@ export default {
         this.isMobileHrizontal = true;
       } else {
         this.isMobileHrizontal = false;
+      }
+
+      if (this.screenWidth < this.LIT_MOB_WIDTH) {
+        this.isLitMob = true;
+      } else {
+        this.isLitMob = false;
       }
     };
   },

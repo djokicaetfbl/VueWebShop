@@ -1,9 +1,9 @@
 <template id="bla">
   <!-- <MDBListGroup horizontal>  -->
-  <MDBListGroupItem
+  <MDBListGroupItem 
     style="max-width: 100%; outline: 2px solid #e8e8e8; margin: 1%"
   >
-    <MDBCard style="max-width: 100%">
+    <MDBCard style="max-width: 100%;">
       <!-- <MDBCardImg top :src="picture" class="img-fluid" alt="..." /> -->
       <!-- <img :src="imageUrl" class="responsive" /> -->
       <img
@@ -14,14 +14,9 @@
       <img
         :src="imageUrl"
         v-if="getIsSafeScreenZone && !getIsNormalScreenZone"
-        style="width: 150px; height: 100px"
+        style="width: 140px; height: 100px"
       />
       <img :src="imageUrl" class="responsive" v-if="getIsNormalScreenZone" />
-
-      <!-- <div v-if="!getIsSafeScreenZone && !getIsNormalScreenZone">JEDAN</div>
-      <div v-if="getIsSafeScreenZone && !getIsNormalScreenZone">DVA</div>
-      <div v-if="getIsNormalScreenZone">TRI</div>
-      -->
 
       <MDBCardBody style="max-width: 100%; height: 140px">
         <!-- OVO SAM DODAO -->
@@ -32,9 +27,6 @@
             getIsNormalScreenZone
           "
         >
-          <!-- <router-link to="/articles/{{ categoryName}}">{{
-            categoryName
-          }}</router-link>  -->
           <router-link :to="categoryDetailsLink">{{
             categoryName
           }}</router-link>

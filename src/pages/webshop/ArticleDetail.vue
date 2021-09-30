@@ -1,7 +1,8 @@
 <template>
-  <the-header-basic style="width: 100%"></the-header-basic>
+  <the-header-basic v-if="isLitMob" style="width: 120%"></the-header-basic>
+  <the-header-basic v-if="!isLitMob"></the-header-basic>
   <div>
-    <base-card style="width: 82%; height: 100%">
+    <base-card style="width: 85%; height: 100%; margin: 2%;">
       <div class="row" style="height: 100%">
         <div class="column" style="height: 100%">
           <div class="card" style="height: 100%">
@@ -10,18 +11,20 @@
               class="card-img-top"
               alt="..."
               style="max-height: 300px; max-width: 60%; margin: 10%"
-            /> <!-- height="300px" width="60%" style="margin: 10%;" -->
+            />
+            <!-- height="300px" width="60%" style="margin: 10%;" -->
           </div>
-                    <div id="divForArticleDescribe">
+          <div id="divForArticleDescribe">
             <p id="articleDescribeParagraph" class="card-text">
               {{ article.describe }}
             </p>
-            </div>
+          </div>
+          <br />
         </div>
         <div class="column">
           <div class="card-body">
             <h4 class="card-title">{{ article.name }}</h4>
-            <br><br>
+            <br /><br />
             <!-- <p id="articleDescribeParagraph" class="card-text">
               {{ article.describe }}
             </p>  -->
@@ -48,6 +51,7 @@
                         id="buttonPlusMDisplay"
                         type="button"
                         @click="addQuantity"
+                        style="width: 10px"
                       >
                         <i class="fas fa-plus"></i>
                       </button>
@@ -71,6 +75,7 @@
                         class="form-control"
                         :value="getCounter"
                         name="pdpAddtoCartInput"
+                        style="width: 48px"
                       />
 
                       <button
@@ -88,6 +93,7 @@
                         id="buttonMinusMDisplay"
                         type="button"
                         @click="removeQuantity"
+                        style="width: 10px"
                       >
                         <i class="fas fa-minus"></i>
                       </button>
@@ -97,7 +103,6 @@
                 </div>
               </div>
               <div class="column" id="columnAddArticleToCart">
-
                 <MDBBtn
                   v-if="!isMobile"
                   color="primary"
@@ -108,13 +113,13 @@
                   Dodaj u korpu <i class="fas fa-shopping-cart fa-2x"></i
                 ></MDBBtn>
                 <MDBBtn
-                   v-if="isMobile"
+                  v-if="isMobile"
                   color="primary"
                   id="addToCartMDisplay"
                   aria-controls="buyModal"
                   @click="buyModal = true"
                 >
-                  Dodaj u korpu<i class="fas fa-shopping-cart fa-2x"></i
+                  <i class="fas fa-shopping-cart fa-1x"></i
                 ></MDBBtn>
 
                 <MDBModal
@@ -145,11 +150,10 @@
                   </MDBModalFooter>
                 </MDBModal>
                 <div id="priceTestDIV">
-                <h3 class="card-title">{{ article.price }}KM</h3>
+                  <h3 class="card-title">{{ article.price }}KM</h3>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -231,6 +235,8 @@ export default {
       currentWidth: 500,
       isLoading: false,
       isMobile: false,
+      isLitMob: false,
+      LIT_MOB_WIDTH: 301,
     };
   },
   created() {
@@ -242,6 +248,11 @@ export default {
     } else {
       this.isMobile = false;
     }
+    if (this.currentScreenWidth < this.LIT_MOB_WIDTH) {
+      this.isLitMob = true;
+    } else {
+      this.isLitMob = false;
+    }
   },
   mounted() {
     // IZVRSIT CE SE PRIJE NEGO SE KOMPONENTA UCITA
@@ -252,6 +263,12 @@ export default {
         this.isMobile = true;
       } else {
         this.isMobile = false;
+      }
+
+      if (this.currentScreenWidth < this.LIT_MOB_WIDTH) {
+        this.isLitMob = true;
+      } else {
+        this.isLitMob = false;
       }
     };
   },
@@ -417,7 +434,7 @@ export default {
 }
 
 #addToCartMDisplay {
-  font-size: 8px;
+  /*font-size: 6px;*/
   background-color: #00b74a;
 }
 

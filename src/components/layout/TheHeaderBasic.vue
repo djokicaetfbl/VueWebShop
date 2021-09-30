@@ -1,5 +1,5 @@
-<template id="bla">
-  <header style="height: 100%">
+<template>
+  <header style="height: 100%; ">
     <MDBNavbarItem>
       <router-link to="/cart"
         ><span class="badge badge-pill bg-danger">{{ this.getCart.length }}</span>

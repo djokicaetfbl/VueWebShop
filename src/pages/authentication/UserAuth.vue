@@ -11,8 +11,8 @@
       <p>Autentikacija...</p>
       <base-spinner></base-spinner>
     </base-dialog>
-    <the-header-basic></the-header-basic>
-    <base-dialog
+    <the-header-basic style="width: 101%"></the-header-basic>
+    <!-- <base-dialog
       :show="!!error"
       title="Došlo je do greške"
       @close="handleError"
@@ -23,37 +23,86 @@
       <p>Authenticating...</p>
       <base-spinner></base-spinner>
     </base-dialog>
-    <base-card style="max-width: 82%">
+    -->
+    <base-card style="width: 82%">
       <h2>Prijava korisnika</h2>
       <hr />
       <form @submit.prevent="submitForm">
-        <div class="form-outline mb-4" :class="{ invalid: !email.isValid }">
-          <label class="labelEmail" for="email">Email</label>
-          <label>{{ email.error ? email.errorMessage : "" }}</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            class="form-control"
-            v-model.trim="email.val"
-            placeholder="Email"
-            @blur="clearValidity('email')"
-          />
-        </div>
-
-        <div class="form-outline mb-4" :class="{ invalid: !password.isValid }">
-          <label class="labelPassword" for="password">Password</label>
-          <label>{{ password.error ? password.errorMessage : "" }}</label>
-          <input
-            type="password"
-            id="password"
-            class="form-control"
-            v-model.trim="password.val"
-            placeholder="Lozinka"
-            @blur="clearValidity('password')"
-          />
-        </div>
         <div class="row mb-4">
+          <div class="col">
+            <div
+              class="form-outline mb-4"
+              :class="{ invalid: !email.isValid }"
+              v-if="!isVLitMob"
+            >
+              <label class="labelEmail" for="email">Email</label>
+              <label>{{ email.error ? email.errorMessage : "" }}</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                class="form-control"
+                v-model.trim="email.val"
+                placeholder="Email"
+                @blur="clearValidity('email')"
+              />
+            </div>
+            <div
+              class="form-outline mb-4"
+              :class="{ invalid: !email.isValid }"
+              v-if="isVLitMob"
+            >
+              <label class="labelEmail" for="email" style="font-size: 10px"
+                >Email</label
+              >
+              <label style="font-size: 10px">{{
+                email.error ? email.errorMessage : ""
+              }}</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                class="form-control"
+                v-model.trim="email.val"
+                placeholder="Email"
+                @blur="clearValidity('email')"
+              />
+            </div>
+
+            <div
+              class="form-outline mb-4"
+              :class="{ invalid: !password.isValid }"
+              v-if="!isVLitMob"
+            >
+              <label class="labelPassword" for="password">Password</label>
+              <label>{{ password.error ? password.errorMessage : "" }}</label>
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                v-model.trim="password.val"
+                placeholder="Lozinka"
+                @blur="clearValidity('password')"
+              />
+            </div>
+            <div
+              class="form-outline mb-4"
+              :class="{ invalid: !password.isValid }"
+              v-if="isVLitMob"
+            >
+              <label class="labelPassword" for="password" style="font-size: 10px">Password</label>
+              <label style="font-size: 10px">{{ password.error ? password.errorMessage : "" }}</label>
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                v-model.trim="password.val"
+                placeholder="Lozinka"
+                @blur="clearValidity('password')"
+                style="font-size: 10px"
+              />
+            </div>
+            <!-- <div class="row mb-4">
           <div class="col d-flex justify-content-center"></div>
         </div>
         <button v-if="screenWidth > currentWidth " type="submit" class="btn btn-primary btn-block" id="signIn">
@@ -61,7 +110,39 @@
         </button>
         <button v-else type="submit" class="btn btn-primary btn-block" id="signInMDisplay">
           Prijava
-        </button>
+        </button> -->
+          </div>
+        </div>
+        <div class="container">
+          <div class="center">
+            <button
+              v-if="!isLitMob"
+              type="submit"
+              class="btn btn-primary btn-block"
+              id="signIn"
+            >
+              Prijava
+            </button>
+            <button
+              v-if="isLitMob && !isVLitMob"
+              type="submit"
+              class="btn btn-primary btn-block"
+              id="signIn"
+              style="font-size: 14px"
+            >
+              Prijava
+            </button>
+            <button
+              v-if="isVLitMob"
+              type="submit"
+              class="btn btn-primary btn-block"
+              id="signIn"
+              style="font-size: 9px"
+            >
+              Prijava
+            </button>
+          </div>
+        </div>
       </form>
     </base-card>
   </div>
@@ -92,6 +173,37 @@ export default {
       error: null,
       screenWidth: window.innerWidth,
       currentWidth: 500,
+      isLitMob: false,
+      LIT_MOB_WIDTH: 451,
+      isVLitMob: false,
+      LITV_MOB_WIDTH: 368,
+    };
+  },
+  created() {
+    if (this.screenWidth < this.LIT_MOB_WIDTH) {
+      this.isLitMob = true;
+    } else {
+      this.isLitMob = false;
+    }
+    if (this.screenWidth < this.LITV_MOB_WIDTH) {
+      this.isVLitMob = true;
+    } else {
+      this.isVLitMob = false;
+    }
+  },
+  mounted() {
+    window.onresize = () => {
+      this.screenWidth = window.screen.width;
+      if (this.screenWidth < this.LIT_MOB_WIDTH) {
+        this.isLitMob = true;
+      } else {
+        this.isLitMob = false;
+      }
+      if (this.screenWidth < this.LITV_MOB_WIDTH) {
+        this.isVLitMob = true;
+      } else {
+        this.isVLitMob = false;
+      }
     };
   },
   computed: {},
@@ -183,6 +295,7 @@ form {
 
 #signIn {
   font-size: 20px;
+  max-width: 700px;
 }
 
 #signInMDisplay {
@@ -232,5 +345,13 @@ textarea:focus {
   border: 1px solid red;
 }
 
-
+.center {
+  margin: 0;
+  position: absolute;
+  top: 90%;
+  left: 75%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
 </style>
