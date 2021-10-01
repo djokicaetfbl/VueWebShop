@@ -1,5 +1,6 @@
 <template>
-  <the-header-basic style="width: 100%"></the-header-basic>
+  <the-header-basic v-if="!isLitMob" style="width: 100%"></the-header-basic>
+  <the-header-basic v-if="isLitMob" style="width: 120%"></the-header-basic>
 
   <h1 id="korpa">Korpa</h1>
   <div v-if="!isMobile">
@@ -143,144 +144,142 @@
     </base-card>
   </div>
 
-  <div v-if="isMobile && isForMobile">
-     <MDBTable>
-       NASTAVI SUTRA :D
-        <thead class="table-light">
-          <tr>
-            <th v-if="!isMobile" scope="col" id="columnProizvod">Proizvod</th>
-            <th
-              v-if="isMobile && !isForMobile"
-              scope="col"
-              id="columnProizvod"
-              style="font-size: 15px"
-            >
-              Proizvod
-            </th>
-            <th
-              v-if="isMobile && isForMobile"
-              scope="col"
-              id="columnProizvod"
-              style="font-size: 8px"
-            >
-              Proizvod
-            </th>
-            <!-- <th v-else scope="col" id="columnProizvodMDisplay">Proizvod</th>  -->
-            <th v-if="!isMobile" scope="col" id="columnUkloni">Ukloni</th>
-            <th
-              v-if="isMobile && !isForMobile"
-              scope="col"
-              id="columnUkloni"
-              style="font-size: 15px"
-            >
-              Ukloni
-            </th>
-            <th
-              v-if="isMobile && isForMobile"
-              scope="col"
-              id="columnUkloni"
-              style="font-size: 8px"
-            >
-              Ukloni
-            </th>
-            <!-- <th v-else scope="col" id="columnUkloniMDisplay">Ukloni</th>  -->
-            <th v-if="!isMobile" scope="col" id="columnKolicina">Količina</th>
-            <th
-              v-if="isMobile && !isForMobile"
-              scope="col"
-              id="columnKolicina"
-              style="font-size: 15px"
-            >
-              Količina
-            </th>
-            <th
-              v-if="isMobile && isForMobile"
-              scope="col"
-              id="columnKolicina"
-              style="font-size: 8px"
-            >
-              Količina
-            </th>
-            <!-- <th v-else scope="col" id="columnKolicinaMDisplay">Količina</th>  -->
-            <th v-if="!isMobile" scope="col" id="columnCijena">Cijena</th>
-            <th
-              v-if="isMobile && !isForMobile"
-              scope="col"
-              id="columnCijena"
-              style="font-size: 15px"
-            >
-              Cijena
-            </th>
-            <th
-              v-if="isMobile && isForMobile"
-              scope="col"
-              id="columnCijena"
-              style="font-size: 8px"
-            >
-              Cijena
-            </th>
-            <!-- <th v-else scope="col" id="columnCijenamDisplay">Cijena</th> -->
-          </tr>
-        </thead>
-
-        <tbody>
-          <cart-item
-            v-for="article in getCart"
-            :key="article.id"
-            :childrenKey="article.childrenKey"
-            :name="article.name"
-            :imageUrl="article.imageUrl"
-            :describe="article.describe"
-            :price="article.price"
-            :category="article.category"
-            :active="article.active"
-            :id="article.id"
-            :quantity="article.quantity"
-          ></cart-item>
-        </tbody>
-      </MDBTable>
-
-      <h1 class="SummaryCartAmount">
-        Ukupno: {{ getSummaryPriceXQuantity }} KM
-      </h1>
-      <br />
-
-      <MDBBtn
-        v-if="getCartLength > 0"
-        id="byAllArticlesFromCart"
-        color="primary"
-        aria-controls="buyModal"
-        @click="buyModal = true"
-        >Kupi</MDBBtn
-      >
-      <MDBModal
-        id="buyModal"
-        tabindex="-1"
-        labelledby="buyModalLabel"
-        v-model="buyModal"
-      >
-        <MDBModalHeader>
-          <MDBModalTitle id="buyModalLabel"> Uspješna kupovina </MDBModalTitle>
-        </MDBModalHeader>
-        <MDBModalBody>
-          <p>
-            Kupovina u iznosu {{ getSummaryPriceXQuantity }} KM je uspješno
-            obavljena.
-          </p>
-          <p>Hvala Vam na kupovini!</p>
-        </MDBModalBody>
-        <MDBModalFooter>
-          <MDBBtn
-            color="secondary"
-            @click="
-              buyModal = false;
-              clearCart();
-            "
-            >Potvrdi</MDBBtn
+  <div v-if="isMobile">
+    <MDBTable>
+      <thead class="table-light">
+        <tr>
+          <th v-if="!isMobile" scope="col" id="columnProizvod">Proizvod</th>
+          <th
+            v-if="isMobile && !isForMobile"
+            scope="col"
+            id="columnProizvod"
+            style="font-size: 15px"
           >
-          <!-- <MDBBtn color="primary">Save changes</MDBBtn>  -->
-        </MDBModalFooter>
-      </MDBModal>
+            Proizvod
+          </th>
+          <th
+            v-if="isMobile && isForMobile"
+            scope="col"
+            id="columnProizvod"
+            style="font-size: 10px"
+          >
+            Proizvod
+          </th>
+          <!-- <th v-else scope="col" id="columnProizvodMDisplay">Proizvod</th>  -->
+          <th v-if="!isMobile" scope="col" id="columnUkloni">Ukloni</th>
+          <th
+            v-if="isMobile && !isForMobile"
+            scope="col"
+            id="columnUkloni"
+            style="font-size: 15px"
+          >
+            Ukloni
+          </th>
+          <th
+            v-if="isMobile && isForMobile"
+            scope="col"
+            id="columnUkloni"
+            style="font-size: 10px"
+          >
+            Ukloni
+          </th>
+          <!-- <th v-else scope="col" id="columnUkloniMDisplay">Ukloni</th>  -->
+          <th v-if="!isMobile" scope="col" id="columnKolicina">Količina</th>
+          <th
+            v-if="isMobile && !isForMobile"
+            scope="col"
+            id="columnKolicina"
+            style="font-size: 15px"
+          >
+            Količina
+          </th>
+          <th
+            v-if="isMobile && isForMobile"
+            scope="col"
+            id="columnKolicina"
+            style="font-size: 10px"
+          >
+            Količina
+          </th>
+          <!-- <th v-else scope="col" id="columnKolicinaMDisplay">Količina</th>  -->
+          <th v-if="!isMobile" scope="col" id="columnCijena">Cijena</th>
+          <th
+            v-if="isMobile && !isForMobile"
+            scope="col"
+            id="columnCijena"
+            style="font-size: 15px"
+          >
+            Cijena
+          </th>
+          <th
+            v-if="isMobile && isForMobile"
+            scope="col"
+            id="columnCijena"
+            style="font-size: 10px"
+          >
+            Cijena
+          </th>
+          <!-- <th v-else scope="col" id="columnCijenamDisplay">Cijena</th> -->
+        </tr>
+      </thead>
+
+      <tbody>
+        <cart-item
+          v-for="article in getCart"
+          :key="article.id"
+          :childrenKey="article.childrenKey"
+          :name="article.name"
+          :imageUrl="article.imageUrl"
+          :describe="article.describe"
+          :price="article.price"
+          :category="article.category"
+          :active="article.active"
+          :id="article.id"
+          :quantity="article.quantity"
+        ></cart-item>
+      </tbody>
+    </MDBTable>
+
+    <h2 class="SummaryCartAmount">Ukupno: {{ getSummaryPriceXQuantity }} KM</h2>
+    <br />
+
+    <MDBBtn
+      v-if="getCartLength > 0"
+      id="byAllArticlesFromCart"
+      color="primary"
+      aria-controls="buyModal"
+      @click="buyModal = true"
+      style="font-size: 12px; margin-left: 25%"
+      >Kupi</MDBBtn
+    >
+    <MDBModal
+      id="buyModal"
+      tabindex="-1"
+      labelledby="buyModalLabel"
+      v-model="buyModal"
+    >
+      <MDBModalHeader>
+        <MDBModalTitle id="buyModalLabel"> Uspješna kupovina </MDBModalTitle>
+      </MDBModalHeader>
+      <MDBModalBody>
+        <p>
+          Kupovina u iznosu {{ getSummaryPriceXQuantity }} KM je uspješno
+          obavljena.
+        </p>
+        <p>Hvala Vam na kupovini!</p>
+      </MDBModalBody>
+      <MDBModalFooter>
+        <MDBBtn
+          color="secondary"
+          @click="
+            buyModal = false;
+            clearCart();
+          "
+          >Potvrdi</MDBBtn
+        >
+        <!-- <MDBBtn color="primary">Save changes</MDBBtn>  -->
+      </MDBModalFooter>
+    </MDBModal>
   </div>
 </template>
 
@@ -326,14 +325,17 @@ export default {
       currentScreenWidth: window.screen.width,
       //currentWidth: 500,
       currentWidth: 680,
+      //currentWidth: 570,
       isMobile: false,
       FOR_MOBILE: 570,
       isForMobile: false,
+      LIT_MOB_WIDTH: 351,
+      isLitMob: false,
     };
   },
 
   created() {
-    this.currentScreenWidth = window.screen.width;
+    /* this.currentScreenWidth = window.screen.width;
     if (this.currentScreenWidth < this.currentWidth) {
       this.isMobile = true;
     } else {
@@ -344,10 +346,13 @@ export default {
       this.isForMobile = true;
     } else {
       this.isForMobile = false;
-    }
+    }*/
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
   },
   mounted() {
     // IZVRSIT CE SE PRIJE NEGO SE KOMPONENTA UCITA
+    /*console.log("POZVAO CART :D");
     this.currentScreenWidth = window.screen.width;
     window.onresize = () => {
       this.currentScreenWidth = window.screen.width;
@@ -362,10 +367,37 @@ export default {
       } else {
         this.isForMobile = false;
       }
-    };
+    };*/
+  },
+
+  unmounted() {
+    /* umjesto destry */
+    window.removeEventListener("resize", this.handleResize);
   },
 
   methods: {
+    handleResize() {
+      /*this.window.width = window.innerWidth;
+      this.window.height = window.innerHeight;*/
+      this.currentScreenWidth = window.innerWidth;
+      if (this.currentScreenWidth < this.currentWidth) {
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
+      }
+
+      if (this.currentScreenWidth < this.FOR_MOBILE) {
+        this.isForMobile = true;
+      } else {
+        this.isForMobile = false;
+      }
+      if (this.currentScreenWidth < this.LIT_MOB_WIDTH) {
+        this.isLitMob = true;
+        console.log("MA JA :D");
+      } else {
+        this.isLitMob = false;
+      }
+    },
     clearCart() {
       var cart = this.getCart;
       cart = [];

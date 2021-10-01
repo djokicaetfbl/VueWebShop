@@ -1,11 +1,12 @@
 <template id="bla">
   <!-- <MDBListGroup horizontal>  -->
-  <MDBListGroupItem 
+  <MDBListGroupItem
     style="max-width: 100%; outline: 2px solid #e8e8e8; margin: 1%"
   >
-    <MDBCard style="max-width: 100%;">
+    <MDBCard style="max-width: 100%">
       <!-- <MDBCardImg top :src="picture" class="img-fluid" alt="..." /> -->
       <!-- <img :src="imageUrl" class="responsive" /> -->
+      <!-- 
       <img
         :src="imageUrl"
         style="width: 150px; height: 100px"
@@ -17,14 +18,34 @@
         style="width: 140px; height: 100px"
       />
       <img :src="imageUrl" class="responsive" v-if="getIsNormalScreenZone" />
+      -->
+
+      <img
+        :src="imageUrl"
+        style="width: 150px; height: 100px"
+        v-if="!isSafeScreenZone && !isNormalScreenZone"
+      />
+      <img
+        :src="imageUrl"
+        v-if="isSafeScreenZone && !isNormalScreenZone"
+        style="width: 140px; height: 100px"
+      />
+      <img :src="imageUrl" class="responsive" v-if="isNormalScreenZone" />
 
       <MDBCardBody style="max-width: 100%; height: 140px">
         <!-- OVO SAM DODAO -->
-        <MDBCardText
+        <!-- <MDBCardText
           style="max-width: 100%"
           v-if="
             (!getIsSafeScreenZone && !getIsNormalScreenZone) ||
             getIsNormalScreenZone
+          "
+        > -->
+
+        <MDBCardText
+          style="max-width: 100%"
+          v-if="
+            (!isSafeScreenZone && !isNormalScreenZone) || isNormalScreenZone
           "
         >
           <router-link :to="categoryDetailsLink">{{
@@ -52,37 +73,49 @@
           </button>
         </MDBCardText>
 
-        <MDBCardText
+        <!-- <MDBCardText
           style="max-width: 100%"
           v-if="getIsSafeScreenZone && !getIsNormalScreenZone"
+        > -->
+        <MDBCardText
+          style="max-width: 100%"
+          v-if="isSafeScreenZone && !isNormalScreenZone"
         >
-        <div class="row" style="height: 80px">
-          <router-link :to="categoryDetailsLink" id="cuzmala">{{
-            categoryName
-          }}</router-link>
+          <div class="row" style="height: 80px">
+            <router-link :to="categoryDetailsLink" id="cuzmala">{{
+              categoryName
+            }}</router-link>
           </div>
-          <div class="row" >
+          <div class="row">
             <div class="column">
-          <button
-            id="updateCategory"
-            class="btn btn-primary"
-            v-if="isLoggedIn"
-            @click="updateCategory()"
-            style="float: left; width: 45%;"
-          >
-            <i class="fa fa-wrench" aria-hidden="true" style="font-size: 10px"></i>           
-          </button>
-           <button
-            id="deleteCategory"
-            class="btn btn-primary"
-            v-if="isLoggedIn"
-            @click="deleteCategory"
-            style="float: right; width: 45%;"
-          >
-            <i class="fa fa-trash" aria-hidden="true" style="font-size: 10px">&nbsp;&nbsp;</i>
-          </button>
-          </div>
- 
+              <button
+                id="updateCategory"
+                class="btn btn-primary"
+                v-if="isLoggedIn"
+                @click="updateCategory()"
+                style="float: left; width: 45%"
+              >
+                <i
+                  class="fa fa-wrench"
+                  aria-hidden="true"
+                  style="font-size: 10px"
+                ></i>
+              </button>
+              <button
+                id="deleteCategory"
+                class="btn btn-primary"
+                v-if="isLoggedIn"
+                @click="deleteCategory"
+                style="float: right; width: 45%"
+              >
+                <i
+                  class="fa fa-trash"
+                  aria-hidden="true"
+                  style="font-size: 10px"
+                  >&nbsp;&nbsp;</i
+                >
+              </button>
+            </div>
           </div>
         </MDBCardText>
       </MDBCardBody>
@@ -129,7 +162,9 @@ export default {
   },
 
   created() {
-    this.currentScreenWidth = window.screen.width; // da nema sto puta ispis pa jednom pozvoe screen width
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
+    /* this.currentScreenWidth = window.screen.width; // da nema sto puta ispis pa jednom pozvoe screen width
     if (
       this.screenWidth > this.MOBILE_WIDTH_HORIZONTAL_MAX &&
       this.screenWidth <= this.TO_BE_NORMAL_SCREEN
@@ -142,7 +177,7 @@ export default {
       this.isNormalScreenZone = true;
     } else {
       this.isNormalScreenZone = false;
-    }
+    }*/
   },
 
   /* mounted() {
@@ -165,7 +200,36 @@ export default {
     };
   },*/
 
+  unmounted() {
+    /* umjesto destry */
+    window.removeEventListener("resize", this.handleResize);
+  },
+
   methods: {
+    handleResize() {
+      /*this.window.width = window.innerWidth;
+      this.window.height = window.innerHeight;*/
+      console.log("A: "+window.innerWidth);
+      
+      this.screenWidth = window.innerWidth;
+      if (
+        this.screenWidth > this.MOBILE_WIDTH_HORIZONTAL_MAX &&
+        this.screenWidth <= this.TO_BE_NORMAL_SCREEN
+      ) {
+        this.isSafeScreenZone = true;
+        console.log("SAFE ZONE DA :D");
+      } else {
+        this.isSafeScreenZone = false;
+        console.log("SAFE ZONE NE :D");
+      }
+      if (this.screenWidth > this.TO_BE_NORMAL_SCREEN) {
+        this.isNormalScreenZone = true;
+        console.log("NORMAL SCREEN DA :D");
+      } else {
+        this.isNormalScreenZone = false;
+        console.log("NORMAL SCREEN NE :D");
+      }
+    },
     deleteCategory() {
       const categoryData = {
         childrenKey: this.childrenKey,
