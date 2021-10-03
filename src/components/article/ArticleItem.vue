@@ -31,7 +31,7 @@
       >
         Izbriši
       </button>
-      <h3 id="h3">
+     <!-- <h3 id="h3">  -->
         <!-- <router-link :to="articleDetailLink">Detalji</router-link> -->
         <button v-if="!isMobile"
           id="articleDetails"
@@ -40,7 +40,7 @@
         >
           Detalji
         </button>
-      </h3>
+      <!-- </h3>  -->
       <button v-if="isMobile"
           id="articleDetails"
           class="btn btn-primary"

@@ -15,9 +15,13 @@ import VueSelect from 'vue-next-select';
 import 'vue-next-select/dist/index.min.css';
 import store from './store/index.js';
 
+import { VueWindowSizePlugin } from 'vue-window-size/option-api';
+
+
 
 const app = createApp(App);
 
+app.use(VueWindowSizePlugin);
 app.use(router); // kazemo nasoj aplikaciji da koristi rutiranje // hvali koda za stoe itd
 app.use(store);
 

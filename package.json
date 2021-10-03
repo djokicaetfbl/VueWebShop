@@ -20,6 +20,7 @@
     "vue-simple-alert": "^1.1.1",
     "vue-unique-id": "^3.2.1",
     "vue-uuid": "^2.0.2",
+    "vue-window-size": "^1.1.2",
     "vuex": "^4.0.1"
   },
   "devDependencies": {

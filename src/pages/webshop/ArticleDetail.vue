@@ -23,7 +23,7 @@
         </div>
         <div class="column">
           <div class="card-body">
-            <h4 class="card-title">{{ article.name }}</h4>
+            <h5 class="card-title">{{ article.name }}</h5>
             <br /><br />
             <!-- <p id="articleDescribeParagraph" class="card-text">
               {{ article.describe }}
@@ -109,6 +109,7 @@
                   id="addToCart"
                   aria-controls="buyModal"
                   @click="buyModal = true"
+                  style="font-size: 14px;"
                 >
                   Dodaj u korpu <i class="fas fa-shopping-cart fa-2x"></i
                 ></MDBBtn>
@@ -149,8 +150,10 @@
                     <!-- <MDBBtn color="primary">Save changes</MDBBtn>  -->
                   </MDBModalFooter>
                 </MDBModal>
+                <br>
                 <div id="priceTestDIV">
-                  <h3 class="card-title">{{ article.price }}KM</h3>
+                  <br>
+                  <h3 class="card-title">Cijena: {{ article.price }}KM</h3>
                 </div>
               </div>
             </div>

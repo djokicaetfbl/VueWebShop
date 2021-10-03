@@ -90,7 +90,7 @@
         class="sekcijaDo8"
       >
         <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
-        <section>
+        <section >
           <!-- class="sekcijaDo8" do 4 artikla 60 % -->
           <!-- <base-card>  -->
           <br />
@@ -321,7 +321,7 @@
         class="sekcijaDo8"
       >
         <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
-        <section>
+        <section >
           <!-- class="sekcijaDo8" do 4 artikla 60 % -->
           <!-- <base-card>  -->
           <br />
@@ -624,7 +624,7 @@
 
       <div v-else-if="currentScreenWidth < currentWidth + 1">
         <!-- && getCategoriesListSize > 4 && getCategoriesListSize < 8 -->
-        <section>
+        <section style="margin: 5%;">
           <!-- class="sekcijaDo8" do 4 artikla 60 % -->
           <!-- <base-card>  -->
           <br />
@@ -674,15 +674,15 @@
 
   <div v-if="isMobileHrizontal">
     <the-header-basic v-if="!isLitMob"></the-header-basic>
-    <the-header-basic v-if="isLitMob" style="width: 120%;"></the-header-basic>
-    <base-card>
+    <the-header-basic v-if="isLitMob" style="width: 120%"></the-header-basic>
+    <base-card >
       <div class="card>">
         <section>
           <br />
           <h2>Kategorije</h2>
           <hr />
           <div v-if="getCategoriesListSize">
-            <MDBListGroup vertical>
+            <MDBListGroup vertical >
               <category-item
                 v-for="category in sliceItems(0, 4)"
                 :key="category.id"
@@ -770,8 +770,10 @@ export default {
   created() {
     //izvrsit ce se kada se ova komponenta kreira, tj pi svakom ozivu ove komponente
     this.loadCategories();
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
     //this.screenWidth = window.screen.width;
-    this.currentScreenWidth = window.screen.width;
+    /*this.currentScreenWidth = window.screen.width;
     console.log("AA");
     if (
       this.screenWidth > this.MOBILE_WIDTH_HORIZONTAL_MIN &&
@@ -785,12 +787,12 @@ export default {
       this.isLitMob = true;
     } else {
       this.isLitMob = false;
-    }
+    }*/
   },
 
   mounted() {
     // IZVRSIT CE SE PRIJE NEGO SE KOMPONENTA UCITA
-    window.onresize = () => {
+    /*window.onresize = () => {
       this.screenWidth = window.screen.width; //window.innerWidth; // ovo this.screenWidth se vraca preko computed : currentScreenWidth
       if (
         this.screenWidth > this.MOBILE_WIDTH_HORIZONTAL_MIN &&
@@ -806,10 +808,37 @@ export default {
       } else {
         this.isLitMob = false;
       }
-    };
+    };*/
+  },
+
+  unmounted() {
+    /* umjesto destry */
+    window.removeEventListener("resize", this.handleResize);
   },
 
   methods: {
+    handleResize() {
+      /*this.window.width = window.innerWidth;
+      this.window.height = window.innerHeight;*/
+      this.screenWidth = window.innerWidth;
+      if (
+        this.screenWidth > this.MOBILE_WIDTH_HORIZONTAL_MIN &&
+        this.screenWidth < this.MOBILE_WIDTH_HORIZONTAL_MAX
+        //this.screenWidth < this.EDGE_NORMAL_WIDTH
+      ) {
+        this.isMobileHrizontal = true;
+        console.log("DA MH :D");
+      } else {
+        this.isMobileHrizontal = false;
+        console.log("NE MH :D");
+      }
+
+      if (this.screenWidth < this.LIT_MOB_WIDTH) {
+        this.isLitMob = true;
+      } else {
+        this.isLitMob = false;
+      }
+    },
     dodajKategoriju() {
       console.log("Dodaj kategoriju!");
     },

@@ -80,21 +80,23 @@ export default {
       currentWidth: 570,
       isLoading: false,
       isMobile: false,
-
     };
   },
 
   created() {
-    this.currentScreenWidth = window.screen.width;
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
+
+    /*this.currentScreenWidth = window.screen.width;
     if (this.currentScreenWidth < this.currentWidth) {
       this.isMobile = true;
     } else {
       this.isMobile = false;
-    }
+    }*/
   },
   mounted() {
     // IZVRSIT CE SE PRIJE NEGO SE KOMPONENTA UCITA
-    this.currentScreenWidth = window.screen.width;
+    /*this.currentScreenWidth = window.screen.width;
     window.onresize = () => {
       this.currentScreenWidth = window.screen.width;
       if (this.currentScreenWidth < this.currentWidth) {
@@ -102,10 +104,25 @@ export default {
       } else {
         this.isMobile = false;
       }
-    };
+      this.created;
+    };*/
+  },
+
+  unmounted() { /* umjesto destry */
+    window.removeEventListener("resize", this.handleResize);
   },
 
   methods: {
+    handleResize() {
+      /*this.window.width = window.innerWidth;
+      this.window.height = window.innerHeight;*/
+      this.currentScreenWidth = window.innerWidth;
+      if (this.currentScreenWidth < this.currentWidth) {
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
+      }
+    },
     deleteArticleFromCart() {
       var cart = this.getCart;
       for (var i = 0; i < cart.length; i++) {

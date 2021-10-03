@@ -3,7 +3,7 @@
   <MDBListGroupItem
     style="max-width: 100%; outline: 2px solid #e8e8e8; margin: 1%"
   >
-    <MDBCard style="max-width: 100%">
+    <MDBCard style="max-width: 100%; margin: 1%">
       <!-- <MDBCardImg top :src="picture" class="img-fluid" alt="..." /> -->
       <!-- <img :src="imageUrl" class="responsive" /> -->
       <!-- 
@@ -22,15 +22,15 @@
 
       <img
         :src="imageUrl"
-        style="width: 150px; height: 100px"
+        style="width: 150px; height: 100px; margin-left: 2%;"
         v-if="!isSafeScreenZone && !isNormalScreenZone"
       />
       <img
         :src="imageUrl"
         v-if="isSafeScreenZone && !isNormalScreenZone"
-        style="width: 140px; height: 100px"
+        style="width: 140px; height: 100px; margin-left: 2%;"
       />
-      <img :src="imageUrl" class="responsive" v-if="isNormalScreenZone" />
+      <img :src="imageUrl" class="responsive" v-if="isNormalScreenZone" style="margin-left: 2%;"/>
 
       <MDBCardBody style="max-width: 100%; height: 140px">
         <!-- OVO SAM DODAO -->
@@ -48,30 +48,53 @@
             (!isSafeScreenZone && !isNormalScreenZone) || isNormalScreenZone
           "
         >
-          <router-link :to="categoryDetailsLink">{{
-            categoryName
-          }}</router-link>
+          <router-link :to="categoryDetailsLink" v-if="!isLitMob"  style="font-size: 18px;">{{categoryName}}</router-link>
+           <router-link :to="categoryDetailsLink" v-if="isLitMob" style="font-size: 12px;">{{categoryName}}</router-link>
           <br />
           <br />
           <button
             id="updateCategory"
             class="btn btn-primary"
-            v-if="isLoggedIn"
+            v-if="isLoggedIn && !isLitMob"
             @click="updateCategory()"
+            style="font-size: 14px;"
           >
             <i class="fa fa-wrench" aria-hidden="true"></i>
             Izmjeni
           </button>
+
+          <button
+            id="updateCategory"
+            class="btn btn-primary"
+            v-if="isLoggedIn && isLitMob"
+            @click="updateCategory()"
+          >
+            <i class="fa fa-wrench" aria-hidden="true"></i>
+            &nbsp;&nbsp;&nbsp;
+          </button>
+
           <button
             id="deleteCategory"
             class="btn btn-primary"
-            v-if="isLoggedIn"
+            v-if="isLoggedIn && isLitMob"
             @click="deleteCategory"
+          >
+            <i class="fa fa-trash" aria-hidden="true">&nbsp;&nbsp;</i>
+            &nbsp;&nbsp;&nbsp;
+          </button>
+
+          <button
+            id="deleteCategory"
+            class="btn btn-primary"
+            v-if="isLoggedIn && !isLitMob"
+            @click="deleteCategory"
+            style="font-size: 14px"
           >
             <i class="fa fa-trash" aria-hidden="true">&nbsp;&nbsp;</i>
             Ukloni
           </button>
         </MDBCardText>
+
 
         <!-- <MDBCardText
           style="max-width: 100%"
@@ -98,7 +121,7 @@
                 <i
                   class="fa fa-wrench"
                   aria-hidden="true"
-                  style="font-size: 10px"
+                  style="font-size: 12"
                 ></i>
               </button>
               <button
@@ -111,7 +134,7 @@
                 <i
                   class="fa fa-trash"
                   aria-hidden="true"
-                  style="font-size: 10px"
+                  style="font-size: 12px"
                   >&nbsp;&nbsp;</i
                 >
               </button>
@@ -135,6 +158,7 @@ import {
   mdbRipple,
 } from "mdb-vue-ui-kit";
 
+
 //import storeArticle from '../../store/modules/articles/mutations.js';
 
 export default {
@@ -150,14 +174,17 @@ export default {
   directives: {
     mdbRipple,
   },
+  
 
   data() {
     return {
       screenWidth: window.innerWidth,
       isSafeScreenZone: false,
       MOBILE_WIDTH_HORIZONTAL_MAX: 920,
-      TO_BE_NORMAL_SCREEN: 1256,
+      TO_BE_NORMAL_SCREEN: 1311,
       isNormalScreenZone: false,
+      LIT_MOB: 390,
+      isLitMob: false,
     };
   },
 
@@ -209,25 +236,27 @@ export default {
     handleResize() {
       /*this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;*/
-      console.log("A: "+window.innerWidth);
-      
+      console.log("A: " + window.innerWidth);
+
       this.screenWidth = window.innerWidth;
       if (
         this.screenWidth > this.MOBILE_WIDTH_HORIZONTAL_MAX &&
         this.screenWidth <= this.TO_BE_NORMAL_SCREEN
       ) {
         this.isSafeScreenZone = true;
-        console.log("SAFE ZONE DA :D");
       } else {
         this.isSafeScreenZone = false;
-        console.log("SAFE ZONE NE :D");
       }
       if (this.screenWidth > this.TO_BE_NORMAL_SCREEN) {
         this.isNormalScreenZone = true;
-        console.log("NORMAL SCREEN DA :D");
       } else {
         this.isNormalScreenZone = false;
-        console.log("NORMAL SCREEN NE :D");
+      }
+
+      if (this.screenWidth < this.LIT_MOB) {
+        this.isLitMob = true;
+      } else {
+        this.isLitMob = false;
       }
     },
     deleteCategory() {
@@ -313,10 +342,12 @@ a {
 }
 #deleteCategory {
   background-color: #f93154;
+  float: right;
 }
 
 #updateCategory {
   background-color: #39c0ed;
+  float: left;
 }
 
 .responsiveForMobile {
